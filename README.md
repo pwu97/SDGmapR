@@ -196,20 +196,20 @@ all_sdg_keywords %>%
 
 # View mapped keywords dataset
 all_sdg_keywords
-#> # A tibble: 914 × 6
-#>    keyword        weight semester course_num  goal color  
-#>    <chr>           <dbl> <chr>    <chr>      <dbl> <chr>  
-#>  1 graduates        2.13 F22      02712          4 #C5192D
-#>  2 mathematics      1.93 F22      02712          4 #C5192D
-#>  3 undergraduates   0.8  F22      02712          4 #C5192D
-#>  4 science          0.4  F22      02712          4 #C5192D
-#>  5 components       1.11 F22      02712          9 #FD6925
-#>  6 design           0.83 F22      02712          9 #FD6925
-#>  7 systems          0.62 F22      02712          9 #FD6925
-#>  8 applied          0.48 F22      02712          9 #FD6925
-#>  9 advanced         0.35 F22      02712          9 #FD6925
-#> 10 simulation       0.35 F22      02712          9 #FD6925
-#> # … with 904 more rows
+#> # A tibble: 938 × 6
+#>    keyword       weight semester course_num  goal color  
+#>    <chr>          <dbl> <chr>    <chr>      <dbl> <chr>  
+#>  1 students        4.15 F22      05333          4 #C5192D
+#>  2 learning        3.64 F22      05333          4 #C5192D
+#>  3 skills          3.49 F22      05333          4 #C5192D
+#>  4 student         1.13 F22      05333          4 #C5192D
+#>  5 semester        0.67 F22      05333          4 #C5192D
+#>  6 language        0.47 F22      05333          4 #C5192D
+#>  7 development     0.59 F22      05333          8 #A21942
+#>  8 technological   0.43 F22      05333          8 #A21942
+#>  9 skills          0.41 F22      05333          8 #A21942
+#> 10 environment     0.41 F22      05333          8 #A21942
+#> # … with 928 more rows
 ```
 
 ## Frequently Asked Questions (FAQs)
@@ -259,22 +259,22 @@ descriptions, wouldn’t this tag almost every course with SDG4?
 
 A: Yes. Thus, we filtered out words that were too general among course
 descriptions. The specific list of words we excluded for SDG4 mapping in
-mapping to course descriptions are:
-“education”,“educational”,“school”,“schools”,“student”, “students”,
-“teaching”,“learning”,“apprenticeship”,“skill”,
-“skills”,“curriculum”,“teachers”,“trainees”,“trainee”,
-“teacher”,“classroom”,“educators”,“math”,“classrooms”,“educator”,
-“graduates”,“diploma”,“undergraduates”,“undergrad”, “course”,
-“mathematics”,“achievement”,“courses”,“elementary”,“academic”,
-“training”,“pupils”,“undergraduate”,“college”,“colleges”,
-“learners”,“algebra”,“reading”,“comprehension”,“achievements”,
-“universities”,“faculty”,“internship”,“principal”,“internships”,
-“career”,“maths”,“adult”,“principals”,“curricula”,“grad”,“biology”,
-“university”,“semester”,“scholars”,“literacy”,“exam”,“exams”,
-“tutoring”,“literacy”,“syllabus”,“instructor”,“instructors”,“degree”,
-“classes”,“language”,“science”,“instruction”,“campus”,“homework”,
-“instructional”,“curricular”,“humanities”,“mentoring”,“teach”,
-“employment”,“qualifications”,“coursework”,“graduate”.
+mapping to course descriptions are: “education”, “educational”,
+“school”, “schools”, “student”, “students”, “teaching”, “learning”,
+“apprenticeship”, “skill”, “skills”, “curriculum”, “teachers”,
+“trainees”, “trainee”, “teacher”, “classroom”, “educators”, “math”,
+“classrooms”, “educator”, “graduates”, “diploma”, “undergraduates”,
+“undergrad”, “course”, “mathematics”, “achievement”, “courses”,
+“elementary”, “academic”, “training”, “pupils”, “undergraduate”,
+“college”, “colleges”, “learners”, “algebra”, “reading”,
+“comprehension”, “achievements”, “universities”, “faculty”,
+“internship”, “principal”, “internships”, “career”, “maths”, “adult”,
+“principals”, “curricula”, “grad”, “biology”, “university”, “semester”,
+“scholars”, “literacy”, “exam”, “exams”, “tutoring”, “literacy”,
+“syllabus”, “instructor”, “instructors”, “degree”, “classes”,
+“language”, “science”, “instruction”, “campus”, “homework”,
+“instructional”, “curricular”, “humanities”, “mentoring”, “teach”,
+“employment”, “qualifications”, “coursework”, “graduate”.
 
 ## Acknowledgements
 
