@@ -18,6 +18,10 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
+This project is inspired by Carnegie Melon and this repository was forked from https://github.com/pwu97/SDGmapR. 
+
+...
+
 The goal of `SDGmapR` is to provide an open-source foundation for the systematic mapping
 to the United Nations Sustainable Development Goals (SDGs). In this R package one can find publicly available [SDG keyword datasets](https://github.com/pwu97/SDGmapR/tree/main/datasets) in the `tidy` data format,
 the [UN Official SDG color scheme](https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/01/SDG_Guidelines_AUG_2019_Final.pdf) and [SDG Descriptions](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdg_desc_cleaned.csv), and several functions related to the
