@@ -24,7 +24,7 @@ You can install the development version from [Github](https://github.com/USC-Off
 
 ```{r}
 # install.packages("devtools")
-devtools::install_github("USC-Office-of-Sustainability/USC-SDGmap")
+# devtools::install_github("USC-Office-of-Sustainability/USC-SDGmap")
 ```
 
 ## Publicly Available SDG Keywords
