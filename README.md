@@ -1,16 +1,18 @@
 # USC SDGmap R Package
 
-<!-- badges: start -->
-<!-- badges: end -->
+Peter Wu at Carnegie Mellon was the inspiration of this project, and his
+original R package can be found on
+[Github](https://github.com/pwu97/SDGmapR). At USC, Brian Tinsley and
+Julie Hopper in the Office of Sustainability have been working to
+develop this package further and raise sustainability awareness in
+higher education.
 
 The goal of `SDGmapR` is to provide an open-source foundation for the
 systematic mapping to the United Nations Sustainable Development Goals
 (SDGs). In this R package one can find publicly available [SDG keyword
-datasets](https://github.com/pwu97/SDGmapR/tree/main/datasets) in the
-`tidy` data format, the [UN Official SDG color
+datasets](https://github.com/USC-Office-of-Sustainability/USC-SDGmap/tree/main/Keyword%20Lists)
+in the `tidy` data format, the [UN Official SDG color
 scheme](https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/01/SDG_Guidelines_AUG_2019_Final.pdf)
-and [SDG
-Descriptions](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdg_desc_cleaned.csv),
 and several functions related to the mapping of text to particular sets
 of keywords.
 
@@ -28,11 +30,11 @@ with:
 ## Publicly Available SDG Keywords
 
 The table below lists publicly available SDG keywords that have been
-published online. Some of the lists have weights associated with every
-keyword, while some do not. For the purposes of the `SDGmapR` package,
-we will assign an equal weight of one to every word if weights are not
-given. Note that the column for `SDG17` will represent whether the
-dataset has keywords related to SDG17.
+published online. For this package, we used the CMU250 keyword list
+combined with some words from USC’s Presidental Working Group (PWG)
+keyword list which mapped to the CMU1000 keyword list. Instructions for
+how to update or create your own keyword list will be described later in
+this readme… <!-- add a link here -->
 
     ## Warning: package 'knitr' was built under R version 4.0.5
 
@@ -48,6 +50,75 @@ dataset has keywords related to SDG17.
 | [University of Auckland (Work in Progress)](https://www.sdgmapping.auckland.ac.nz/)                                                | `auckland_keywords`    |                                                                                                                       | Yes   |
 | [University of Toronto (Work in Progress)](https://data.utoronto.ca/sustainable-development-goals-sdg-report/sdg-report-appendix/) | `toronto_keywords`     |                                                                                                                       | Yes   |
 
+## Creating / Choosing the keyword list
+
+A keyword list for the purposes of this R package must include the
+following columns: ‘keyword’, ‘goal’, ‘weight’, ‘pattern’, ‘color’
+
+Each keyword has a weight representing its relevance to that SDG, and a
+pattern which allows our function to read capitalization and italics in
+the same way. We are working on finding a way to include a pattern which
+considers the plural and singular versions of words as the same. Each
+SDG already has its own color assigned by the UN.
+
+If you would like to use the USC-CMU, CMU250, or any other keyword lists
+located in the Datasets folder in this repository, then no extra work is
+required! <!-- skip to different section -->
+
+If you would like to create your own keyword list with unique weights,
+things become a bit more difficult. At CMU, they used Google’s word2vec
+software to establish weights for each word and sdg. We have not come
+around to finding a more effective method to assign weights to these
+words, but check back at a later date to see our progress on this
+matter.
+
+We were motivated to use keywords from USC’s PWG in combination with
+CMU250, so we expanded the CMU250 dataset to also include words in our
+list that mapped to other data sets.
+
+In the R file named ‘keyword_list_generator.R’, you can find the code we
+used to generate our keyword list.
+
+With this code, we added words from the PWG list (that did not have
+weights assigned) that were included in the CMU1000 lis using left-joins
+from the ‘dplyr’ library.
+
+In addition, this R file has code to add a column to your initial
+unweighted keyword list which records the dataset each word was mapped
+to.
+
+#### Exclude words
+
+At the bottom of the same R file, there is a list called
+‘exclude_words’. These are the words which we don’t want to be included
+in our mapping to college course descriptions. Many of these words like
+“students” and “academics” would be overly mapped due to their relevance
+to course descriptions. This file is where you would be able to update
+this list as you see fit.
+
+## Cleaning up course data
+
+At USC, we received a file called
+‘USC_FULL_COURSE_LIST_20182_20183_20191’ which can be found in the
+Datasets folder. THis csv file contains data for every single course
+offered for 3 different semester at USC. The first thing we did was
+clean up the data, get rid of repeats (and add a separate columns to
+keep track of how many sections were offered), and rename the columns.
+
+In the R file named ‘cleaning_course_data.R’, you can see code for how
+to clean this course data. The three functions to do these are
+‘clean_data’, ‘get_semesters’, and ‘transform_data’ which gets the
+course data into a nice format. The produced course data can be found in
+the Datasets folder with the name ‘usc_courses’.
+
+<!-- ### using joins, how to update, which columns you need, word2vec? -->
+<!-- ### this is when you would include something about the exclude words before writing csv -->
+<!-- # Mapping College Courses to SDGs -->
+<!-- start with course data,  -->
+<!-- ## how to clean up the data, explain the N.sections code -->
+<!-- ## demonstrate how to use tabulate_sdg_keywords(), changing the keyword list param, -->
+<!-- maybe try changing the origninal tabulate sdg keywords to take a parameter? or 
+at least explain how to update that in functions.R-->
 <!-- ## R Markdown -->
 <!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
 <!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
