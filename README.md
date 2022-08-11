@@ -23,7 +23,7 @@ of the `SDGmapR` package, we will assign an equal weight of one to every word if
 Note that the column for `SDG17` will represent whether the dataset has keywords
 related to SDG17.
 
-```{r, echo=FALSE, example}
+'''{r, echo=FALSE, example}
 library(knitr)
 sdg_table <- data.frame(
   "Source" = c("[Core Elsevier (Work in Progress)](https://data.mendeley.com/datasets/87txkw7khs/1)", 
@@ -48,6 +48,6 @@ sdg_table <- data.frame(
   "SDG17" = c("No", "No", "Yes", "No", "No", "No", "Yes", "Yes")
 )
 kable(sdg_table)
-```
+'''
 
 
