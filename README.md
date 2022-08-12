@@ -72,6 +72,8 @@ around to finding a more effective method to assign weights to these
 words, but check back at a later date to see our progress on this
 matter.
 
+### Including your own keywords
+
 We were motivated to use keywords from USC’s PWG in combination with
 CMU250, so we expanded the CMU250 dataset to also include words in our
 list that mapped to other data sets.
@@ -87,14 +89,16 @@ In addition, this R file has code to add a column to your initial
 unweighted keyword list which records the dataset each word was mapped
 to.
 
-#### Exclude words
+### Exclude words
 
 At the bottom of the same R file, there is a list called
 ‘exclude_words’. These are the words which we don’t want to be included
 in our mapping to college course descriptions. Many of these words like
 “students” and “academics” would be overly mapped due to their relevance
 to course descriptions. This file is where you would be able to update
-this list as you see fit.
+this list as you see fit. Note: You can always use the same code chunk
+in other places of the code if you want to exclude at later stages and
+not at the very beginning.
 
 ## Cleaning up course data
 
@@ -111,23 +115,64 @@ to clean this course data. The three functions to do these are
 course data into a nice format. The produced course data can be found in
 the Datasets folder with the name ‘usc_courses’.
 
-<!-- ### using joins, how to update, which columns you need, word2vec? -->
-<!-- ### this is when you would include something about the exclude words before writing csv -->
-<!-- # Mapping College Courses to SDGs -->
-<!-- start with course data,  -->
-<!-- ## how to clean up the data, explain the N.sections code -->
-<!-- ## demonstrate how to use tabulate_sdg_keywords(), changing the keyword list param, -->
-<!-- maybe try changing the origninal tabulate sdg keywords to take a parameter? or 
-at least explain how to update that in functions.R-->
-<!-- ## R Markdown -->
-<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
-<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
-<!-- ```{r cars} -->
-<!-- summary(cars) -->
-<!-- ``` -->
-<!-- ## Including Plots -->
-<!-- You can also embed plots, for example: -->
-<!-- ```{r pressure, echo=FALSE} -->
-<!-- plot(pressure) -->
-<!-- ``` -->
-<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
+## Mapping course descriptions to 17 SDGs
+
+In the R file named ‘mapping_course_descriptions.R’, you can find code
+for mapping the clean course data to the 17 SDG’s using loops and a
+function called ‘tabulate_sdg_keywords’ (which can be found in the file
+named after that function). Joining the course description keywords with
+their goals and weights to the chosen keyword list, this file writes out
+a csv file which we refer to as the ‘master_course_SDG_data’ which you
+can find in the Datasets folder.
+
+**Notice** that in the ‘tabulate_sdg_keywords’ function, there is a
+parameter which requires a keyword list. Ensure that when you run this
+code (this may take awhile), the ‘keywords’ parameter is set to the
+keyword list of your choosing. By default, it is set to the Elsevier top
+100 keywords list.
+
+If you created your own keyword list, you need to update the body this
+function to account for the name of yours since you cannot pass a csv
+file directly into the function parameter. Look at the comments in the
+file and follow the example of how I added the parameter “cmu_usc” to
+the function.
+
+## Susainability related courses
+
+With the master data, we can look into which classes are sustainability
+inclusive, sustainability focused, or not related to the SDGs. Classes
+defined as not related were not mapped to any SDGs. Sustainbility
+focused courses are ones which mapped to both environmental SDGs as well
+as economic/social ones. The criteria for these are ‘environmental
+goals: 13, 14, 15’ and ‘economic goals: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+11, 12, 16, 17’. The R file ‘sustainability_related_classes.R’ contains
+the code for how to do this. At the end, you can sum up the total number
+of sustainability focused or inclusive classes and report those numbers
+to Stars under AC-1 credit. <!-- need to change wording -->
+
+### Finding the sum of the weights for each SDG
+
+In the R file named ‘total_weight_generator.R’, you can find code that
+adds the sum of the weights for each SDG a course mapped to. The
+resulting csv file ‘classes_total_weight’ contains unique course titles,
+as well as 17 additional columns that show the combined weight of all
+keywords by SDG. The final column shows the total weight of all the
+keywords mapped from that course.
+
+### Filtering the data by threshold
+
+You can filter data so that only classes above a certain threshold are
+met.
+<!-- ask julie about whether you filter the data or the keywords -->
+
+## Creating an RShiny app
+
+The ShinyApp folder, contains all relevant files that pertain to
+creating a Shiny dashboard like the one we created. The only necessary
+files for the shiny app are the master course SDG data and the cleaned
+course data, as well as the chosen keyword list. Inside the folder, a
+subfolder called www stores all stylesheets and pictures for the app.
+<!-- add link -->
+
+Step by step instructions on how to work the R shiny app are to follow…
+<!-- ask julie about this, how much code do i show -->
