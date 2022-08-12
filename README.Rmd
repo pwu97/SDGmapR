@@ -52,7 +52,7 @@ sdg_table <- data.frame(
              "`cmu1000_keywords`",
              "`auckland_keywords`",
              "`toronto_keywords`"),
-  "CSV" = c("[Link](https://github.com/USC-Office-of-Sustainability/USC-SDGmap/tree/main/Datasets/cmu_usc_pwg_mapped.csv)", "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier_keywords_cleaned.csv)", "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier100_keywords_cleaned.csv)", "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdsn_keywords_cleaned.csv)", 
+  "CSV" = c("[Link](https://github.com/USC-Office-of-Sustainability/USC-SDGmap/tree/main/Datasets/cmu_usc_pwg_mapped.csv)", "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier_keywords_cleaned.csv)", "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdsn_keywords_cleaned.csv)", 
 "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu250_keywords_cleaned.csv)",
 "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu500_keywords_cleaned.csv)",
 "[Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu1000_keywords_cleaned.csv)", "", ""),
