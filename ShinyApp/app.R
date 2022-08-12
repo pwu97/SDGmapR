@@ -16,13 +16,19 @@ library(wordcloud)
 library(DT)
 
 
-# needed to update color for sdg 17
 classes = read.csv("master_course_sdg_data.csv") 
 
 sdg_colors <- c('#e5243b', '#DDA63A', '#4C9F38', '#C5192D', '#FF3A21', '#26BDE2', 
                 '#FCC30B', '#A21942', '#FD6925', '#DD1367', '#FD9D24', '#BF8B2E',
                 '#3F7E44', '#0A97D9', '#56C02B', '#00689D', '#19486A')
 exclude_words <- c() #this has already been accounted for in earlier files
+
+# data for pie chart
+sustainability_related = read.csv("sustainability_related_courses.csv")
+nr = sum(sustainability_related$related == "NotRelated")
+foc = sum(sustainability_related$related == "Focused")
+inc = sum(sustainability_related$related == "Inclusive")
+vals=c(nr, foc, inc)
 
 
 ### Begin Shiny App Code ###
@@ -206,7 +212,8 @@ ui <- dashboardPage( skin="black",
                     fluidPage(
                         h1("All Sustainably-Related Classes"),
                         h4("Will soon insert a pie chart showing the number & proportions
-                           of USC classes that are sustainabilty focused/inclusive, or neither")
+                           of USC classes that are sustainabilty focused/inclusive, or neither"),
+                        plotOutput("pie")
                     )
             ) # end tab item 6
         )#end tabitems
@@ -568,6 +575,13 @@ server <- function(input, output, session) {
                    SDG = goal) %>%
             select(SDG, Keyword, `Keyword Weight`)
     }, rownames=FALSE)
+    
+    output$pie <- renderPlot({
+      pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c(" Not Related", " Focused", " Inclusive"))
+      
+      pie(vals, labels = pie_labels)
+      # pie(vals, labels=c("Not Related", "Focused", "Inclusive"), main='Sustainability Related Courses')
+    })
 }
 
 # Run the application 
