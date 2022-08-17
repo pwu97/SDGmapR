@@ -10,11 +10,13 @@ add_row = function(dataset, word, goal, weight){
   dataset = dataset[, c("goal", "keyword", "pattern", "weight", "color")] # get rid of X column
   color = colors[goal]
   # index = nrow(dataset) + 1 # need this for the row index
-  pattern = paste("\\b(\\d*)", word, "(\\d*)\\b)", sep="")
+  pattern = paste("\\b(\\d*)", word, "(\\d*)\\b", sep="")
   row = c(goal, word, pattern, weight, color)
   dataset = rbind(dataset, row)
   return(dataset)
 }
+
+# hello
 
 
 # add the row to the end
