@@ -25,10 +25,6 @@ exclude_words <- c() #this has already been accounted for in earlier files
 
 # data for pie chart
 sustainability_related = read.csv("sustainability_related_courses.csv")
-nr = sum(sustainability_related$related == "NotRelated")
-foc = sum(sustainability_related$related == "Focused")
-inc = sum(sustainability_related$related == "Inclusive")
-vals=c(nr, foc, inc)
 
 
 ### Begin Shiny App Code ###
@@ -213,6 +209,10 @@ ui <- dashboardPage( skin="black",
                         h1("All Sustainably-Related Classes"),
                         h4("Will soon insert a pie chart showing the number & proportions
                            of USC classes that are sustainabilty focused/inclusive, or neither"),
+                        selectInput(inputId = "usc_semester_pie",
+                                    label = "Choose USC Semester",
+                                    selected = "SU18",
+                                    choices = c("SU18","F18", "SP19")),
                         plotOutput("pie")
                     )
             ) # end tab item 6
@@ -577,10 +577,16 @@ server <- function(input, output, session) {
     }, rownames=FALSE)
     
     output$pie <- renderPlot({
+      pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
+        # filter(semester == input$usc_semester_pie)
+      nr = sum(pie_data$related == "NotRelated")
+      foc = sum(pie_data$related == "Focused")
+      inc = sum(pie_data$related == "Inclusive")
+      vals=c(nr, foc, inc)
       pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c(" Not Related", " Focused", " Inclusive"))
-      
-      pie(vals, labels = pie_labels)
-      # pie(vals, labels=c("Not Related", "Focused", "Inclusive"), main='Sustainability Related Courses')
+      result = pie(vals, labels = pie_labels)
+      return(result)
+      return(pie_data)
     })
 }
 

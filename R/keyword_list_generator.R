@@ -6,7 +6,7 @@ library(dplyr)
 
 
 # noticed that theres some repeats here... i could get rid of them quickly
-pwg = read.csv("PWG_Keywords_for_Brian copy.csv")
+pwg = read.csv("PWG_Keywords.csv")
 pwg = unique(pwg)
 cmu250 = read.csv("cmu250_keywords_cleaned.csv")
 cmu1000 = cmu1000_keywords
@@ -68,8 +68,9 @@ exclude_words = c("student", "students", "teaching", "learning", "skill",
                   "instructional", "curricular", "mentoring", "teach",  
                   "qualifications", "coursework", "graduate")
 
+
 master_df = master_df[!(master_df$keyword %in% exclude_words), ]
-write.csv(master_df, "cmu_usc_pwg_mapped.csv")
+write.csv(master_df, "cmu_usc_pwg_mapped.csv", row.names = T)
 
 
 
