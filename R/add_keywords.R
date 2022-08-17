@@ -16,8 +16,6 @@ add_row = function(dataset, word, goal, weight){
   return(dataset)
 }
 
-# hello
-
 
 # add the row to the end
 x = add_row(cmu_usc, "landscapes", 2, 0.21)
