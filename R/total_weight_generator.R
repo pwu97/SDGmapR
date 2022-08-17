@@ -47,7 +47,7 @@ for (class in df$classes){
 # get the total sum and add last column
 df = df %>% add_column(total_weight = NA)
 for (i in nrow(df)){
-  df$total_weight = rowSums(df[,-2], na.rm=TRUE) #exlude first two columns
+  df$total_weight = rowSums(df[,-1], na.rm=TRUE) #exlude first two columns
 }
 
 

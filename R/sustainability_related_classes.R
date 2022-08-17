@@ -56,15 +56,15 @@ for (goal in df$goals){
     if (current_number %in% environment_goals){
       is_environment = TRUE
     }
-
+  }
   if (is_social_economic && !is_environment){
     df$related[new_index] = "Inclusive"
   }
   if (!is_social_economic && is_environment){
-    df$related[new_index] = "Inclusive"
+  df$related[new_index] = "Inclusive"
   }
   if (is_social_economic && is_environment){
-    df$related[new_index] = "Focused"
+  df$related[new_index] = "Focused"
   }
   new_index = new_index + 1
 }

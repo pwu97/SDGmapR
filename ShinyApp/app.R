@@ -16,7 +16,7 @@ library(wordcloud)
 library(DT)
 
 
-classes = read.csv("master_course_sdg_data.csv") 
+classes = read.csv("master_course_sdg_data.csv")
 
 sdg_colors <- c('#e5243b', '#DDA63A', '#4C9F38', '#C5192D', '#FF3A21', '#26BDE2', 
                 '#FCC30B', '#A21942', '#FD6925', '#DD1367', '#FD9D24', '#BF8B2E',

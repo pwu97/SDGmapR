@@ -1,7 +1,7 @@
 # Going to create new keyword list containing CMU words as well as the PWG
 
 library(tidyverse)
-library(SDGmapR)
+# library(SDGmapR) # update this to our git
 library(dplyr)
 
 
@@ -9,7 +9,7 @@ library(dplyr)
 pwg = read.csv("PWG_Keywords.csv")
 pwg = unique(pwg)
 cmu250 = read.csv("cmu250_keywords_cleaned.csv")
-cmu1000 = cmu1000_keywords
+cmu1000 = read.csv("cmu1000_keywords_cleaned.csv")
 
 pwg_cmu250 = left_join(pwg, cmu250, by="keyword")
 write.csv(pwg_cmu250, "pwg_cmu250.csv")
@@ -70,7 +70,15 @@ exclude_words = c("student", "students", "teaching", "learning", "skill",
 
 
 master_df = master_df[!(master_df$keyword %in% exclude_words), ]
-write.csv(master_df, "cmu_usc_pwg_mapped.csv", row.names = T)
 
+# check to make sure all rows are unique / no repeates?
+
+# sort data by goal in ascending order
+master_df = master_df[order(strtoi(master_df$goal)), ]
+
+# if there is a column called "X", run this code...
+# cmu_usc = cmu_usc[, c("goal", "keyword", "pattern", "weight", "color")]
+
+write.csv(master_df, "cmu_usc_pwg_mapped.csv", row.names = F)
 
 
