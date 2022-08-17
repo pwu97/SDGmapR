@@ -1,11 +1,12 @@
 # USC SDGmap R Package
 
-Peter Wu at Carnegie Mellon was the inspiration of this project, and his
-original R package can be found on
+Peter Wu at Carnegie Mellon wrote the initial code that inspired this
+project, and his original R package can be found on
 [Github](https://github.com/pwu97/SDGmapR). At USC, Brian Tinsley and
-Julie Hopper in the Office of Sustainability have been working to
+Dr. Julie Hopper in the Office of Sustainability have been working to
 develop this package further and raise sustainability awareness in
-higher education.
+higher education by mapping USC course descriptions to the United
+Nations Sustainability Development Goals.
 
 The goal of `SDGmapR` is to provide an open-source foundation for the
 systematic mapping to the United Nations Sustainable Development Goals
@@ -112,7 +113,7 @@ keep track of how many sections were offered), and rename the columns.
 
 In the R file named `cleaning_course_data.R`, you can see code for how
 to clean this course data. The three functions to do these are
-`clean_data`, `get_semesters`, and `transform_data'` which gets the
+`clean_data`, `get_semesters`, and `transform_data` which gets the
 course data into a nice format. The produced course data can be found in
 the Datasets folder with the name `usc_courses`.
 

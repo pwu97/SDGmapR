@@ -96,7 +96,7 @@ At the bottom of the same R file, there is a list called `exclude_words`. These 
 
 At USC, we received a file called `USC_FULL_COURSE_LIST_20182_20183_20191` which can be found in the Datasets folder. THis csv file contains data for every single course offered for 3 different semester at USC. The first thing we did was clean up the data, get rid of repeats (and add a separate columns to keep track of how many sections were offered), and rename the columns.
 
-In the R file named `cleaning_course_data.R`, you can see code for how to clean this course data. The three functions to do these are `clean_data`, `get_semesters`, and `transform_data'` which gets the course data into a nice format. The produced course data can be found in the Datasets folder with the name `usc_courses`.
+In the R file named `cleaning_course_data.R`, you can see code for how to clean this course data. The three functions to do these are `clean_data`, `get_semesters`, and `transform_data` which gets the course data into a nice format. The produced course data can be found in the Datasets folder with the name `usc_courses`.
 
 
 ## Mapping course descriptions to 17 SDGs
