@@ -13,12 +13,12 @@ master_data = read.csv("master_course_sdg_data.csv")
 classes = unique(usc_courses$course_title)
 sustainability = data.frame(classes)
 # create column to store goals that class maps to 
-sustainability = sustainabiliy %>% add_column(goals = NA)
+sustainability = sustainability %>% add_column(goals = NA)
 # create column to store sustainability-relatedness
 sustainability = sustainability %>% add_column(related = NA)
 # criteria lists
 social_economic_goals = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)
-environment_goals = c (13, 14, 15)
+environment_goals = c(13, 14, 15)
 
 
 index = 1
@@ -34,45 +34,47 @@ for (class in sustainability$classes){
 
 
 # now need to go through and check criteria and update the related column accordingly
-new_index = 1
-for (goal in sustainability$goals){
-  # first check if it is null and move to the next class if so
-  if(goal == ""){
-    sustainability$related[new_index] = "NotRelated"
-    new_index = new_index + 1
+for (i in 1:nrow(sustainability)){
+  # first check if it is null
+  if (sustainability$goals[i] == ""){
+    sustainability$related[i] = "Not Related"
     next
   }
-  # split the goals into a list
-  goal_numbers = as.list(strsplit(goal, ",")[[1]])
-  # three variables to keep track if mapped goals are in criteria lists
+  # grab the goals in each row
+  goals = as.list(strsplit(sustainability$goals[i], ",")[[1]])
+  # set these booleans to false for each row to start
   is_social_economic = FALSE
   is_environment = FALSE
-  has_17_11 = FALSE
-  for (i in range(1:length(goal_numbers))){
-    current_number = goal_numbers[i]
-    if (current_number %in% social_economic_goals){
+  for (j in 1:length(goals)){
+    if (goals[j] %in% social_economic_goals){
       is_social_economic = TRUE
     }
-    if (current_number %in% environment_goals){
+    if (goals[j] %in% environment_goals){
       is_environment = TRUE
     }
   }
-  if (is_social_economic && !is_environment){
-    sustainability$related[new_index] = "Inclusive"
+  # now we should know if there was at least one of the criteria present
+  if (is_social_economic & is_environment){
+    sustainability$related[i] = "Focused"
   }
-  if (!is_social_economic && is_environment){
-    sustainability$related[new_index] = "Inclusive"
+  if (is_social_economic & !is_environment){
+    sustainability$related[i] = "Inclusive"
   }
-  if (is_social_economic && is_environment){
-    sustainability$related[new_index] = "Focused"
+  if (!is_social_economic & is_environment){
+    sustainability$related[i] = "Inclusive"
   }
-  new_index = new_index + 1
 }
 
-sum(sustainability$related == "Focused")
-sum(sustainability$related == "Inclusive")
-sum(sustainability$related == "NotRelated")
+# need to rename the columns
+names(sustainability)[names(sustainability) == 'classes'] <- "course_title"
+names(sustainability)[names(sustainability) == 'related'] <- "sustainability_classification"
+names(sustainability)[names(sustainability) == 'goals'] <- "all_goals"
+
+sum(sustainability$sustainability_classification == "Focused")
+sum(sustainability$sustainability_classification == "Inclusive")
+sum(sustainability$sustainability_classification == "Not Related")
 
 write.csv(sustainability, "sustainability_related_courses.csv", row.names = F)
+
 
 

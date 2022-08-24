@@ -50,7 +50,13 @@ for (i in nrow(weights)){
   weights$total_weight = rowSums(weights[,-1], na.rm=TRUE) #exlude first two columns
 }
 
+names(weights)[names(weights) == 'classes'] <- "course_title"
 
 write.csv(weights, "classes_total_weight.csv", row.names = F)
 
+# could also left join with sustainability_related_courses by course_title
+# ...
+# sustainability = read.csv("sustainability_related_courses.csv")
+# combined = sustainability %>% left_join(weights, by="course_title")
+# names(combined)
 

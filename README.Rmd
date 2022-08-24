@@ -71,7 +71,7 @@ A keyword list for the purposes of this R package must include the following col
 Each keyword has a weight representing its relevance to that SDG, and a pattern which allows our function to read capitalization and italics in the same way. We are working on finding a way to include a pattern which considers the plural and singular versions of words as the same. Each SDG already has its own color assigned by the UN.
 <!-- pattern doesnt actually do italics or capitalization -->
 
-If you would like to use the USC-CMU, CMU250, or any other keyword lists located in the Datasets folder in this repository, then no extra work is required!
+If you would like to use the USC-CMU, CMU250, or any other keyword lists located in the Data folder in this repository, then no extra work is required!
 <!-- skip to different section -->
 
 If you would like to create your own keyword list with unique weights, things become a bit more difficult. At CMU, they used Google's word2vec software to establish weights for each word and sdg.
@@ -94,28 +94,46 @@ At the bottom of the same R file, there is a list called `exclude_words`. These 
 
 ## Cleaning up course data
 
-At USC, we received a file called `USC_FULL_COURSE_LIST_20182_20183_20191` which can be found in the Datasets folder. THis csv file contains data for every single course offered for 3 different semester at USC. The first thing we did was clean up the data, get rid of repeats (and add a separate columns to keep track of how many sections were offered), and rename the columns.
+At USC, we received a file called `USC_FULL_COURSE_LIST_20182_20183_20191` which can be found in the Data folder. This csv file contains data for every single course offered for 3 different semesters at USC. The first thing we did was clean up the data, get rid of repeats (and add a separate columns to keep track of how many sections were offered), and rename the columns.
 
-In the R file named `cleaning_course_data.R`, you can see code for how to clean this course data. The three functions to do these are `clean_data`, `get_semesters`, and `transform_data` which gets the course data into a nice format. The produced course data can be found in the Datasets folder with the name `usc_courses`.
+The relevant column names in this file were 'Rcl Course' which was renamed 'course_title', 'Rcl Term' which was renamed to 'semester' using a function that gets the semester based on the term (format is YYYYS), 'Rcl Class' which we renamed to 'course_num', 'Rcl Title' which we renamed to 'course', 'Rca Desc' which was renamed to 'course_desc', and 'RCL_DEPT' which was renamed to 'department'. One column called 'Exclude Flag' has 0's and 1's to indicate whether that course should be included in the data analysis. Excluded courses (with a 1 in that column) were mostly research courses that do not count toward AC-1 credit. This file contains other data such as the course level and the number of students, but these were not relevant to our mapping.
+
+It can be expected that others using this package will have different formats for their course data, so just follow the R file `cleaning_course_data.R` and adjust column specifications to fit your needs. The problem I expect people to encounter most frequently is the semester/term formatting. The function 'get_semesters' takes a specific format to return the semester to which that term refers, which will most likely be different for each school's data. If your data already has a semester column you are satisfied with, then ignore that function.
+
+In the R file named `cleaning_course_data.R`, you can see code for how to clean this course data. The three functions to do these are `clean_data`, `get_semesters`, and `transform_data` which gets the course data into a nice format. The produced course data can be found in the Data folder with the name `usc_courses`.
 
 
 ## Mapping course descriptions to 17 SDGs
 
-In the R file named `mapping_course_descriptions.R`, you can find code for mapping the clean course data to the 17 SDG's using loops and a function called `tabulate_sdg_keywords` (which can be found in the file named after that function). Joining the course description keywords with their goals and weights to the chosen keyword list, this file writes out a csv file which we refer to as the `master_course_SDG_data` which you can find in the Datasets folder. 
+In the R file named `mapping_course_descriptions.R`, you can find code for mapping the clean course data to the 17 SDG's using loops and a function called `tabulate_sdg_keywords` (which can be found in the file named after that function).
 
-**Notice** that in the `tabulate_sdg_keywords` function, there is a parameter which requires a keyword list. Ensure that when you run this code  (this may take awhile), the `keywords` parameter is set to the keyword list of your choosing. By default, it is set to the Elsevier top 100 keywords list.
+Before running the mapping code, be sure to run `tabulate_sdg_keywords.R`, and don't forget to read in your keyword list before running that function If you created your own keyword list, you need to read it in and update the body this function to account for the name of yours since you cannot pass a csv file directly into the function parameter. Look at the comments in the file and follow the example of how I added the parameter "cmu_usc" to the function. 
 
-If you created your own keyword list, you need to update the body this function to account for the name of yours since you cannot pass a csv file directly into the function parameter. Look at the comments in the file and follow the example of how I added the parameter "cmu_usc" to the function. 
+When you run the `mapping_course_descriptions.R` (this may take awhile), ensure that the `keywords` parameter is set to the keyword list of your choosing (by the name you created in the body of the function from above). By default, it is set to the Elsevier top 100 keywords list. Since this function takes so long to run, it might be a good idea to save this dataframe as an R object you can load in later without rerunning the file. To do this, 
+<!-- chang the default to be ours? -->
+
+```{r, echo=FALSE}
+# save the object
+save(all_sdg_keywords_copy,file="all_sdg_keywords.Rda")
+# load the object
+load("all_sdg_keywords.Rda")
+```
+
+
+Joining the course description keywords with their goals and weights to the chosen keyword list, this file writes out a csv file which we refer to as the `master_course_SDG_data` which you can find in the Data folder. 
 
 
 ## Susainability related courses
+
 With the master data, we can look into which classes are sustainability inclusive, sustainability focused, or not related to the SDGs. Classes defined as not related were not mapped to any SDGs. Sustainability focused courses are ones which mapped to both environmental SDGs as well as economic/social ones. The criteria for these are `environmental goals: 13, 14, 15` and `economic goals: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17`. The R file `sustainability_related_classes.R` contains the code for how to do this. At the end, you can sum up the total number of sustainability focused or inclusive classes and report those numbers to Stars under AC-1 credit. 
+
+The criteria for the categorizing of these classes is relatively ambiguous and can be changed by the user in this file.
 <!-- need to change wording -->
 
 
 ### Finding the sum of the weights for each SDG
 
-In the R file named `total_weight_generator.R`, you can find code that adds the sum of the weights for each SDG a course mapped to. The resulting csv file `classes_total_weight` contains unique course titles, as well as 17 additional columns that show the combined weight of all keywords by SDG. The final column shows the total weight of all the keywords mapped from that course. 
+In the R file named `total_weight_generator.R`, you can find code that adds the sum of the weights for each SDG a course mapped to. The resulting csv file `classes_total_weight.csv` contains unique course titles, as well as 17 additional columns that show the combined weight of all keywords by SDG. The final column shows the total weight of all the keywords mapped from that course. 
 
 
 ### Filtering the data by threshold

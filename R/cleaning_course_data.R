@@ -3,7 +3,6 @@
 # assuming raw_data is of the same form as USC_FULL_COURSE_LIST_20182_20183_20191.csv
 
 library(tidyverse)
-library(SDGmapR)#
 
 clean_data = function (raw_data){
   # grab only the rows without an exclude flag
@@ -55,8 +54,6 @@ get_semesters <- function(term_col){
 
 
 transform_data = function(course_data){
-  # course_data %>% mutate(color = ifelse(color == "19486A", "#19486A", color)) #update color for SDG17
-  
   # now create "semester" column in the classes dataframe
   course_data$semester = get_semesters(course_data$Rcl.Term)
   #create the "course_num" column from "rcl.class"
@@ -67,12 +64,14 @@ transform_data = function(course_data){
   course_data$course_title = course_data$Rcl.Course
   # create course column
   course_data$course = course_data$Rcl.Title
+  # create department column
+  course_data$department = course_data$RCL_DEPT
   # select relevant columns for the Shiny App
-  course_data = course_data[, c("course_title", "semester", "course", "course_num", "course_desc", "N.Sections")]
+  course_data = course_data[, c("course_title", "semester", "course", "course_num", "course_desc", "department", "N.Sections")]
   
   return (course_data)
 }
 
 classes = transform_data(usc_courses)
-write.csv(classes, "usc_courses.csv",row.names = F)
+write.csv(classes, "usc_courses_new.csv",row.names = F)
 

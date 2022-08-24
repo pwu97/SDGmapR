@@ -1,8 +1,9 @@
-# tabulate_sdg_keywords function
+# tabulate_sdg_keywords function, wrtiten by Peter Wu
 
 library(SDGmapR) # will update this to our github 
 
 # keyword list to be added
+# MAKE SURE TO RUN THIS LINE BEFORE THE FUNCTION!
 cmu_usc = read.csv("cmu_usc_pwg_mapped.csv")
 
 tabulate_sdg_keywords <- Vectorize(function(text, sdg, keywords="elsevier100",
