@@ -14,9 +14,11 @@ library(plotly)
 library(wordcloud)
 # install.packages("DT")
 library(DT)
+# install.packages("ggplot2")
+library(ggplot2)
 
-
-classes = read.csv("master_course_sdg_data.csv")
+# read in the filtered or unfiltered data
+classes = read.csv("master_course_sdg_data_filtered.csv")
 
 sdg_colors <- c('#e5243b', '#DDA63A', '#4C9F38', '#C5192D', '#FF3A21', '#26BDE2', 
                 '#FCC30B', '#A21942', '#FD6925', '#DD1367', '#FD9D24', '#BF8B2E',
@@ -24,7 +26,7 @@ sdg_colors <- c('#e5243b', '#DDA63A', '#4C9F38', '#C5192D', '#FF3A21', '#26BDE2'
 exclude_words <- c() #this has already been accounted for in earlier files
 
 # data for pie chart
-sustainability_related = read.csv("sustainability_related_courses.csv")
+sustainability_related = read.csv("usc_courses_full_filtered.csv")
 
 
 ### Begin Shiny App Code ###
@@ -34,6 +36,7 @@ ui <- dashboardPage( skin="black",
 
     # Application title
     dashboardHeader(title = "USC SDG Mapping"),
+    
     
     dashboardSidebar(
         sidebarMenu( #will eventually add Schools to sdgs and sdgs to schools
@@ -55,15 +58,19 @@ ui <- dashboardPage( skin="black",
                           that particular class. If the mapping is
                           blank, the course description may have been too short to draw
                           any concrete conclusions."),
-                        selectInput(inputId = "usc_semester1",
+                        div(style="font-size:24px;", selectInput(inputId = "usc_semester1",
                                     label = "Choose USC Semester",
-                                    selected = "SU18",
-                                    choices = c("SU18","F18", "SP19")),
-                        selectizeInput(inputId = "usc_classes", 
+                                    # selected = "SP18",
+                                    choices = unique(classes$semester))),
+                        div(style="font-size:24px;",selectizeInput(inputId = "usc_classes", 
                                        label = "Choose USC Class", 
+                                       # selected = "ACCT-525",
+                                       # choices = unique(classes$course_title),
                                        choices = NULL,
-                                       options = list(maxOptions = 10000)),
+                                       options = list(maxOptions = 10000))),
                         br(),
+                        h3(strong("Course description:")),
+                        h3(textOutput("course_desc")),
                         fluidRow(bootstrapPage(
                             column(6, plotOutput(outputId = "classes_to_wordcloud"), br()),
                             column(6, plotOutput(outputId = "classes_to_keywords"), br())
@@ -84,14 +91,14 @@ ui <- dashboardPage( skin="black",
                         h1("Find Classes by SDGs"),
                         h3("Select a USC semester and one of the SDGs to display the 10 most relevant USC classes that map to
                            that goal."),
-                        selectInput(inputId = "usc_semester3",
+                        div(style="font-size:24px;", selectInput(inputId = "usc_semester3",
                                     label = "Choose USC Semester",
-                                    selected = "SU18",
-                                    choices = c("SU18","F18", "SP19")),
-                        selectizeInput(inputId = "sdg_goal1", 
+                                    # selected = "SU18",
+                                    choices = unique(classes$semester))),
+                        div(style="font-size:24px;", selectizeInput(inputId = "sdg_goal1", 
                                        label = "Choose SDG", 
                                        choices = c(1:17)
-                        ),
+                        )),
                         fluidRow(bootstrapPage(
                             column(6, plotOutput(outputId = "goals_to_classes"), br()),
                             column(6, img(src = "un_17sdgs.png", width = "100%"))
@@ -105,18 +112,18 @@ ui <- dashboardPage( skin="black",
             tabItem(tabName = "5",
                     fluidPage(
                         h1("Mapping the 17 SDGs"),
-                        h4("Below displays a wordcloud for the top keywords for each SDG.
+                        h3("Below displays a wordcloud for the top keywords for each SDG.
                            The keywords come from the ", a("CMU250 keywords list,", 
                            href="https://github.com/CMUSustainability/SDGmapR/tree/main/data"), "and the weights of the words relative to each SDG 
                            were calculated using ",a("Google's word2vec.", href="https://code.google.com/archive/p/word2vec/"), 
                            "These word and weight combinations are the criteria for the course mappings in the other pages of this website."),
-                        h4("In the near future, this list will be updated to a USC and CMU combined list with the input of
+                        h3("In the near future, this list will be updated to a USC and CMU combined list with the input of
                            the PWG. To see the words in a CSV file format, please see the ",a("USC-SDGmap package.", href="https://code.google.com/archive/p/word2vec/")),
-                        h3("Select an SDG below to see its most relevant keywords by weight."),
-                        selectizeInput(inputId = "sdg_goal3", 
-                                       label = "Choose SDG", 
-                                       choices = c(1:17)
-                        ),
+                        h2("Select an SDG below to see its most relevant keywords by weight."),
+                        div(style="font-size:24px;",
+                            selectizeInput(inputId = "sdg_goal3", label = "Choose SDG", choices = c(1:17)
+                        )),
+                        tags$head(tags$style(HTML(".selectize-input {height: 40px; width: 400px; font-size: 24px;}"))),
                         fluidRow(bootstrapPage(
                             column(6, plotOutput(outputId = "visualize_sdg"),br()),
                             column(6, img(src = "un_17sdgs.png", width = "100%"))
@@ -132,7 +139,7 @@ ui <- dashboardPage( skin="black",
                         h1("Home (About)"),
                         fluidRow(bootstrapPage(
                           column(8, 
-                                 h4(strong("Are you interested in sustainability and the ",
+                                 h3(strong("Are you interested in sustainability and the ",
                                  a("UN Sustainability Development Goals (SDGs)?", href="https://sdgs.un.org")), "If so, you have come to the right place! 
                            Sustainability incorporates protection for the environment, 
                            balancing a growing economy, and social responsibility to lead to an 
@@ -143,8 +150,8 @@ ui <- dashboardPage( skin="black",
                            relate to the 17 UN SDGs. If you are a student, you can use this 
                            tool to shape your education toward these sustainability goals.")),
                                  br(),
-                                 h3(strong("FAQ")),
-                                 h4(strong("How Do I Use this Dashboard?"), "You can choose your search function in 
+                                 h2(strong("FAQ")),
+                                 h3(strong("How Do I Use this Dashboard?"), "You can choose your search function in 
                                  the main menu in the upper-left corner of this dashboard. 
                                  Here you can either find classes by the 17 different SDGs 
                                  (Find Classes by SDG) or see which SDGs map to a selected class 
@@ -152,7 +159,7 @@ ui <- dashboardPage( skin="black",
                                  or sustainability-inclusive, please click on the bottom menu bottom 
                                  ‘All Sustainability-Related Classes”."),
                                  
-                                 h4(strong("How was this dashboard created?"), "This dashboard was created with Rshiny, 
+                                 h3(strong("How was this dashboard created?"), "This dashboard was created with Rshiny, 
                                  based on source code in R through a collaboration of USC’s Office of Sustainability 
                                  (Source Code Developers: PSIP Intern- Brian Tinsley and Data Analyst- Dr. Julie Hopper) 
                                  with Carnegie Mellon University (Source Code Developers: Director of Sustainability 
@@ -161,7 +168,7 @@ ui <- dashboardPage( skin="black",
                                  source code used in this dashboard are open-source and can be found through our 
                                  Github page."),
                                  
-                                 h4(strong("What are the UN’s 17 Sustainability Development Goals (SDGs)?"),
+                                 h3(strong("What are the UN’s 17 Sustainability Development Goals (SDGs)?"),
                                     "The 2030 Agenda for Sustainable Development was adopted in 2015 by all UN member 
                                     states and provides a ‘blueprint for peace and prosperity for people and the planet, 
                                     now and into the future’. At the center of this are the 17 Sustainable Development
@@ -171,10 +178,10 @@ ui <- dashboardPage( skin="black",
                                     tackling climate change. To explore the 17 SDGs, 
                                     please visit: https://sdgs.un.org/goals#icons."),
                                  
-                                 h4(strong("How are USC's classes mapped to the 17 SDGs?"), "Please visit our page 
+                                 h3(strong("How are USC's classes mapped to the 17 SDGs?"), "Please visit our page 
                                     “Mapping the 17 SDGs” to learn more."),
                                  
-                                 h4(strong("What if I have more Questions/Comments or Suggestions?"), "Please contact: oosdata@usc.edu"),
+                                 h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please contact: oosdata@usc.edu"),
                                  
                                  
                                  ), # end column
@@ -205,16 +212,40 @@ ui <- dashboardPage( skin="black",
                 # h4("Note: this application is a work in progress and will soon look much cleaner :)")
             ), # end tab item 6
             tabItem(tabName = "2",
-                    fluidPage(
+                    fluidPage(fluidRow(
                         h1("All Sustainably-Related Classes"),
-                        h4("Will soon insert a pie chart showing the number & proportions
-                           of USC classes that are sustainabilty focused/inclusive, or neither"),
-                        selectInput(inputId = "usc_semester_pie",
-                                    label = "Choose USC Semester",
-                                    selected = "SU18",
-                                    choices = c("SU18","F18", "SP19")),
-                        plotOutput("pie")
-                    )
+                        div(style="font-size:24px;",selectInput(inputId = "usc_year",
+                                    label = "Choose USC Academic Year",
+                                    # selected = "AY19",
+                                    choices = unique(sustainability_related$year))),
+                        # h3("Not including multiple sections"),
+                        # plotOutput("pie1"),
+                        # textOutput("pie1_numbers")
+                    ),
+                    # fluidRow(
+                    #   h3("Including multiple sections"),
+                    #   plotOutput("pie2"),
+                    #   textOutput("pie2_numbers")
+                    # ),
+                    # fluidRow(
+                    #   h3("By department"),
+                    #   plotOutput("pie3"),
+                    #   textOutput("pie3_numbers")
+                    # ),
+                    fluidRow(bootstrapPage(
+                      h3("Sustainability Related Courses Offered"),
+                      column(5, plotOutput("pie4")),
+                      # textOutput("pie4_numbers")
+                    )),
+                    fluidRow(bootstrapPage(
+                      h3("Sustainability Related Departments"),
+                      column(5, plotOutput("pie3")),
+                    )),
+                    h3("Sustainability Classification Table"),
+                    fluidRow(bootstrapPage(
+                      column(12, DT::dataTableOutput("sustainability_table"))
+                    ))
+                  ) # end fluid page
             ) # end tab item 6
         )#end tabitems
     )#end dashboard body
@@ -232,19 +263,19 @@ server <- function(input, output, session) {
                                           server = TRUE,
                                           choices = sort(classes %>% filter(semester == input$usc_semester1) %>% select(course_title) %>% pull()), #change this course_num to course_
                                           selected = unique(classes %>% filter(semester == input$usc_semester1) %>% select(course_title) %>% pull())[1])
-                     
+
                  })
     
     #this retunrs a dataframe with the descriptions of all the classes the user selected
     output$course_desc <- renderText({
         usc_course_desc <- classes %>%
-            filter(semester = input$usc_semester) %>%
-            filter(course_title %in% input$usc_classes) %>% #changed from course_num
+            filter(semester == input$usc_semester1) %>%
+            filter(course_title == input$usc_classes) %>% #changed from course_num
             distinct(course_num, .keep_all = TRUE) %>%
             select(course_desc) %>%
             pull()
         
-        return(usc_course_desc)
+        return(paste(usc_course_desc))
     })
     
     # trying to get Classes by SDGs table name
@@ -477,7 +508,7 @@ server <- function(input, output, session) {
         sdg_class_keyword_wordcloud <- wordcloud(sdg_class_keywords, 
                                                  sdg_class_keyword_weights,
                                                  colors = sdg_class_keyword_colors,
-                                                 ordered.colors = TRUE)
+                                                 ordered.colors = TRUE, width=1,height=1)
         
         return(sdg_class_keyword_wordcloud)
     })
@@ -565,6 +596,7 @@ server <- function(input, output, session) {
         return(sdg_goal_keyword_wordcloud)
     })
     
+    
     #sdg keywords table
     output$keywords_table <- DT::renderDataTable({
         read_csv("cmu_usc_pwg_mapped.csv") %>%
@@ -576,18 +608,184 @@ server <- function(input, output, session) {
             select(SDG, Keyword, `Keyword Weight`)
     }, rownames=FALSE)
     
-    output$pie <- renderPlot({
+    
+    output$pie1 <- renderPlot({
       pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
         # filter(semester == input$usc_semester_pie)
-      nr = sum(pie_data$related == "NotRelated")
-      foc = sum(pie_data$related == "Focused")
-      inc = sum(pie_data$related == "Inclusive")
+      nr = sum(pie_data$sustainability_classification == "Not Related")
+      foc = sum(pie_data$sustainability_classification == "Focused")
+      inc = sum(pie_data$sustainability_classification == "Inclusive")
       vals=c(nr, foc, inc)
       pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c(" Not Related", " Focused", " Inclusive"))
-      result = pie(vals, labels = pie_labels)
+      result = pie(vals, labels = pie_labels, main="Proportion of Sustainability Related Courses (n=6461)")
       return(result)
-      return(pie_data)
     })
+    
+    output$pie1_numbers <- renderText({
+      pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
+      # filter(semester == input$usc_semester_pie)
+      nr = sum(pie_data$sustainability_classification == "Not Related")
+      foc = sum(pie_data$sustainability_classification == "Focused")
+      inc = sum(pie_data$sustainability_classification == "Inclusive")
+      vals=c(nr, foc, inc)
+      return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
+    })
+    
+    
+    output$pie2 <- renderPlot({
+      pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
+      sum_notrelated = 0
+      sum_inclusive = 0
+      sum_focused = 0
+      for (i in 1:nrow(pie_data)){
+        if (pie_data$sustainability_classification[i] == "Not Related"){
+          sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        }
+        if (pie_data$sustainability_classification[i] == "Inclusive"){
+          sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        }
+        if (pie_data$sustainability_classification[i] == "Focused"){
+          sum_focused = sum_focused + pie_data$N.Sections[i]
+        }
+      }
+      vals=c(sum_notrelated, sum_focused, sum_inclusive)
+      pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c(" Not Related", " Focused", " Inclusive"))
+      result = pie(vals, labels = pie_labels, main="Sustainability Related Classes (n=19539)")
+      return(result)
+    })
+    
+    output$pie2_numbers <- renderText({
+      pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
+      sum_notrelated = 0
+      sum_inclusive = 0
+      sum_focused = 0
+      for (i in 1:nrow(pie_data)){
+        if (pie_data$sustainability_classification[i] == "Not Related"){
+          sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        }
+        if (pie_data$sustainability_classification[i] == "Inclusive"){
+          sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        }
+        if (pie_data$sustainability_classification[i] == "Focused"){
+          sum_focused = sum_focused + pie_data$N.Sections[i]
+        }
+      }
+      vals=c(sum_notrelated, sum_focused, sum_inclusive)
+      return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
+    })
+    
+    
+    output$pie3 <- renderPlot({
+      pie_data <- sustainability_related %>% filter(year %in% input$usc_year)
+      department = unique(pie_data$department) # theres 179 departments
+      departments = data.frame(department)
+      # split courses into df by department and see if theres focused course or not
+      total = length(departments$department)
+      notrelated = 0
+      inclusive = 0
+      focused = 0
+      for (i in 1:nrow(departments)){
+        mini_df = pie_data[pie_data$department == departments$department[i], ]
+        department_classifications = unique(mini_df$sustainability_classification)
+        if ("Focused" %in% department_classifications){
+          focused = focused + 1
+          next
+        }
+        else if ("Inclusive" %in% department_classifications){
+          inclusive = inclusive + 1
+          next
+        }
+        else{
+          notrelated = notrelated + 1
+        }
+      }
+      vals=c(notrelated, focused, inclusive)
+      labels=c("Not Related", "Focused", "Inclusive")
+      pie = data.frame(labels, vals)
+      # ggplot(pie, aes(x = "", y = vals, fill = labels)) +
+      #   geom_col() +
+      #   coord_polar(theta = "y")
+      ggplot(pie, aes(x = "", y = vals, fill = labels)) +
+        geom_col(color = "black") +
+        # ggtitle("Title") +
+        geom_text(aes(label = vals),
+                  position = position_stack(vjust = 0.5)) +
+        coord_polar(theta = "y") +
+        scale_fill_manual(values = c("#990000", 
+                                     "#FFC72C", "#D3D3D3")) +
+        theme_void()
+      # pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c("Not Related", " Focused", " Inclusive"))
+      # result = pie(vals, labels = pie_labels, main="Sustainability Related Departments (n=179)")
+      # return(result)
+    })
+    
+    output$pie3_numbers <- renderText({
+      pie_data <- sustainability_related
+      department = unique(pie_data$department) # theres 179 departments
+      departments = data.frame(department)
+      # split courses into df by department and see if theres focused course or not
+      total = length(departments$department)
+      notrelated = 0
+      inclusive = 0
+      focused = 0
+      for (i in 1:nrow(departments)){
+        mini_df = pie_data[pie_data$department == departments$department[i], ]
+        department_classifications = unique(mini_df$sustainability_classification)
+        if ("Focused" %in% department_classifications){
+          focused = focused + 1
+          next
+        }
+        else if ("Inclusive" %in% department_classifications){
+          inclusive = inclusive + 1
+          next
+        }
+        else{
+          notrelated = notrelated + 1
+        }
+      }
+      vals=c(notrelated, focused, inclusive)
+      return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
+      
+    })
+    
+    output$pie4 <- renderPlot({
+      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
+      sum_notrelated = 0
+      sum_inclusive = 0
+      sum_focused = 0
+      for (i in 1:nrow(pie_data)){
+        if (pie_data$sustainability_classification[i] == "Not Related"){
+          sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        }
+        if (pie_data$sustainability_classification[i] == "Inclusive"){
+          sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        }
+        if (pie_data$sustainability_classification[i] == "Focused"){
+          sum_focused = sum_focused + pie_data$N.Sections[i]
+        }
+      }
+      vals=c(sum_notrelated, sum_focused, sum_inclusive)
+      labels=c("Not Related", "Focused", "Inclusive")
+      pie = data.frame(labels, vals)
+      # ggplot(pie, aes(x = "", y = vals, fill = labels)) +
+      #   geom_col() +
+      #   coord_polar(theta = "y")
+      ggplot(pie, aes(x = "", y = vals, fill = labels)) +
+        geom_col(color = "black") +
+        # ggtitle("Title") +
+        geom_text(aes(label = vals),
+                  position = position_stack(vjust = 0.5)) +
+        coord_polar(theta = "y") +
+        scale_fill_manual(values = c("#990000", 
+                                     "#FFC72C", "#D3D3D3")) +
+        theme_void()
+    })
+    
+    output$sustainability_table <- DT::renderDataTable({
+      sustainability_related %>% filter(year %in% input$usc_year) %>%
+        select(course_title, semester, all_goals, sustainability_classification)
+    }, rownames=FALSE)
+    
 }
 
 # Run the application 
