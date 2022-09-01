@@ -185,7 +185,7 @@ ui <- dashboardPage( skin="black",
                                  
                                  
                                  ), # end column
-                          column(2, img(src="assignment_earth.jpg"))
+                          column(2, img(src="Education.png", width="500px"))
                         )), #end bootstrap page and fluid page
                     )
                 #         h4("This application was developed in collaboration with Carnegie Melon
