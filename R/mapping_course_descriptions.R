@@ -5,7 +5,7 @@
 library(tidyverse)
 library(dplyr)
 
-classes = read.csv("usc_courses.csv")
+classes = read.csv("usc_courses_cleaned.csv")
 cmu_usc_keywords = read.csv("cmu_usc_pwg_mapped.csv")
 
 
@@ -13,8 +13,8 @@ all_sdg_keywords <- data.frame()
 for (goal_num in 1:17) {
   print(goal_num) #useful for seeing how far you are in the code run
   classes %>%
-    mutate(goal = goal_num,
-           keyword = tabulate_sdg_keywords(classes$course_desc, goal_num, keywords = "cmu_usc")) %>%
+    mutate(goal = goal_num, #run on clean_course_desc column w no punctuation and accuracy edits made
+           keyword = tabulate_sdg_keywords(classes$clean_course_desc, goal_num, keywords = "cmu_usc")) %>%
     unnest(keyword) -> cur_sdg_keywords
   
   all_sdg_keywords <- rbind(all_sdg_keywords, cur_sdg_keywords) 
@@ -26,12 +26,13 @@ all_sdg_keywords_copy = all_sdg_keywords
 #now join it with cmu to get color and weight
 all_sdg_keywords_copy %>%
   left_join(cmu_usc_keywords, by = c("goal", "keyword")) %>%
-  select(course_title, course, semester, keyword, goal, weight, color, course_num, course_desc, department, N.Sections) %>%
-  arrange(course_num) -> all_sdg_keywords_copy
+  select(courseID, course_title, section, semester, keyword, goal, weight, color, course_desc, department, N.Sections, year) %>%
+  arrange(courseID) -> all_sdg_keywords_copy
+
+# need to add section column
 
 
 # could also remove exclude words here, refer to keywor_list_generator.R
 
 write.csv(all_sdg_keywords_copy, "master_course_sdg_data.csv", row.names = F)
-
-
+save(all_sdg_keywords_copy, file="all_sdg_keywords.Rda")

@@ -57,21 +57,23 @@ transform_data = function(course_data){
   # now create "semester" column in the classes dataframe
   course_data$semester = get_semesters(course_data$Rcl.Term)
   #create the "course_num" column from "rcl.class"
-  course_data$course_num = course_data$Rcl.Class
+  course_data$section = course_data$Rcl.Class
   #create the "course_desc" column
   course_data$course_desc=paste(course_data$Rcl.Title, "-", course_data$Rca.Desc)
   #create class_title column
-  course_data$course_title = course_data$Rcl.Course
+  course_data$courseID = course_data$Rcl.Course
   # create course column
-  course_data$course = course_data$Rcl.Title
+  course_data$course_title = course_data$Rcl.Title
   # create department column
   course_data$department = course_data$RCL_DEPT
+  # create year column
+  course_data$year = "AY19"
   # select relevant columns for the Shiny App
-  course_data = course_data[, c("course_title", "semester", "course", "course_num", "course_desc", "department", "N.Sections")]
+  course_data = course_data[, c("course_title", "semester", "courseID", "section", "course_desc", "department", "N.Sections", "year")]
   
   return (course_data)
 }
 
 classes = transform_data(usc_courses)
-write.csv(classes, "usc_courses_new.csv",row.names = F)
+write.csv(classes, "usc_courses.csv",row.names = F)
 

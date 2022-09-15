@@ -4,7 +4,7 @@
 library(tidyverse)
 
 # data containing all course titles
-usc_courses = read.csv("usc_courses.csv")
+usc_courses = read.csv("usc_courses_cleaned.csv")
 # data containing what courses map to which goals
 # this is the filtered data
 master_data = read.csv("master_course_sdg_data_filtered.csv")
@@ -80,5 +80,5 @@ write.csv(sustainability, "sustainability_related_courses_filtered.csv", row.nam
 
 # want to create a dataframe with more information for pie charts using joins
 sustainability = read.csv("sustainability_related_courses_filtered.csv")
-course_data = usc_courses %>% left_join(sustainability, by="course_title")
+course_data = usc_courses %>% left_join(sustainability, by="course_title", all.x = T)
 write.csv(course_data, "usc_courses_full_filtered.csv", row.names = F)

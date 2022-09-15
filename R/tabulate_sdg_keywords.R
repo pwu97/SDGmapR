@@ -1,28 +1,31 @@
+
 # tabulate_sdg_keywords function, wrtiten by Peter Wu
 
 library(SDGmapR) # will update this to our github 
 
-# keyword list to be added
+
 # MAKE SURE TO RUN THIS LINE BEFORE THE FUNCTION!
 cmu_usc = read.csv("cmu_usc_pwg_mapped.csv")
 
-tabulate_sdg_keywords <- Vectorize(function(text, sdg, keywords="elsevier100",
+tabulate_sdg_keywords <- Vectorize(function(text, sdg, keywords="cmu_usc",
                                             count_repeats=FALSE) {
   
   # Select the right keyword set
-  if (keywords == "elsevier100") {
-    goal_df <- elsevier100_keywords %>%
-      filter(goal == sdg)
-  } else if (keywords == "cmu_usc") { #added this for our data set
+  if (keywords == "cmu_usc") {
     goal_df <- cmu_usc %>%
       filter(goal == sdg)
-  } else if (keywords == "sdsn") {
-    goal_df <- sdsn_keywords %>%
-      filter(goal == sdg)
-  } else if (keywords == "elsevier") {
-    goal_df <- elsevier_keywords %>%
-      filter(goal == sdg)
-  } else if (keywords == "cmu250") {
+  }
+  # else if (keywords == "cmu_usc") { #added this for our data set
+  #   goal_df <- cmu_usc %>%
+  #     filter(goal == sdg)
+  # } else if (keywords == "sdsn") {
+  #   goal_df <- sdsn_keywords %>%
+  #     filter(goal == sdg)
+  # } else if (keywords == "elsevier") {
+  #   goal_df <- elsevier_keywords %>%
+  #     filter(goal == sdg)
+  # } 
+  else if (keywords == "cmu250") {
     goal_df <- cmu250_keywords %>%
       filter(goal == sdg)
   } else if (keywords == "cmu500") {

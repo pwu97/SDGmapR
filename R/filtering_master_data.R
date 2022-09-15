@@ -14,6 +14,6 @@ filtered = filter_keywords(keywords, 0.1)
 
 # filter the master data after the mapping
 master_data = read.csv("master_course_sdg_data.csv")
-filtered_data = filter(master_data, 0.5)
-write.csv(filtered_data, "master_course_sdg_data_filtered_0.1.csv", row.names=F)
+filtered_data = filter(master_data, 0.2)
+write.csv(filtered_data, "master_course_sdg_data_filtered.csv", row.names=F)
 
