@@ -62,7 +62,7 @@ ui <- dashboardPage( skin="black",
                                                 h3("Select a USC semester and course ID below to view the SDG mapping for 
                           that particular class. If the mapping is
                           blank, the course description may have been too short to draw
-                          any concrete conclusions."),
+                          any concrete conclusions. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
                                                 div(style="font-size:24px;", selectInput(inputId = "usc_semester1",
@@ -97,7 +97,7 @@ ui <- dashboardPage( skin="black",
                                               fluidPage(
                                                 h1("Find Classes by SDGs"),
                                                 h3("Select a USC semester and one of the SDGs to display the 10 most relevant USC classes that map to
-                           that goal."),
+                           that goal. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
                                                 div(style="font-size:24px;", selectInput(inputId = "usc_semester3",
@@ -161,11 +161,11 @@ ui <- dashboardPage( skin="black",
                            we have created a program in collaboration with Carnegie Mellon University 
                            to elevate awareness of sustainability in higher education."),
                                                          br(),
-                                                # ),
                                                 fluidRow(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"))
                                               )
                                       ), # end tab item 6
                                       tabItem(tabName = "8",
+                                              fluidPage(
                                               h2(strong("FAQ")),
                                               h3(strong("How Do I Use this Dashboard?"), "You can choose your search function in 
                                  the main menu in the upper-left corner of this dashboard. 
@@ -198,11 +198,20 @@ ui <- dashboardPage( skin="black",
                                     “Mapping the 17 SDGs” to learn more."),
                                               
                                               h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please contact: oosdata@usc.edu"),
-                                      ),
+                                      )),
                                      
                                       tabItem(tabName = "2",
                                               fluidPage(
                                                 h1("All Sustainably-Related Classes"),
+                                                h3("The below charts show the percent and number of USC courses and 
+                                                   departments that are ‘sustainability-focused’, ‘sustainability-inclusive’ or ‘not-related’ to 
+                                                   sustainability. To count as sustainability-inclusive, a course has to map to at least one of the 17 UN SDGs. 
+                                                   To count as sustainability-focused, a course has to map to a combination of SDGs that includes at least one environmental 
+                                                   SDG and at least one economic or social SDG. ‘Sustainability-focused’ departments have at least 
+                                                   one program (major, minor or graduate degree program) that requires at least 1 sustainability focused course. 
+                                                   ‘Sustainability-inclusive’ departments have at least one program that requires at least one sustainability-inclusive course."),
+                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
+                                                   If you have feedback, please email: oosdata@usc.edu"),
                                                 div(style="font-size:24px;",selectInput(inputId = "usc_year",
                                                                                         label = "Choose USC Academic Year",
                                                                                         # selected = "AY19",
@@ -233,6 +242,7 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "7",
                                               fluidPage(
                                                 h1("Map Your Classes"),
+                                                h3("Select your classes below and see how your curriculum relates to the 17 SDGs."), 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
                                                 # h3("Enter Your USC Courses"),
@@ -252,12 +262,11 @@ ui <- dashboardPage( skin="black",
                                                 h3("SDG Mapping Data for:"),
                                                 h4(textOutput("personal_classes")),
                                                 br(),
-                                                fluidRow(bootstrapPage(
-                                                  column(6, plotOutput(outputId = "user_classes_barplot"), br())
-                                                )),
-                                                fluidRow(bootstrapPage(
-                                                  column(6, plotOutput(outputId = "user_to_goals"), br())
-                                                )),
+                                                fluidRow(
+                                                  column(6, plotOutput(outputId = "user_to_goals"), br(),
+                                                  plotOutput(outputId = "user_classes_barplot"), br()),
+                                                  column(6, img(src = "un_17sdgs.png", width="100%"))
+                                                ),
                                               )#end fluid page
                                       )# end tab item 7
                                     )#end tabitems
@@ -291,7 +300,7 @@ server <- function(input, output, session) {
     return(paste(usc_course_desc))
   })
   
-  # get the courses the 
+  # get the courses
   output$personal_classes <- renderText({
     if (length(input$user_classes) > 0){ #first make sure they typed something in
       
@@ -314,111 +323,111 @@ server <- function(input, output, session) {
   
   # not sure what this does yet
   # might need to go back and add the course title back in to display on the chart
-  output$test_run <- renderPlot({
-    sdg_class_keyword_colors <- classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>% #changed this from section
-      group_by(goal) %>%
-      mutate(sum_weight = sum(weight)) %>%
-      arrange(desc(sum_weight)) %>%
-      ungroup() %>%
-      distinct(goal, .keep_all = TRUE) %>%
-      arrange(goal) %>%
-      select(color) %>%
-      unique() %>%
-      pull()
-    # print(sdg_class_keyword_colors)
-    # if (length(sdg_class_keyword_colors) == 0) {return(ggplot())}
-    
-    sdg_class_name <-  classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      select(courseID) %>% # might need course title
-      unique() %>%
-      pull()
-    # print(sdg_class_name)
-    
-    sdg_class_goal_barplot <- classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      group_by(goal) %>%
-      mutate(sum_weight = sum(weight)) %>%
-      arrange(desc(sum_weight)) %>%
-      ungroup() %>%
-      distinct(goal, .keep_all = TRUE) %>%
-      ggplot(aes(x = reorder(goal, sum_weight), y = sum_weight, fill = factor(as.numeric(goal)))) +
-      geom_col() +
-      coord_flip() +
-      # geom_hline(yintercept = c(10, 15), color = c("#ffc33c", "#00bc9e")) +
-      labs(
-        # title = paste0(sdg_class_name, " (", input$cmu_classes, ") ", "SDGs"),
-        title = paste0(sdg_class_name, "\nSDGs"),
-        fill = "SDG",
-        x = "SDG",
-        y = "Total SDG Weight") +
-      scale_fill_manual(values = sdg_class_keyword_colors) +
-      theme(text = element_text(size = 18))
-    
-    sdg_class_keyword_colors <-  classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      select(color) %>%
-      unique() %>%
-      pull()
-    
-    sdg_class_keyword_barplot <- classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      arrange(desc(weight)) %>%
-      ggplot(aes(x = reorder(keyword, weight), y = weight, fill = factor(as.numeric(goal)))) +
-      geom_col() +
-      coord_flip() +
-      labs(
-        title = paste0(sdg_class_name, " (", input$usc_classes, ")\nSDG Keywords"),
-        fill = "SDG",
-        x = "SDG Keyword",
-        y = "Total SDG Weight") +
-      scale_fill_manual(values = sdg_class_keyword_colors) +
-      theme(text = element_text(size = 18))
-    
-    sdg_class_keyword_colors <-  classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      select(color) %>%
-      pull()
-    
-    sdg_class_keyword_weights <-  classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      mutate(weight = 100 * weight) %>%
-      select(weight) %>%
-      pull()
-    
-    sdg_class_keywords <-  classes %>%
-      filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      select(keyword) %>%
-      pull()
-    print(length(sdg_class_keywords))
-    
-    # if (length(sdg_class_keywords) == 0) {
-    #   return(ggplot())
-    # }
-    
-    sdg_class_keyword_wordcloud <- wordcloud(sdg_class_keywords, 
-                                             sdg_class_keyword_weights,
-                                             colors = sdg_class_keyword_colors,
-                                             ordered.colors = TRUE)
-    
-    # library(gridExtra)
-    # ggsave(grid.arrange(sdg_class_goal_barplot, sdg_class_keyword_barplot, nrow = 1),
-    #        filename = paste0("class_plots/", input$cmu_classes, ".pdf"),
-    #        height = 4,
-    #        device = "pdf")
-  })
+  # output$test_run <- renderPlot({
+  #   sdg_class_keyword_colors <- classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>% #changed this from section
+  #     group_by(goal) %>%
+  #     mutate(sum_weight = sum(weight)) %>%
+  #     arrange(desc(sum_weight)) %>%
+  #     ungroup() %>%
+  #     distinct(goal, .keep_all = TRUE) %>%
+  #     arrange(goal) %>%
+  #     select(color) %>%
+  #     unique() %>%
+  #     pull()
+  #   # print(sdg_class_keyword_colors)
+  #   # if (length(sdg_class_keyword_colors) == 0) {return(ggplot())}
+  #   
+  #   sdg_class_name <-  classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>%
+  #     select(courseID) %>% # might need course title
+  #     unique() %>%
+  #     pull()
+  #   # print(sdg_class_name)
+  #   
+  #   sdg_class_goal_barplot <- classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>%
+  #     group_by(goal) %>%
+  #     mutate(sum_weight = sum(weight)) %>%
+  #     arrange(desc(sum_weight)) %>%
+  #     ungroup() %>%
+  #     distinct(goal, .keep_all = TRUE) %>%
+  #     ggplot(aes(x = reorder(goal, sum_weight), y = sum_weight, fill = factor(as.numeric(goal)))) +
+  #     geom_col() +
+  #     coord_flip() +
+  #     # geom_hline(yintercept = c(10, 15), color = c("#ffc33c", "#00bc9e")) +
+  #     labs(
+  #       # title = paste0(sdg_class_name, " (", input$cmu_classes, ") ", "SDGs"),
+  #       title = paste0(sdg_class_name, "\nSDGs"),
+  #       fill = "SDG",
+  #       x = "SDG",
+  #       y = "Total SDG Weight") +
+  #     scale_fill_manual(values = sdg_class_keyword_colors) +
+  #     theme(text = element_text(size = 18))
+  #   
+  #   sdg_class_keyword_colors <-  classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>%
+  #     select(color) %>%
+  #     unique() %>%
+  #     pull()
+  #   
+  #   sdg_class_keyword_barplot <- classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>%
+  #     arrange(desc(weight)) %>%
+  #     ggplot(aes(x = reorder(keyword, weight), y = weight, fill = factor(as.numeric(goal)))) +
+  #     geom_col() +
+  #     coord_flip() +
+  #     labs(
+  #       title = paste0(sdg_class_name, " (", input$usc_classes, ")\nSDG Keywords"),
+  #       fill = "SDG",
+  #       x = "SDG Keyword",
+  #       y = "Total SDG Weight") +
+  #     scale_fill_manual(values = sdg_class_keyword_colors) +
+  #     theme(text = element_text(size = 18))
+  #   
+  #   sdg_class_keyword_colors <-  classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>%
+  #     distinct(keyword, .keep_all = TRUE) %>%
+  #     select(color) %>%
+  #     pull()
+  #   
+  #   sdg_class_keyword_weights <-  classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>%
+  #     distinct(keyword, .keep_all = TRUE) %>%
+  #     mutate(weight = 100 * weight) %>%
+  #     select(weight) %>%
+  #     pull()
+  #   
+  #   sdg_class_keywords <-  classes %>%
+  #     filter(semester == input$usc_semester1) %>%
+  #     filter(courseID %in% input$usc_classes) %>%
+  #     distinct(keyword, .keep_all = TRUE) %>%
+  #     select(keyword) %>%
+  #     pull()
+  #   print(length(sdg_class_keywords))
+  #   
+  #   # if (length(sdg_class_keywords) == 0) {
+  #   #   return(ggplot())
+  #   # }
+  #   
+  #   sdg_class_keyword_wordcloud <- wordcloud(sdg_class_keywords, 
+  #                                            sdg_class_keyword_weights,
+  #                                            colors = sdg_class_keyword_colors,
+  #                                            ordered.colors = TRUE)
+  #   
+  #   # library(gridExtra)
+  #   # ggsave(grid.arrange(sdg_class_goal_barplot, sdg_class_keyword_barplot, nrow = 1),
+  #   #        filename = paste0("class_plots/", input$cmu_classes, ".pdf"),
+  #   #        height = 4,
+  #   #        device = "pdf")
+  # })
   
   
   ### Classes Forward
@@ -580,7 +589,7 @@ server <- function(input, output, session) {
       distinct(courseID, .keep_all = TRUE) %>%
       head(num_top_classes) %>%
       ggplot(aes(x = courseID1, y = total_weight)) +
-      geom_col(fill = sdg_colors[as.numeric(input$sdg_goal1)], alpha = 0.75) +
+      geom_col(fill = sdg_colors[as.numeric(input$sdg_goal1)], alpha = 1) +
       coord_flip() +
       scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
       labs(title = paste0("Top 10 Classes that Map to SDG", input$sdg_goal1),
@@ -605,9 +614,10 @@ server <- function(input, output, session) {
       mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
       arrange(desc(total_weight)) %>%
       distinct(courseID, .keep_all = TRUE) %>%
-      rename(Semester = semester, "Course Title" = course_title, 'Total SDG Weight'= total_weight, "Course Description" = course_desc) %>%
-      select(courseID, "Course Title", "Course Description", "Total SDG Weight")
+      rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title, 'Total SDG Weight'= total_weight, "Course Description" = course_desc) %>%
+      select('Course ID', "Course Title", "Course Description", "Total SDG Weight")
   }, rownames=FALSE)
+  
   # options = list(
   #     autoWidth = TRUE)
   #     # columnDefs = list(list(width = '200px', targets = "_all"))
@@ -655,15 +665,15 @@ server <- function(input, output, session) {
     return(result)
   })
   
-  output$pie1_numbers <- renderText({
-    pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
-    # filter(semester == input$usc_semester_pie)
-    nr = sum(pie_data$sustainability_classification == "Not Related")
-    foc = sum(pie_data$sustainability_classification == "Focused")
-    inc = sum(pie_data$sustainability_classification == "Inclusive")
-    vals=c(nr, foc, inc)
-    return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
-  })
+  # output$pie1_numbers <- renderText({
+  #   pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
+  #   # filter(semester == input$usc_semester_pie)
+  #   nr = sum(pie_data$sustainability_classification == "Not Related")
+  #   foc = sum(pie_data$sustainability_classification == "Focused")
+  #   inc = sum(pie_data$sustainability_classification == "Inclusive")
+  #   vals=c(nr, foc, inc)
+  #   return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
+  # })
   
   
   output$pie2 <- renderPlot({
@@ -688,25 +698,25 @@ server <- function(input, output, session) {
     return(result)
   })
   
-  output$pie2_numbers <- renderText({
-    pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
-    sum_notrelated = 0
-    sum_inclusive = 0
-    sum_focused = 0
-    for (i in 1:nrow(pie_data)){
-      if (pie_data$sustainability_classification[i] == "Not Related"){
-        sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
-      }
-      if (pie_data$sustainability_classification[i] == "Inclusive"){
-        sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
-      }
-      if (pie_data$sustainability_classification[i] == "Focused"){
-        sum_focused = sum_focused + pie_data$N.Sections[i]
-      }
-    }
-    vals=c(sum_notrelated, sum_focused, sum_inclusive)
-    return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
-  })
+  # output$pie2_numbers <- renderText({
+  #   pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
+  #   sum_notrelated = 0
+  #   sum_inclusive = 0
+  #   sum_focused = 0
+  #   for (i in 1:nrow(pie_data)){
+  #     if (pie_data$sustainability_classification[i] == "Not Related"){
+  #       sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+  #     }
+  #     if (pie_data$sustainability_classification[i] == "Inclusive"){
+  #       sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+  #     }
+  #     if (pie_data$sustainability_classification[i] == "Focused"){
+  #       sum_focused = sum_focused + pie_data$N.Sections[i]
+  #     }
+  #   }
+  #   vals=c(sum_notrelated, sum_focused, sum_inclusive)
+  #   return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
+  # })
   
   
   output$pie3 <- renderPlot({
@@ -753,34 +763,34 @@ server <- function(input, output, session) {
     # return(result)
   })
   
-  output$pie3_numbers <- renderText({
-    pie_data <- sustainability_related
-    department = unique(pie_data$department) # theres 179 departments
-    departments = data.frame(department)
-    # split courses into df by department and see if theres focused course or not
-    total = length(departments$department)
-    notrelated = 0
-    inclusive = 0
-    focused = 0
-    for (i in 1:nrow(departments)){
-      mini_df = pie_data[pie_data$department == departments$department[i], ]
-      department_classifications = unique(mini_df$sustainability_classification)
-      if ("Focused" %in% department_classifications){
-        focused = focused + 1
-        next
-      }
-      else if ("Inclusive" %in% department_classifications){
-        inclusive = inclusive + 1
-        next
-      }
-      else{
-        notrelated = notrelated + 1
-      }
-    }
-    vals=c(notrelated, focused, inclusive)
-    return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
-    
-  })
+  # output$pie3_numbers <- renderText({
+  #   pie_data <- sustainability_related
+  #   department = unique(pie_data$department) # theres 179 departments
+  #   departments = data.frame(department)
+  #   # split courses into df by department and see if theres focused course or not
+  #   total = length(departments$department)
+  #   notrelated = 0
+  #   inclusive = 0
+  #   focused = 0
+  #   for (i in 1:nrow(departments)){
+  #     mini_df = pie_data[pie_data$department == departments$department[i], ]
+  #     department_classifications = unique(mini_df$sustainability_classification)
+  #     if ("Focused" %in% department_classifications){
+  #       focused = focused + 1
+  #       next
+  #     }
+  #     else if ("Inclusive" %in% department_classifications){
+  #       inclusive = inclusive + 1
+  #       next
+  #     }
+  #     else{
+  #       notrelated = notrelated + 1
+  #     }
+  #   }
+  #   vals=c(notrelated, focused, inclusive)
+  #   return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
+  #   
+  # })
   
   output$pie4 <- renderPlot({
     pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
@@ -817,8 +827,8 @@ server <- function(input, output, session) {
   
   output$sustainability_table <- DT::renderDataTable({
     sustainability_related %>% filter(year %in% input$usc_year) %>%
-      rename("Course ID" = courseID, Semester = semester, "All Goals" = all_goals, "Sustainability CLassification" = sustainability_classification) %>%
-      select("Course ID", Semester, "All Goals", "Sustainability CLassification")
+      rename("Course ID" = courseID, Semester = semester, "All Goals" = all_goals, "Sustainability Classification" = sustainability_classification) %>%
+      select("Course ID", Semester, "All Goals", "Sustainability Classification")
   }, rownames=FALSE)
   
   
@@ -827,17 +837,21 @@ server <- function(input, output, session) {
   
   # output for users classes
   output$user_classes_barplot <- renderPlot({
+    
     sdg_class_keyword_colors <-  classes %>%
       filter(courseID %in% input$user_classes) %>%
+      arrange(goal) %>% #arranged in order again because multiple classes screwed it up
       select(color) %>%
       unique() %>%
       pull()
+    print(sdg_class_keyword_colors)
     
     sdg_class_name <-  classes %>%
       filter(courseID %in% input$user_classes) %>%
-      select(courseID) %>% #changes here
+      select(courseID) %>% 
       unique() %>%
       pull()
+    print(sdg_class_name)
     
     sdg_class_keyword_barplot <- classes %>%
       filter(courseID %in% input$user_classes) %>%
