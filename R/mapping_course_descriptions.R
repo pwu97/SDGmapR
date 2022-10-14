@@ -1,12 +1,12 @@
-
-# BE SURE to run "tabulate_sdg_keywords.R" to have in your environment
-# before doing this
+# this script finds all of the keywords/weights in the course descriptions for each sdg
+# BE SURE to run "tabulate_sdg_keywords.R" to have in your environment before doing this
 
 library(tidyverse)
 library(dplyr)
 
 classes = read.csv("usc_courses_cleaned.csv")
-cmu_usc_keywords = read.csv("cmu_usc_pwg_mapped.csv")
+#using the filtered keywords here, could also use the full list
+cmu_usc_keywords = read.csv("filtered_keywords.csv")
 
 
 all_sdg_keywords <- data.frame()
@@ -29,10 +29,7 @@ all_sdg_keywords_copy %>%
   select(courseID, course_title, section, semester, keyword, goal, weight, color, course_desc, department, N.Sections, year) %>%
   arrange(courseID) -> all_sdg_keywords_copy
 
-# need to add section column
-
-
-# could also remove exclude words here, refer to keywor_list_generator.R
 
 write.csv(all_sdg_keywords_copy, "master_course_sdg_data.csv", row.names = F)
+# save this object so we dont have to run code again
 save(all_sdg_keywords_copy, file="all_sdg_keywords.Rda")

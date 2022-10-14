@@ -1,5 +1,5 @@
-# this file is going to categorize each course as SustainabilityRelated, 
-# SustainabilityFocused, or NotRelated
+# this script categorizes each course as sustainability, 
+# focused, inclusive, or not related
 
 library(tidyverse)
 
@@ -7,12 +7,12 @@ library(tidyverse)
 usc_courses = read.csv("usc_courses_cleaned.csv")
 # data containing what courses map to which goals
 # this is the filtered data
-master_data = read.csv("master_course_sdg_data_filtered.csv")
+master_data = read.csv("master_course_sdg_data.csv")
 
 
 # grab the unique class titles
-classes = unique(usc_courses$course_title)
-sustainability = data.frame(classes)
+courseID = unique(usc_courses$courseID)
+sustainability = data.frame(courseID)
 # create column to store goals that class maps to 
 sustainability = sustainability %>% add_column(goals = NA)
 # create column to store sustainability-relatedness
@@ -22,10 +22,11 @@ social_economic_goals = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)
 environment_goals = c(13, 14, 15)
 
 
+# go through and get all the related goals for each class
 index = 1
-for (class in sustainability$classes){
+for (course in sustainability$courseID){
   # subset master data to just the rows for that class and grab the unique goals
-  mini_df = unique(master_data[master_data$course_title == class, "goal"])
+  mini_df = unique(master_data[master_data$courseID == course, "goal"])
   # combine all the goals into a string to be added to the goals column in df
   goals = paste(mini_df, collapse=",")
   #update the goals column of df to be this string "goals"
@@ -67,18 +68,19 @@ for (i in 1:nrow(sustainability)){
 }
 
 # need to rename the columns
-names(sustainability)[names(sustainability) == 'classes'] <- "course_title"
+# names(sustainability)[names(sustainability) == 'courseID'] <- "course_title"
 names(sustainability)[names(sustainability) == 'related'] <- "sustainability_classification"
 names(sustainability)[names(sustainability) == 'goals'] <- "all_goals"
 
-sum(sustainability$sustainability_classification == "Focused")
-sum(sustainability$sustainability_classification == "Inclusive")
-sum(sustainability$sustainability_classification == "Not Related")
+# check the counts of how many there are of each
+# sum(sustainability$sustainability_classification == "Focused")
+# sum(sustainability$sustainability_classification == "Inclusive")
+# sum(sustainability$sustainability_classification == "Not Related")
 
-write.csv(sustainability, "sustainability_related_courses_filtered.csv", row.names = F)
+write.csv(sustainability, "sustainability_related_courses.csv", row.names = F)
 
 
 # want to create a dataframe with more information for pie charts using joins
-sustainability = read.csv("sustainability_related_courses_filtered.csv")
-course_data = usc_courses %>% left_join(sustainability, by="course_title", all.x = T)
-write.csv(course_data, "usc_courses_full_filtered.csv", row.names = F)
+sustainability = read.csv("sustainability_related_courses.csv")
+course_data = usc_courses %>% left_join(sustainability, by="courseID", all.x = T)
+write.csv(course_data, "usc_courses_full.csv", row.names = F)
