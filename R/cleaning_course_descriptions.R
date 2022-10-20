@@ -23,19 +23,19 @@ for (i in 1:nrow(usc_courses)){
 
 
 # exclude words if followed by "environment"
-words = c("business", "Business", "reporting", "immersive", "learning", "Learning", "visualization", "visualisation",
+words = c("business", "reporting", "immersive", "learning", "visualization", "visualisation",
           "outpatient", "hospital", "clinical", "dental", "lab", "media", "network", 
           "digital", "professional", "legal", "news", "focused",
           "virtual", "workshop", "health care", "emotionally rich", "corporate", 
           "market", "structured", # adding new ones
-          "built", "business", "classroom", "clinical", "commmunication", "consulting",
-          "dental", "digital", "economic", "education", "educational", "focused",
-          "future", "hospital", "inclusive", "institutional", "lab", "learning", 
-          "legal", "liveable", "market", "marketing", "media", "network", "news",
-          "orgnanizational", "outpatient", "peoples", "policy", "politics",
-          "professional", "regulatory", "reporting", "reporting", "social", 
-          "sonic", "strategic", "structured", "tax", "technology", "urban", 
-          "various", "virtual", "voting", "workshop", "justice")
+          "built", "business", "classroom", "commmunication", "consulting",
+          "economic", "education", "educational", "focused",
+          "future", "inclusive", "institutional", 
+          "liveable", "marketing",
+          "orgnanizational", "peoples", "policy", "politics",
+          "regulatory", "social", 
+          "sonic", "strategic", "tax", "technology", "urban", 
+          "various","voting", "justice")
 
 # words to remove before "power"
 # political, social, presidential, consistency, diversity, sex, motivation, film, n-th, functions
@@ -65,6 +65,7 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
+    
     if (tolower(x[j]) == "power"){
       if (tolower(x[j-1]) == "social"){
         print(i)
@@ -245,17 +246,29 @@ for (i in 1:nrow(usc_courses)){
         print(i)
         x[j] = "domain"
       }
+    }
+    #plural power phrases
+    if (tolower(x[j]) == "powers"){
       if (tolower(x[j+1]) == "and" && tolower(x[j+2]) == "responsibilities"){
         print(i)
         x[j] = "domain"
       }
+      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "governments"){
+        print(i)
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "government"){
+        print(i)
+        x[j] = "domain"
+      }
+      
     }
   }
   usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
 }
 
 
-# fixing all other phrases before "environment", "ecology", or "power"
+# fixing all other phrases before "environment", "ecology", or "power(s)"
 for (i in 1:nrow(usc_courses)){
   desc = usc_courses$clean_course_desc[i]
   x = unlist(strsplit(desc, " "))
@@ -416,15 +429,11 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
-    
   }
   usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
 }
 
 
 write.csv(usc_courses, "usc_courses_cleaned.csv", row.names = F)
-
-
-
 
 
