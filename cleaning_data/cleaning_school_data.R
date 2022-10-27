@@ -39,6 +39,7 @@ for (i in 1:length(files)){
 }
 
 
+
 ### now lets combine them all" ###
 
 # CSVfiles <- list.files(pattern="\\.csv$", full.names=TRUE) 
