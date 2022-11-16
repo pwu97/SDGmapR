@@ -1,6 +1,5 @@
 # USC SDGmap R Package
 
-# this is a test 
 
 Peter Wu at Carnegie Mellon wrote the initial code that inspired this
 project, and his original R package can be found on

@@ -91,7 +91,7 @@ transform_data = function(course_data){
   # create year column
   course_data$year = get_year(course_data$origin)
   # select relevant columns for the Shiny App
-  course_data = course_data[, c("course_title", "semester", "courseID", "section", "course_desc", "department", "N.Sections", "year")]
+  course_data = course_data[, c("courseID", "course_title", "semester", "section", "course_desc", "department", "N.Sections", "year")]
   
   return (course_data)
 }
