@@ -55,6 +55,7 @@ ui <- dashboardPage( skin="black",
                        )
                      ),
                      
+                     
                      dashboardBody( tags$head(tags$link(rel="stylesheet", type="text/css", href="custom.css")), #link up css stylesheet
                                     tabItems(
                                       tabItem(tabName = "1",

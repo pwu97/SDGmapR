@@ -3,7 +3,8 @@
 
 # need to remove more research courses!!!
 
-data = read.csv("All_SOC_files_2020-2022_fixed.csv")
+# data = read.csv("All_SOC_files_2020-2022_fixed.csv")
+data = read.csv("20202-20231_data.csv")
 
 
 clean_data = function (raw_data){
