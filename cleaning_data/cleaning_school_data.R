@@ -9,6 +9,8 @@ clean_file = function(table) {
   x = table
   # get rid of weird spacing issue with empty section column "      " -> ""
   x$SECTION = as.numeric(trimws(x$SECTION, which=c("both")))
+  
+  # go through backwords and combine error rows with row above it
   for(i in seq(nrow(x), 2, -1)) { # Work on the table in bottom to top so we can merge the values
     if(is.na(x[i, "SECTION"]) | x[i, "SECTION"] == "NA" | x[i, "SECTION"] == "") { #always note if values are NA or "NA" or ""
         x[i, "SECTION"] = NA # fix the issue of combining character "NA" 
@@ -26,25 +28,42 @@ clean_file = function(table) {
   x <- x[!is.na(x$SECTION),]
   # create department column
   x$DEPARTMENT = NA
-  for (i in 1:nrow(x)){
-    # get the department
-    split = strsplit(x[i, "COURSE_CODE."], split="-")
-    term = split[[1]][1]
-    x[i, "DEPARTMENT"] = term
-    # also going to get rid of whitespace
-    x[i, ] = gsub("  ", "", x[i,])
-  }
   # remove the periods at end of column names
   for (i in 1:length(names(x))){
     # newname = sub("[.]$", "", names(x)[i]) # removes a dot at the end
     newname = gsub("[.]", "", names(x)[i]) # removes all dots
     names(x)[i] = newname
   }
+  for (i in 1:nrow(x)){
+    # get the department
+    split = strsplit(x[i, "COURSE_CODE"], split="-")
+    term = split[[1]][1]
+    x[i, "DEPARTMENT"] = term
+    
+    # also going to get rid of whitespace
+    x[i, ] = gsub("  ", "", x[i,])
+    
+    # going to fix the classes that start with - like "-CHE 490.00"
+    if (startsWith(x$COURSE_CODE[i],"-")){
+      # get rid of the .00 first
+      if (grepl(".", x$COURSE_CODE[i])){
+        x$COURSE_CODE[i] = gsub("\\..*", "", x$COURSE_CODE[i])
+      }
+      # replace the starting - with a nothing
+      x$COURSE_CODE[i] = gsub("-", "", x$COURSE_CODE[i])
+      # replace the space with a dash, doesnt work with normal gsub
+      y = substr(x$COURSE_CODE[i], 4, 4) # super strange.... y is not a space or a tab its an unidentifiable alien coming for us all
+      x$COURSE_CODE[i] = gsub(y, "-", x$COURSE_CODE[i])
+    }
+    
+  }
+  # alphabetize the COURSE_CODE
+  x = x[order(x$COURSE_CODE),]
   return (x)
 }
 
 
-# grab file names in the "old_data" folder
+# grab file names in the "old_data" folder 
 # make sure they are all CSVs you want to run the code on
 files = list.files("NEW SOC files from Frank 10-28-22/")
 # names(files)
@@ -79,7 +98,7 @@ for (i in 1:length(dataframes)){
 master_df$COURSE_CODE = trimws(master_df$COURSE_CODE, which = c("right"))
 
 # now write it out
-write.csv(master_df, "2020-2022_data.csv", row.names=FALSE)
+write.csv(master_df, "20202-20231_data.csv", row.names=FALSE)
 
 
 

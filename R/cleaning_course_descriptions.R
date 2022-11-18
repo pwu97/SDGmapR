@@ -5,7 +5,7 @@ library(stringr)
 
 
 # first going to combine AY19 data with AY21, AY22, and AY23 data
-old = read.csv("usc_courses.csv")
+old = read.csv("old_usc_courses.csv")
 new = read.csv("new_usc_courses.csv")
 usc_courses = rbind(old, new)
 

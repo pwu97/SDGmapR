@@ -28,7 +28,7 @@ clean_data = function (raw_data){
 }
 
 #takes awhile to run this line
-clean_data = clean_data(data)
+cleaned = clean_data(data)
 
 # now need to get the semester format right, need F20, SU20, SP20 etc.
 # right now it is in format 20202_SUMMER, 20212_SUMMER
@@ -97,7 +97,7 @@ transform_data = function(course_data){
   return (course_data)
 }
 
-data_final = transform_data(clean_data)
+data_final = transform_data(cleaned)
 
 write.csv(data_final, "new_usc_courses.csv",row.names = F)
 

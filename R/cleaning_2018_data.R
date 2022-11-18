@@ -4,6 +4,8 @@
 
 library(tidyverse)
 
+data = read.csv("20182-20191_data.csv")
+
 clean_data = function (raw_data){
   # grab only the rows without an exclude flag
   data_clean = raw_data[raw_data$Exclude.Flag == 0, ]
@@ -21,11 +23,12 @@ clean_data = function (raw_data){
     counts = c(counts, rows)
   }
   data_unique["N.Sections"] = counts
+  
+  # order them by year like it is in the newer data files
+  data_unique = data_unique[order(data_unique$"Rcl.Term"), ]
   return (data_unique)
 }
 
-# using function to clean usc raw course data
-data = read.csv("USC_FULL_COURSE_LIST_20182_20183_20191.csv")
 usc_courses = clean_data(data)
 
 
@@ -68,11 +71,10 @@ transform_data = function(course_data){
   # create year column
   course_data$year = "AY19" #is this ay19 or ay18??
   # select relevant columns for the Shiny App
-  course_data = course_data[, c("course_title", "semester", "courseID", "section", "course_desc", "department", "N.Sections", "year")]
-  
+  course_data = course_data[, c("courseID", "course_title", "semester", "section", "course_desc", "department", "N.Sections", "year")]
   return (course_data)
 }
 
 classes = transform_data(usc_courses)
-write.csv(classes, "usc_courses.csv",row.names = F)
+write.csv(classes, "old_usc_courses.csv",row.names = F)
 

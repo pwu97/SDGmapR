@@ -23,6 +23,7 @@ for (goal_num in 1:17) {
 #create a copy because that code took 30+ minutes to run
 all_sdg_keywords_copy = all_sdg_keywords
 
+
 #now join it with cmu to get color and weight
 all_sdg_keywords_copy %>%
   left_join(cmu_usc_keywords, by = c("goal", "keyword")) %>%

@@ -1,7 +1,12 @@
 # tabulate_sdg_keywords function, wrtiten by Peter Wu
 
+##### IMPORTANT
+#####
 # MAKE SURE TO RUN THIS LINE BEFORE THE FUNCTION!
 cmu_usc = read.csv("filtered_keywords.csv")
+######
+######
+
 
 tabulate_sdg_keywords <- Vectorize(function(text, sdg, keywords="cmu_usc",
                                             count_repeats=FALSE) {
