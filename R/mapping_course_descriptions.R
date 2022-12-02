@@ -27,7 +27,7 @@ all_sdg_keywords_copy = all_sdg_keywords
 #now join it with cmu to get color and weight
 all_sdg_keywords_copy %>%
   left_join(cmu_usc_keywords, by = c("goal", "keyword")) %>%
-  select(courseID, course_title, section, semester, keyword, goal, weight, color, course_desc, department, N.Sections, year) %>%
+  select(courseID, course_title, section, semester, keyword, goal, weight, color, course_desc, clean_course_desc, department, N.Sections, year) %>%
   arrange(courseID) -> all_sdg_keywords_copy
 
 

@@ -161,7 +161,7 @@ ui <- dashboardPage( skin="black",
                            "Sustainability incorporates protection for the environment, 
                            balancing a growing economy, and social responsibility to lead to an 
                            improved quality of life for current and future generations. Here, 
-                           we have created a program in collaboration with Carnegie Mellon University 
+                           we have created a tool in collaboration with Carnegie Mellon University 
                            to elevate awareness of sustainability in higher education."),
                                                          br(),
                                                 fluidRow(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"))
@@ -183,9 +183,9 @@ ui <- dashboardPage( skin="black",
                                  (Source Code Developers: PSIP Intern- Brian Tinsley and Data Analyst- Dr. Julie Hopper) 
                                  with Carnegie Mellon University (Source Code Developers: Director of Sustainability 
                                  Initiatives - Alex Hinicker and Undergraduate Alumni - Peter Wu). CMU’s original 
-                                 version of this program can be found at CMU SDG Mapping. All of the datasets and 
-                                 source code used in this dashboard are open-source and can be found through our 
-                                 Github page."),
+                                 version of this program can be found at", a("CMU SDG Mapping.", href="https://github.com/CMUSustainability/SDGmapR"), "All of the datasets and 
+                                 source code used in this dashboard are open-source and can be found through", a("our
+                                 Github page.", href="https://github.com/USC-Office-of-Sustainability/USC-SDGmap")),
                                               
                                               h3(strong("What are the UN’s 17 Sustainability Development Goals (SDGs)?"),
                                                  "The 2030 Agenda for Sustainable Development was adopted in 2015 by all UN member 
@@ -210,7 +210,7 @@ ui <- dashboardPage( skin="black",
                                                    departments that are ‘sustainability-focused’, ‘sustainability-inclusive’ or ‘not-related’ to 
                                                    sustainability. To count as sustainability-inclusive, a course has to map to at least one of the 17 UN SDGs. 
                                                    To count as sustainability-focused, a course has to map to a combination of SDGs that includes at least one environmental 
-                                                   SDG and at least one economic or social SDG. ‘Sustainability-focused’ departments have at least 
+                                                   SDG (13, 14, 15) and at least one economic or social SDG (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17). ‘Sustainability-focused’ departments have at least 
                                                    one program (major, minor or graduate degree program) that requires at least 1 sustainability focused course. 
                                                    ‘Sustainability-inclusive’ departments have at least one program that requires at least one sustainability-inclusive course."),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
@@ -314,7 +314,7 @@ server <- function(input, output, session) {
     if (length(input$user_classes) > 0){ #first make sure they typed something in
       
     class_list <- classes %>%
-      filter(courseID == input$user_classes) %>% #changed from section
+      filter(courseID %in% input$user_classes) %>% #changed from section
       distinct(section, .keep_all = TRUE) %>%
       select(courseID) %>%
       unique() %>%
@@ -373,7 +373,7 @@ server <- function(input, output, session) {
            x = "SDG",
            y = "Total SDG Weight") +
       guides(alpha = FALSE) +
-      theme(text = element_text(size = 18)) +
+      theme(text = element_text(size = 18, face= "bold")) +
       scale_fill_manual(values = sdg_class_keyword_colors)
     
     return(sdg_class_goal_barplot)
@@ -408,7 +408,7 @@ server <- function(input, output, session) {
            x = "SDG Keyword",
            y = "Total SDG Weight") +
       scale_fill_manual(values = sdg_class_keyword_colors) +
-      theme(text = element_text(size = 18))
+      theme(text = element_text(size = 18, face= "bold"))
     
     # ggsave(plot = sdg_class_keyword_barplot, filename = paste0(input$cmu_classes, "_top_goals.pdf"),
     #    device = "pdf")
@@ -496,7 +496,7 @@ server <- function(input, output, session) {
       labs(title = paste0("Top 10 Classes that Map to SDG", input$sdg_goal1),
            x = "Course",
            y = "Total SDG Weight") +
-      theme(text = element_text(size = 20))
+      theme(text = element_text(size = 20, face="bold"))
     
     # ggsave(plot = goals_to_classes_barplot, filename = paste0("sdg_", input$sdg_goal1, "_top_classes.pdf"),
     #        device = "pdf")
@@ -554,78 +554,13 @@ server <- function(input, output, session) {
   }, rownames=FALSE)
   
   
-  # output$pie1 <- renderPlot({
-  #   pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
-  #   # filter(semester == input$usc_semester_pie)
-  #   nr = sum(pie_data$sustainability_classification == "Not Related")
-  #   foc = sum(pie_data$sustainability_classification == "Focused")
-  #   inc = sum(pie_data$sustainability_classification == "Inclusive")
-  #   vals=c(nr, foc, inc)
-  #   pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c(" Not Related", " Focused", " Inclusive"))
-  #   result = pie(vals, labels = pie_labels, main="Proportion of Sustainability Related Courses (n=6461)")
-  #   return(result)
-  # })
-  
-  # output$pie1_numbers <- renderText({
-  #   pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
-  #   # filter(semester == input$usc_semester_pie)
-  #   nr = sum(pie_data$sustainability_classification == "Not Related")
-  #   foc = sum(pie_data$sustainability_classification == "Focused")
-  #   inc = sum(pie_data$sustainability_classification == "Inclusive")
-  #   vals=c(nr, foc, inc)
-  #   return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
-  # })
-  
-  
-  # output$pie2 <- renderPlot({
-  #   pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
-  #   sum_notrelated = 0
-  #   sum_inclusive = 0
-  #   sum_focused = 0
-  #   for (i in 1:nrow(pie_data)){
-  #     if (pie_data$sustainability_classification[i] == "Not Related"){
-  #       sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
-  #     }
-  #     if (pie_data$sustainability_classification[i] == "Inclusive"){
-  #       sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
-  #     }
-  #     if (pie_data$sustainability_classification[i] == "Focused"){
-  #       sum_focused = sum_focused + pie_data$N.Sections[i]
-  #     }
-  #   }
-  #   vals=c(sum_notrelated, sum_focused, sum_inclusive)
-  #   pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c(" Not Related", " Focused", " Inclusive"))
-  #   result = pie(vals, labels = pie_labels, main="Sustainability Related Classes (n=19539)")
-  #   return(result)
-  # })
-  
-  # output$pie2_numbers <- renderText({
-  #   pie_data <- sustainability_related # have not yet filtered by semester, need to add columns to dataframe
-  #   sum_notrelated = 0
-  #   sum_inclusive = 0
-  #   sum_focused = 0
-  #   for (i in 1:nrow(pie_data)){
-  #     if (pie_data$sustainability_classification[i] == "Not Related"){
-  #       sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
-  #     }
-  #     if (pie_data$sustainability_classification[i] == "Inclusive"){
-  #       sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
-  #     }
-  #     if (pie_data$sustainability_classification[i] == "Focused"){
-  #       sum_focused = sum_focused + pie_data$N.Sections[i]
-  #     }
-  #   }
-  #   vals=c(sum_notrelated, sum_focused, sum_inclusive)
-  #   return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
-  # })
-  
-  # sustainability related departments
+  # sustainability related departments pie chart
   output$pie3 <- renderPlot({
     pie_data <- sustainability_related %>% filter(year %in% input$usc_year)
     department = unique(pie_data$department) # theres 179 departments
     departments = data.frame(department)
     # split courses into df by department and see if theres focused course or not
-    total = length(departments$department)
+    # total = length(departments$department)
     notrelated = 0
     inclusive = 0
     focused = 0
@@ -645,62 +580,26 @@ server <- function(input, output, session) {
       }
     }
     vals=c(notrelated, focused, inclusive)
-    labels=c("Not Related", "Focused", "Inclusive")
+    labels=c(paste("Not Related (N=", notrelated, ")", sep = ""), paste("Focused (N=", focused, ")", sep=""), paste("Inclusive (N=", inclusive, ")", sep=""))
+    pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%")
     pie = data.frame(labels, vals)
-    pie2 <- pie %>% 
-      mutate(csum = rev(cumsum(rev(vals))), 
-             pos = vals/2 + lead(csum, 1),
-             pos = if_else(is.na(pos), vals/2, pos))
-    # ggplot(pie, aes(x = "", y = vals, fill = labels)) +
-    #   geom_col() +
-    #   coord_polar(theta = "y")
     ggplot(pie, aes(x = "", y = vals, fill = labels)) +
       geom_col(color = "black") +
-      # ggtitle("Title") +
-      geom_label_repel(data = pie2,
-                       aes(y = pos, label = paste0(vals)),
-                       size = 4.5, nudge_x = 1, show.legend = FALSE) +
-      geom_text(aes(label = vals),
-                position = position_stack(vjust = 0.5)) +
       coord_polar(theta = "y") +
+      geom_label(aes(label = pie_labels),
+                 fill = "white", color = "black", size = 6.5, fontface="bold",
+                 position = position_stack(vjust = 0.5),
+                 show.legend = FALSE) +
       scale_fill_manual(values = c("#990000", 
                                    "#FFC72C", "#767676")) +
-      theme_void()
-    # pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%", labels=c("Not Related", " Focused", " Inclusive"))
-    # result = pie(vals, labels = pie_labels, main="Sustainability Related Departments (n=179)")
-    # return(result)
+      guides(fill = guide_legend(title = "Sustainability Classification")) + 
+      # guides(color = guide_legend(override.aes = list(size = 10))) + 
+      theme_void() + 
+      theme(legend.key.size = unit(1.5, 'cm'), legend.text = element_text(size=20), legend.title = element_text(size=25))
   })
   
-  # output$pie3_numbers <- renderText({
-  #   pie_data <- sustainability_related
-  #   department = unique(pie_data$department) # theres 179 departments
-  #   departments = data.frame(department)
-  #   # split courses into df by department and see if theres focused course or not
-  #   total = length(departments$department)
-  #   notrelated = 0
-  #   inclusive = 0
-  #   focused = 0
-  #   for (i in 1:nrow(departments)){
-  #     mini_df = pie_data[pie_data$department == departments$department[i], ]
-  #     department_classifications = unique(mini_df$sustainability_classification)
-  #     if ("Focused" %in% department_classifications){
-  #       focused = focused + 1
-  #       next
-  #     }
-  #     else if ("Inclusive" %in% department_classifications){
-  #       inclusive = inclusive + 1
-  #       next
-  #     }
-  #     else{
-  #       notrelated = notrelated + 1
-  #     }
-  #   }
-  #   vals=c(notrelated, focused, inclusive)
-  #   return(paste("Not Related:", vals[1], "Focused:", vals[2], "Inclusive:", vals[3]))
-  #   
-  # })
   
-  # sustainability courses offered
+  # sustainability courses offered pie chart
   output$pie4 <- renderPlot({
     pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
     sum_notrelated = 0
@@ -709,40 +608,36 @@ server <- function(input, output, session) {
     for (i in 1:nrow(pie_data)){
       if (pie_data$sustainability_classification[i] == "Not Related"){
         sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        next
       }
       if (pie_data$sustainability_classification[i] == "Inclusive"){
         sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        next
       }
       if (pie_data$sustainability_classification[i] == "Focused"){
         sum_focused = sum_focused + pie_data$N.Sections[i]
+        next
       }
     }
     vals=c(sum_notrelated, sum_focused, sum_inclusive)
-    labels=c("Not Related", "Focused", "Inclusive")
+    labels=c(paste("Not Related (N=", sum_notrelated, ")", sep = ""), paste("Focused (N=", sum_focused, ")", sep=""), paste("Inclusive (N=", sum_inclusive, ")", sep=""))
+    pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%")
     pie = data.frame(labels, vals)
-    pie = data.frame(labels, vals)
-    pie2 <- pie %>% 
-      mutate(csum = rev(cumsum(rev(vals))), 
-             pos = vals/2 + lead(csum, 1),
-             pos = if_else(is.na(pos), vals/2, pos))
-    # ggplot(pie, aes(x = "", y = vals, fill = labels)) +
-    #   geom_col() +
-    #   coord_polar(theta = "y")
-    
-    # pie(pie$vals, labels=paste(round(prop.table(vals)*100), "%", sep=""), col= c("#767676", "#990000", "#FFC72C"), radius=1)
-    
     ggplot(pie, aes(x = "", y = vals, fill = labels)) +
       geom_col(color = "black") +
-      # ggtitle("Title") +
-      geom_label_repel(data = pie2,
-                       aes(y = pos, label = paste0(vals)),
-                       size = 4.5, nudge_x = 1, show.legend = FALSE) +
-      geom_text(aes(label = vals),
-                position = position_stack(vjust = 0.5)) +
       coord_polar(theta = "y") +
-      scale_fill_manual(values = c("#990000",
+      # geom_text(aes(label = pie_labels), #changed
+      #           position = position_stack(vjust = 0.5)) +
+      geom_text(aes(label = pie_labels),
+                 fill = "white", color = "white", size = 4.5, fontface="bold",
+                 position = position_stack(vjust = 0.5),
+                 show.legend = FALSE) +
+      scale_fill_manual(values = c("#990000", 
                                    "#FFC72C", "#767676")) +
-      theme_void()
+      guides(fill = guide_legend(title = "Sustainability Classification")) + 
+      # guides(color = guide_legend(override.aes = list(size = 10))) + 
+      theme_void() + 
+      theme(legend.key.size = unit(1.5, 'cm'), legend.text = element_text(size=20), legend.title = element_text(size=25))
   })
   
   # sustainability departments table
@@ -815,7 +710,7 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG Keyword",
            y = "Total SDG Weight") +
-      theme(text = element_text(size = 20)) +
+      theme(text = element_text(size = 20, face="bold")) +
       scale_fill_manual(values = sdg_class_keyword_colors)
     
     
@@ -864,7 +759,7 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG",
            y = "Total SDG Weight") +
-      theme(text = element_text(size = 20)) +
+      theme(text = element_text(size = 20, face="bold")) +
       guides(alpha = FALSE) +
       scale_fill_manual(values = sdg_class_keyword_colors)
     

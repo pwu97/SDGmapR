@@ -7,6 +7,6 @@ filter = function(data, threshold){
   return(mini_df)
 }
 
-keywords = read.csv("cmu_usc_pwg_SDG_Keywords_corrected_10_11_22.csv")
+keywords = read.csv("updated_keywords_11-28.csv")
 filtered = filter(keywords, 0.2)
 write.csv(filtered, "filtered_keywords.csv", row.names=F)

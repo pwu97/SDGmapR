@@ -34,19 +34,17 @@ clean_file = function(table) {
     newname = gsub("[.]", "", names(x)[i]) # removes all dots
     names(x)[i] = newname
   }
+  
   for (i in 1:nrow(x)){
-    # get the department
-    split = strsplit(x[i, "COURSE_CODE"], split="-")
-    term = split[[1]][1]
-    x[i, "DEPARTMENT"] = term
-    
-    # also going to get rid of whitespace
+    # going to get rid of whitespace
     x[i, ] = gsub("  ", "", x[i,])
     
     # going to fix the classes that start with - like "-CHE 490.00"
     if (startsWith(x$COURSE_CODE[i],"-")){
+      print(i)
       # get rid of the .00 first
       if (grepl(".", x$COURSE_CODE[i])){
+        print(i)
         x$COURSE_CODE[i] = gsub("\\..*", "", x$COURSE_CODE[i])
       }
       # replace the starting - with a nothing
@@ -56,9 +54,16 @@ clean_file = function(table) {
       x$COURSE_CODE[i] = gsub(y, "-", x$COURSE_CODE[i])
     }
     
+    # get the department
+    split = strsplit(x[i, "COURSE_CODE"], split="-")
+    term = split[[1]][1]
+    x[i, "DEPARTMENT"] = term
+    
   }
   # alphabetize the COURSE_CODE
   x = x[order(x$COURSE_CODE),]
+  # remove hanging whitespace in course code
+  x$COURSE_CODE = trimws(x$COURSE_CODE, which = c("right"))
   return (x)
 }
 
@@ -66,8 +71,6 @@ clean_file = function(table) {
 # grab file names in the "old_data" folder 
 # make sure they are all CSVs you want to run the code on
 files = list.files("NEW SOC files from Frank 10-28-22/")
-# names(files)
-
 
 # going to apply the function to each file and write a new csv in "clean_data" folder
 # this loop will also get the "origin" column from the file name
@@ -99,6 +102,7 @@ master_df$COURSE_CODE = trimws(master_df$COURSE_CODE, which = c("right"))
 
 # now write it out
 write.csv(master_df, "20202-20231_data.csv", row.names=FALSE)
+
 
 
 

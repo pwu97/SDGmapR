@@ -88,7 +88,7 @@ transform_data = function(course_data){
   # create course column
   course_data$course_title = course_data$COURSE_TITLE
   # create department column
-  course_data$department = course_data$DEPTOWNERNAME #this is not actually the department its the school
+  course_data$department = course_data$DEPARTMENT #changed this from departmentowner name
   # create year column
   course_data$year = get_year(course_data$origin)
   # select relevant columns for the Shiny App

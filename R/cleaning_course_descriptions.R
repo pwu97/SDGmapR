@@ -108,6 +108,31 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
+    # application security
+    if (tolower(x[j]) == "security"){
+      if (tolower(x[j-1]) == "application"){
+        print(i)
+        x[j] = "domain"
+      }
+    }
+    # to produce
+    if (tolower(x[j]) == "produce"){
+      if (tolower(x[j-1]) == "to"){
+        print(i)
+        x[j] = "domain"
+      }
+    }
+    # art preservaton, wealth preservation
+    if (tolower(x[j]) == "preservation"){
+      if (tolower(x[j-1]) == "wealth"){
+        print(i)
+        x[j] = "domain"
+      }
+      if (tolower(x[j-1]) == "art"){
+        print(i)
+        x[j] = "domain"
+      }
+    }
   }
   usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
 }
@@ -124,6 +149,11 @@ for (i in 1:nrow(usc_courses)){
   for (j in 1:(length(x)-5)){
     if (tolower(x[j]) == "environment"){
       if (tolower(x[j+3]) == "air" && tolower(x[j+4]) == "force" && tolower(x[j+5]) == "officer"){
+        print(i)
+        x[j] = "domain"
+      }
+      #typo 3 f's in officer
+      if (tolower(x[j+3]) == "air" && tolower(x[j+4]) == "force" && tolower(x[j+5]) == "offficer"){
         print(i)
         x[j] = "domain"
       }
@@ -261,7 +291,46 @@ for (i in 1:nrow(usc_courses)){
         print(i)
         x[j] = "domain"
       }
-      
+    }
+    # words after advanced 
+    if (tolower(x[j]) == "advanced"){
+      if (tolower(x[j+1]) == "coverage"){
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "accounting"){
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "students"){
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "air" && tolower(x[j+2]) == "forcer"){
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "pronunciation"){
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "level"){
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "oral"){
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "academic"){
+        x[j] = "domain"
+      }
+    }
+    # words after produce
+    if (tolower(x[j]) == "produce"){
+      if (tolower(x[j+1]) == "persuasive"){
+        x[j] = "domain"
+      }
+    }
+    # green screen footage
+    if (tolower(x[j]) == "green"){
+      if (tolower(x[j+1]) == "screen" && tolower(x[j+2]) == "footage"){
+        print(i)
+        x[j] = "domain"
+      }
     }
   }
   usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
@@ -395,6 +464,14 @@ for (i in 1:nrow(usc_courses)){
       if (tolower(x[j-2]) == "filtering" && tolower(x[j-3]) == "image"){
         print(i)
         x[j] = "repair"
+      }
+    }
+    
+    # fix degrees of freedom
+    if (tolower(x[j]) == "freedom"){
+      if (tolower(x[j-2]) == "degrees" && tolower(x[j-1]) == "of"){
+        print(i)
+        x[j] = "domain"
       }
     }
     
