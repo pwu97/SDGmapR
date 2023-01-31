@@ -53,7 +53,9 @@ ui <- dashboardPage( skin="black",
                          menuItem("Find Classes by SDGs", tabName = "4"),
                          menuItem("All Sustainability-Related Classes", tabName = "5"),
                          menuItem("Map Your Classes", tabName = "6"),
-                         menuItem("FAQ", tabName = "7")
+                         menuItem("Search by GE Requirements", tabName = "8"),
+                         menuItem("Sustainability Focused Programs", tabName="9"),
+                         menuItem("FAQ", tabName = "10")
                        )
                      ),
                      
@@ -74,9 +76,12 @@ ui <- dashboardPage( skin="black",
                                                            href="https://sustainability.usc.edu/assignment-earth/", target="_blank")),
                                                 fluidRow(h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
                                                          commitment to addressing the impacts of climate change and creating a more just, equitable, and 
-                                                         sustainable future. It’s a big assignment. ", strong("We’re all in!")), br())
+                                                         sustainable future. It’s a big assignment. ", strong("We’re all in!")), br()),
+                                                fluidRow(h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                            "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu")))
                                               ) #end fluid page
-                                      ), # end tab item 1
+                                      ), # end tabitem 1
                                       
                                       
                                       tabItem(tabName = "2",
@@ -103,13 +108,17 @@ ui <- dashboardPage( skin="black",
                                                 h1("SDG Keywords Table"),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("keywords_table"))
-                                                ))
-                                              )
-                                      ), # end tab item 2
+                                                )),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                              ) # end fluidpage
+                                      ), # end tabitem 2
                                       
                                       
                                       tabItem(tabName = "3",
-                                              tabPanel("All", fluidPage(
+                                              # tabPanel("All", fluidPage(
+                                              fluidPage(
                                                 h1("Find SDGs by Classes"),
                                                 h4(""),
                                                 h3("Select a USC semester and course ID below to view the SDG mapping for 
@@ -143,8 +152,11 @@ ui <- dashboardPage( skin="black",
                                                 h1("Keyword Table"),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("classes_table"))
-                                                ))
-                                              ))
+                                                )),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                                ) # end fluidpage
                                       ),#end tabitem 3
                                       
                                       
@@ -161,7 +173,8 @@ ui <- dashboardPage( skin="black",
                                                                                          choices = unique(classes$semester))),
                                                 div(style="font-size:24px;", pickerInput(inputId = "department_input", 
                                                                                             label = "Choose Department", 
-                                                                                            choices = unique(classes$department),
+                                                                                            # choices = unique(classes$department),
+                                                                                            choices = NULL,
                                                                                             options = list(maxOptions = 10000, `actions-box` = TRUE),multiple = T)),
                                                 div(style="font-size:24px;", selectizeInput(inputId = "sdg_goal1", 
                                                                                             label = "Choose SDG", 
@@ -174,8 +187,11 @@ ui <- dashboardPage( skin="black",
                                                 h1(textOutput("sdg_name")),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("top_classes_sdg_table"))
-                                                ))
-                                              )
+                                                )),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                              ) #end fluidpage
                                       ), #end tabitem4
                                       
                                       
@@ -201,8 +217,11 @@ ui <- dashboardPage( skin="black",
                                                 fluidRow(column(6, plotOutput("pie3"))),
                                                 h3("Department Sustainability Classification Table"),
                                                 column(12, DT::dataTableOutput("sustainability_table")),
-                                              ) # end fluid page
-                                      ), # end tab item 5
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                              ), # end fluid page
+                                      ), # end tabitem 5
                                       
                                       
                                       tabItem(tabName = "6",
@@ -236,12 +255,35 @@ ui <- dashboardPage( skin="black",
                                                 h3("Your Classes"),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("user_table"))
-                                                ))
+                                                )),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
                                               )#end fluid page
-                                      ),# end tab item 6
+                                      ),# end tabitem 6
                                       
                                       
-                                      tabItem(tabName = "7",
+                                      tabItem(tabName="8",
+                                              fluidPage(
+                                                h1("Search by GE Requirements"),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                              ), #end fluid page
+                                      ), #end tabitem 8
+                                      
+                                      
+                                      tabItem(tabName="9",
+                                              fluidPage(
+                                                h1("Sustainability-Focused Programs"),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                              ), #end fluid page
+                                      ), #end tabitem 9
+                                      
+                                      
+                                      tabItem(tabName = "10",
                                               fluidPage(
                                               h2(strong("FAQ")),
                                               h3(strong("How Do I Use this Dashboard?"), "You can choose your search function in 
@@ -274,8 +316,12 @@ ui <- dashboardPage( skin="black",
                                     “Mapping the 17 SDGs” to learn more."),
                                               
                                               h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please contact: oosdata@usc.edu"),
-                                      )) #end tabitem 7
-                                    )#end tabitems
+                                              h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                              "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
+                                              by donating here. More Questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                              ) #end fluidpage
+                                    ) #end tabitem 10
+                                  )#end tabitems
                      )#end dashboard body
 ) #end UI
 
