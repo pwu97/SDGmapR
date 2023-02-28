@@ -82,5 +82,6 @@ write.csv(sustainability, "sustainability_related_courses.csv", row.names = F)
 
 # want to create a dataframe with more information for pie charts using joins
 sustainability = read.csv("sustainability_related_courses.csv")
-course_data = usc_courses %>% left_join(sustainability, by="courseID", all.x = T)
+# course_data = usc_courses %>% left_join(sustainability, by="courseID", all.x = T)
+course_data = usc_courses %>% left_join(sustainability, by="courseID")
 write.csv(course_data, "usc_courses_full.csv", row.names = F)

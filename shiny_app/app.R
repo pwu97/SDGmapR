@@ -41,6 +41,19 @@ exclude_words <- c() #this has already been accounted for in earlier code
 # data for pie chart
 sustainability_related = read.csv("usc_courses_full.csv")
 
+# data for GE's
+ge_data = read.csv("ge_data.csv")
+
+# for the ordering of GE's in dropdown
+values = c("Category I", "Category II", "Category III", "Category IV", "Category V", "Category VI", "A", "B", "C",
+           "D", "E", "F", "G", "H")
+names = c("Western Cultures and Traditions", "Global Cultures and Traditions", "Scientific Inquiry", "Science and Its Significance ",
+          "Arts and Letters", "Social Issues", "The Arts", "Humanistic Inquiry", "Social Analysis", "Life Sciences", "Physical Sciences",
+          "Quantitative Reasoning", "Citizenship in a Diverse World", "Traditions and Historical Foundations")
+key = data.frame(value = values, name = names)
+key$full_name = paste(key$value, key$name, sep=" - ")
+ge_names = key$full_name
+
 
 ### Begin Shiny App Code ###
 
@@ -54,10 +67,10 @@ ui <- dashboardPage( skin="black",
                      dashboardSidebar(
                        sidebarMenu(
                          menuItem("Home (About)", tabName = "1"),
-                         menuItem("FAQ", tabName = "10"),
+                         menuItem("FAQ", tabName = "2"),
                          # menuItem("Mapping the 17 SDGs", tabName = "2"),
-                         menuItem("Map Your Classes", tabName = "6"),
-                         menuItem("Find SDGs by Classes", tabName = "3"),
+                         menuItem("Map Your Classes", tabName = "3"),
+                         menuItem("Find SDGs by Classes", tabName = "6"),
                          menuItem("Find Classes by SDGs", tabName = "4"),
                          menuItem("All Sustainability-Related Classes", tabName = "5"),
                          menuItem("Search by GE Requirements", tabName = "8"),
@@ -80,18 +93,52 @@ ui <- dashboardPage( skin="black",
                                                 br(),
                                                 fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
                                                            href="https://sustainability.usc.edu/assignment-earth/", target="_blank")),
-                                                fluidRow(h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
+                                                h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
                                                          commitment to addressing the impacts of climate change and creating a more just, equitable, and 
-                                                         sustainable future. It’s a big assignment. ", strong("We’re all in!")), br()),
-                                                fluidRow(h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                            "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                            "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu")))
+                                                         sustainable future. It’s a big assignment. ", strong("We’re all in!")), br(),
+                                                
+                                                h1("Mapping the 17 SDGs"),
+                                                h3("The SDGs were adopted by all United Nations Member States in 2015, providing a shared blueprint for peace and prosperity 
+                                                   for people and the planet, now and into the future. The SDGs are an urgent call for action by all countries - developed and 
+                                                   developing - in a global partnership. They recognize that ending poverty and other deprivations must go hand-in-hand with 
+                                                   strategies that improve health and education, reduce inequality, and spur economic growth – all while tackling climate 
+                                                   change and working to preserve our oceans and forests. Below displays a wordcloud for the keywords for each SDG. The keywords 
+                                                   were edited by USC’s Office of Sustainability staff and interns as well as the USC Presidential Working Group. These keywords 
+                                                   evolved from lists suggested by Elsevier and Carnegie Mellon University."),
+                                
+                                                
+                                                # h3("Below displays a wordcloud for the top keywords for each SDG.
+                                                #   The keywords come from the ", a("CMU250 keywords list,", href="https://github.com/CMUSustainability/SDGmapR/tree/main/data", target="_blank"), 
+                                                #    "and the weights of the words relative to each SDG 
+                                                #       were calculated using ",a("Google's word2vec.", href="https://code.google.com/archive/p/word2vec/", target="_blank"), "These word and weight 
+                                                #        combinations are the criteria for the course mappings in the other pages of this website."),
+                                                # h3("In the near future, this list will be updated to a USC and CMU combined list with the input of
+                                                #              the PWG. To see the words in a CSV file format, please see the ",a("USC-SDGmap package.", href="https://github.com/USC-Office-of-Sustainability/USC-SDG-Curriculum", target="_blank")),
+                                                h2("Select an SDG below to see its most relevant keywords."),
+                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
+                                                             If you have feedback, please email: oosdata@usc.edu"),
+                                                div(style="font-size:24px;",
+                                                    selectizeInput(inputId = "sdg_goal3", label = "Choose SDG", choices = goals
+                                                    )),
+                                                tags$head(tags$style(HTML(".selectize-input {height: 45px; width: 450px; font-size: 24px;}"))),
+                                                fluidRow(bootstrapPage(
+                                                  column(6, plotOutput(outputId = "visualize_sdg"),br()),
+                                                  column(6, img(src = "un_17sdgs.png", width = "100%"))
+                                                )),
+                                                h1("SDG Keywords Table"),
+                                                fluidRow(bootstrapPage(
+                                                  column(12, DT::dataTableOutput("keywords_table"))
+                                                )),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
+                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu")),
+                                                
                                               ) #end fluid page
                                       ), # end tabitem 1
                                       
                                       
-                                      tabItem(tabName = "10",
+                                      tabItem(tabName = "2",
                                               fluidPage(
                                                 h2(strong("FAQ")),
                                                 h3(strong("How Do I Use this Dashboard?"), "You can choose your search function in 
@@ -125,40 +172,15 @@ ui <- dashboardPage( skin="black",
                                                 
                                                 h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please contact: oosdata@usc.edu"),
                                                 br(), br(), br(),
-                                                
-                                                
-                                                h1("Mapping the 17 SDGs"),
-                                                h3("Below displays a wordcloud for the top keywords for each SDG.
-                           The keywords come from the ", a("CMU250 keywords list,", href="https://github.com/CMUSustainability/SDGmapR/tree/main/data", target="_blank"), 
-                                                   "and the weights of the words relative to each SDG 
-                           were calculated using ",a("Google's word2vec.", href="https://code.google.com/archive/p/word2vec/", target="_blank"), "These word and weight 
-                           combinations are the criteria for the course mappings in the other pages of this website."),
-                                                h3("In the near future, this list will be updated to a USC and CMU combined list with the input of
-                           the PWG. To see the words in a CSV file format, please see the ",a("USC-SDGmap package.", href="https://github.com/USC-Office-of-Sustainability/USC-SDG-Curriculum", target="_blank")),
-                                                h2("Select an SDG below to see its most relevant keywords by weight."),
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                   If you have feedback, please email: oosdata@usc.edu"),
-                                                div(style="font-size:24px;",
-                                                    selectizeInput(inputId = "sdg_goal3", label = "Choose SDG", choices = goals
-                                                    )),
-                                                tags$head(tags$style(HTML(".selectize-input {height: 45px; width: 450px; font-size: 24px;}"))),
-                                                fluidRow(bootstrapPage(
-                                                  column(6, plotOutput(outputId = "visualize_sdg"),br()),
-                                                  column(6, img(src = "un_17sdgs.png", width = "100%"))
-                                                )),
-                                                h1("SDG Keywords Table"),
-                                                fluidRow(bootstrapPage(
-                                                  column(12, DT::dataTableOutput("keywords_table"))
-                                                )),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu")),
+                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
                                               ) #end fluidpage
-                                      ), #end tabitem 10
+                                      ), #end tabitem 2
                                       
                                       
-                                      tabItem(tabName = "3",
+                                      tabItem(tabName = "6",
                                               # tabPanel("All", fluidPage(
                                               fluidPage(
                                                 h1("Find SDGs by Classes"),
@@ -276,7 +298,7 @@ ui <- dashboardPage( skin="black",
                                       ), # end tabitem 5
                                       
                                       
-                                      tabItem(tabName = "6",
+                                      tabItem(tabName = "3",
                                               fluidPage(
                                                 h1("Map Your Classes"),
                                                 h3("Select your classes below and see how your curriculum relates to the 17 SDGs."), 
@@ -313,12 +335,29 @@ ui <- dashboardPage( skin="black",
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
                                                             regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
                                               )#end fluid page
-                                      ),# end tabitem 6
+                                      ),# end tabitem 3
                                       
                                       
                                       tabItem(tabName="8",
                                               fluidPage(
                                                 h1("Search by GE Requirements"),
+                                                
+                                                # h3("All students at USC are required to fulfill their general education (GE) requirements."),
+                                                h3("Select a GE category below to see the sustainability related classes which satisfy that requirement."),
+                                                
+                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
+                                                   If you have feedback, please email: oosdata@usc.edu"),
+                                                div(style="font-size:24px;",selectInput(inputId = "ge_category",
+                                                                                        label = "Choose GE Category",
+                                                                                        selected = "",
+                                                                                        choices = ge_names)),
+                                                tags$head(tags$style(HTML(".selectize-input {height: 50px; width: 500px;}"))),
+                                                
+                                                h1(textOutput("ge_name")),
+                                                fluidRow(bootstrapPage(
+                                                  column(12, DT::dataTableOutput("ge_table"))
+                                                )),
+                                                
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
                                               by donating here. More questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
@@ -345,7 +384,7 @@ ui <- dashboardPage( skin="black",
 server <- function(input, output, session) {
   
   
-  ### tabitem2 -- MAPPING THE 17 SDGS ###
+  ### tabitem1 -- home(about) and MAPPING THE 17 SDGS ###
   
   output$visualize_sdg <- renderPlot({
     sdg_goal_keyword_df <- classes %>%
@@ -364,7 +403,7 @@ server <- function(input, output, session) {
   
   #sdg keywords table
   output$keywords_table <- DT::renderDataTable({
-    read_csv("filtered_keywords.csv") %>%
+    read_csv("usc_keywords.csv") %>%
       filter(!(keyword %in% exclude_words)) %>%
       filter(goal == as.numeric(substr(input$sdg_goal3, 1, 2))) %>%
       rename(Keyword = keyword,
@@ -377,7 +416,7 @@ server <- function(input, output, session) {
   
   
   
-  ### tabitem3 -- FIND SDGS BY CLASSES ###
+  ### tabitem6 -- FIND SDGS BY CLASSES ###
   
   #this part filters the classes by the semester chosen in input field
   observeEvent(input$usc_semester1,
@@ -998,6 +1037,34 @@ server <- function(input, output, session) {
       rename("Course ID" = courseID, "Course Description" = course_desc, "All Goals" = all_goals) %>%
       select("Course ID", "Course Description", "All Goals") %>%
       unique(by=c("courseID"))
+  }, rownames=FALSE)
+  
+  
+  
+  
+  
+  
+  ### tabitem 8 -- GE requirements
+  # trying to get Classes by SDGs table name
+  output$ge_name = renderText({
+    paste("All Classes Mapped to ", input$ge_category, sep="")
+  })
+  
+  output$ge_table <- DT::renderDataTable({
+      ge_data %>%
+        # filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
+        # filter(goal %in% input$sdg_goal1) %>%
+        # filter(department %in% input$department_input) %>%
+        filter(full_name == input$ge_category) %>%
+        # left_join(classes %>% select(section, courseID), by = "section") %>% 
+        # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
+        group_by(courseID) %>%
+        mutate(total_weight = sum(weight)) %>%
+        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
+        arrange(desc(total_weight)) %>%
+        distinct(courseID, .keep_all = TRUE) %>%
+        rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title.x, 'Total SDG Weight'= total_weight, "Course Description" = course_desc) %>%
+        select('Course ID', "Course Title", "Course Description", "Total SDG Weight")
   }, rownames=FALSE)
   
 }
