@@ -285,7 +285,7 @@ ui <- dashboardPage( skin="black",
                                                                                             options = list(maxOptions = 10000, `actions-box` = TRUE), multiple = T)),
                                                 div(style="font-size:24px;", pickerInput(inputId = "course_level_input",
                                                                                         label = "Restrict course level?",
-                                                                                        choices = c("All", "Graduate", "Undergrad lower division", "Undergrad upper division"),
+                                                                                        choices = c("All", "Undergrad lower division", "Undergrad upper division", "Graduate"),
                                                                                         options = list(height = 20))),
                                                                                         # choicesOpt = list(
                                                                                         # style = rep(("font-size:24px; line-height: 1.5;"),2)))),
@@ -422,7 +422,9 @@ server <- function(input, output, session) {
   
   
   #####
+  ##
   ##### tabitem3 -- MAP YOUR CLASSES ###
+  ##
   ##### 
   
   
@@ -756,7 +758,7 @@ server <- function(input, output, session) {
       # filter(semester == input$usc_semester1) %>%
       filter(courseID %in% input$usc_classes) %>%
       rename(SDG = goal , Keyword = keyword) %>%
-      select(SDG, Keyword)
+      select(Keyword, SDG)
   }, rownames=FALSE)
   
   
