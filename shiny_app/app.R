@@ -354,6 +354,12 @@ ui <- dashboardPage( skin="black",
                                                                                         choices = ge_names)),
                                                 tags$head(tags$style(HTML(".selectize-input {height: 50px; width: 500px;}"))),
                                                 
+                                                div(style="font-size:24px;", pickerInput(inputId = "ge_sdgs", 
+                                                                                         label = "Choose SDGs", 
+                                                                                         choices = seq(17),
+                                                                                         selected = seq(17),
+                                                                                         options = list(maxOptions = 10000, `actions-box` = TRUE), multiple = T)),
+                                                
                                                 h1(textOutput("ge_name")),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("ge_table"))
@@ -526,7 +532,7 @@ server <- function(input, output, session) {
       result = result %>% arrange(desc(sum_weight))
       
       goal_cols = goals[c(goals)]
-      print(result)
+      # print(result)
       
       barplot = result %>% ggplot(aes(x = reorder(goal, sum_weight), y = sum_weight, fill = factor(as.numeric(goal)))) +
         geom_col() +
@@ -741,7 +747,7 @@ server <- function(input, output, session) {
     sdg_class_keyword_wordcloud <- wordcloud(sdg_class_keywords,
                                              sdg_class_keyword_weights,
                                              colors = sdg_class_keyword_colors,
-                                             ordered.colors = TRUE)
+                                             ordered.colors = TRUE, scale=c(3,1))
     
     return(sdg_class_keyword_wordcloud)
   })
