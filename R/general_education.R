@@ -49,7 +49,6 @@ master = read.csv("master_course_sdg_data.csv")
 # keep all our GE classes, grab matching rows from master
 result = left_join(df, master, by="courseID")
 
-
 write.csv(result, "ge_data.csv", row.names=F)
 
 

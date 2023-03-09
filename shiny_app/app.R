@@ -52,9 +52,9 @@ values = c("Category I", "Category II", "Category III", "Category IV", "Category
 names = c("Western Cultures and Traditions", "Global Cultures and Traditions", "Scientific Inquiry", "Science and Its Significance ",
           "Arts and Letters", "Social Issues", "The Arts", "Humanistic Inquiry", "Social Analysis", "Life Sciences", "Physical Sciences",
           "Quantitative Reasoning", "Citizenship in a Diverse World", "Traditions and Historical Foundations")
-key = data.frame(value = values, name = names)
-key$full_name = paste(key$value, key$name, sep=" - ")
-ge_names = key$full_name
+# key = data.frame(value = values, name = names)
+# key$full_name = paste(key$value, key$name, sep=" - ")
+# ge_names = key$full_name
 
 
 ### Begin Shiny App Code ###
@@ -125,7 +125,7 @@ ui <- dashboardPage( skin="black",
                                                   column(6, plotOutput(outputId = "visualize_sdg"),br()),
                                                   column(6, img(src = "un_17sdgs.png", width = "100%"))
                                                 )),
-                                                h1("SDG Keywords Table"),
+                                                h1(strong("SDG Keywords Table")),
                                                 fluidRow(bootstrapPage(
                                                   column(4, DT::dataTableOutput("keywords_table"))
                                                 )),
@@ -208,7 +208,7 @@ ui <- dashboardPage( skin="black",
                                                          plotOutput(outputId = "user_classes_barplot"), br()),
                                                   column(6, img(src = "un_17sdgs.png", width="100%"))
                                                 ),
-                                                h3("Your Classes"),
+                                                h1(strong("Your Classes")),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("user_table"))
                                                 )),
@@ -254,7 +254,7 @@ ui <- dashboardPage( skin="black",
                                                   column(6, plotOutput(outputId = "classes_to_goals"), br()),
                                                   column(6, img(src = "un_17sdgs.png", width = "100%"))
                                                 )),
-                                                h1("Keyword Table"),
+                                                h1(strong("Keyword Table")),
                                                 fluidRow(bootstrapPage(
                                                   column(4, DT::dataTableOutput("classes_table"))
                                                 )),
@@ -297,7 +297,7 @@ ui <- dashboardPage( skin="black",
                                                   column(6, plotOutput(outputId = "goals_to_classes"), br()),
                                                   column(6, img(src = "un_17sdgs.png", width = "100%"))
                                                 )),
-                                                h1(textOutput("sdg_name")),
+                                                h1(strong(textOutput("sdg_name"))),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("top_classes_sdg_table"))
                                                 )),
@@ -329,7 +329,7 @@ ui <- dashboardPage( skin="black",
                                                 # textOutput("pie4_numbers")
                                                 h3("Sustainability Related Departments"),
                                                 fluidRow(column(6, plotOutput("pie3"))),
-                                                h3("Department Sustainability Classification Table"),
+                                                h1(strong("Department Sustainability Classification Table")),
                                                 column(12, DT::dataTableOutput("sustainability_table")),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
@@ -350,7 +350,7 @@ ui <- dashboardPage( skin="black",
                                                    If you have feedback, please email: oosdata@usc.edu"),
                                                 div(style="font-size:24px;",selectInput(inputId = "ge_category",
                                                                                         label = "Choose GE Category",
-                                                                                        selected = "",
+                                                                                        selected = "A - The Arts",
                                                                                         choices = ge_names)),
                                                 tags$head(tags$style(HTML(".selectize-input {height: 50px; width: 500px;}"))),
                                                 
@@ -360,7 +360,12 @@ ui <- dashboardPage( skin="black",
                                                                                          selected = seq(17),
                                                                                          options = list(maxOptions = 10000, `actions-box` = TRUE), multiple = T)),
                                                 
-                                                h1(textOutput("ge_name")),
+                                                br(), br(),
+                                                h3(strong(textOutput("top_ge_chart"))),
+                                                fluidRow(bootstrapPage(
+                                                  column(6, plotOutput(outputId = "ge_bar"), br()),
+                                                  column(6, img(src = "un_17sdgs.png", width = "100%")))),
+                                                h1(strong(textOutput("ge_name"))),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("ge_table"))
                                                 )),
@@ -1041,7 +1046,7 @@ server <- function(input, output, session) {
       geom_col(color = "black") +
       coord_polar(theta = "y") +
       geom_label(aes(label = pie_labels),
-                 fill = "white", color = "black", size = 6.5, fontface="bold",
+                 fill="white", color = "black", size = 6.5, fontface="bold",
                  position = position_stack(vjust = 0.5),
                  show.legend = FALSE) +
       scale_fill_manual(values = c("#990000", 
@@ -1141,6 +1146,62 @@ server <- function(input, output, session) {
   
   
   
+  # stacked bar chart for GEs
+  output$ge_bar <- renderPlot({
+    # get the top 10 classes and total weights
+    courses = ge_data %>%
+      filter(full_name == input$ge_category) %>%
+      filter(goal %in% input$ge_sdgs) %>%
+      group_by(courseID, semester) %>%
+      mutate(total_weight = sum(weight)) %>%
+      arrange(desc(total_weight)) %>%
+      ungroup() %>%
+      mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
+      distinct(courseID, .keep_all = TRUE) %>%
+      head(num_top_classes) %>%
+      # rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title.x, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
+      select(courseID, total_weight)
+    ids = courses$courseID
+    #create empty dataframe 
+    x = data.frame()
+    for (i in 1:length(ids)){
+      # grab only data for category and sdgs
+      d = ge_data[ge_data$full_name == input$ge_category, ]
+      d = d[d$goal %in% input$ge_sdgs, ]
+      # grab only one semester
+      little_df = d[d$courseID == ids[i], ]
+      sem = unique(little_df$semester)[1]
+      df = little_df[little_df$semester == sem, ]
+      df = df %>% select(courseID, keyword, weight, goal, color)
+      x = rbind(x, df)
+      # colors = df %>% select(color) %>% unique() %>% pull()
+    }
+    x = x %>% left_join(courses, by="courseID") %>% mutate(courseID1 = fct_reorder(courseID, total_weight))
+    # grab the colors
+    cols = x %>%
+      arrange(goal) %>%
+      select(color) %>% 
+      unique() %>% 
+      pull()
+    ge_plot = x %>% ggplot(aes(x = courseID1, y = weight, fill=factor(as.numeric(goal)))) +
+      geom_col() +
+      coord_flip() + 
+      scale_fill_manual(values = cols) + 
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+      labs(
+           fill="SDG",
+           x = "Course",
+           y = "Total SDG Keyword Frequency") +
+      theme(text = element_text(size = 20, face="bold"))
+    
+    return(ge_plot)
+  })
+  
+  # title above the chart
+  output$top_ge_chart = renderText({
+    paste("Top 10 Classes that Map to ", input$ge_category)
+  })
+  
   # trying to get Classes by SDGs table name
   output$ge_name = renderText({
     paste("All Classes Mapped to ", input$ge_category, sep="")
@@ -1149,6 +1210,7 @@ server <- function(input, output, session) {
   output$ge_table <- DT::renderDataTable({
       ge_data %>%
         filter(full_name == input$ge_category) %>%
+        filter(goal %in% input$ge_sdgs) %>%
         group_by(courseID, semester) %>%
         mutate(total_weight = sum(weight)) %>%
         arrange(desc(total_weight)) %>%
