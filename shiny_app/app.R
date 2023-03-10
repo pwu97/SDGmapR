@@ -47,14 +47,14 @@ sustainability_related = read.csv("usc_courses_full.csv")
 ge_data = read.csv("ge_data.csv")
 
 # for the ordering of GE's in dropdown
-values = c("Category I", "Category II", "Category III", "Category IV", "Category V", "Category VI", "A", "B", "C",
-           "D", "E", "F", "G", "H")
-names = c("Western Cultures and Traditions", "Global Cultures and Traditions", "Scientific Inquiry", "Science and Its Significance ",
-          "Arts and Letters", "Social Issues", "The Arts", "Humanistic Inquiry", "Social Analysis", "Life Sciences", "Physical Sciences",
-          "Quantitative Reasoning", "Citizenship in a Diverse World", "Traditions and Historical Foundations")
-# key = data.frame(value = values, name = names)
-# key$full_name = paste(key$value, key$name, sep=" - ")
-# ge_names = key$full_name
+values = c("A", "B", "C",
+           "D", "E", "F", "G", "H", "Category I", "Category II", "Category III", "Category IV", "Category V", "Category VI")
+names = c("The Arts", "Humanistic Inquiry", "Social Analysis", "Life Sciences", "Physical Sciences",
+          "Quantitative Reasoning", "Citizenship in a Diverse World", "Traditions and Historical Foundations", "Western Cultures and Traditions", "Global Cultures and Traditions", "Scientific Inquiry", "Science and Its Significance ",
+          "Arts and Letters", "Social Issues")
+key = data.frame(value = values, name = names)
+key$full_name = paste(key$value, key$name, sep=" - ")
+ge_names = key$full_name
 
 
 ### Begin Shiny App Code ###
