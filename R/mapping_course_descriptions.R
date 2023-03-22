@@ -56,7 +56,7 @@ all_sdg_keywords_copy = all_sdg_keywords
 #now join it with usc_keywords to get color and weight
 all_sdg_keywords_copy %>%
   left_join(usc_keywords, by = c("goal", "keyword")) %>%
-  select(courseID, course_title, section, semester, keyword, goal, weight, color, course_desc, clean_course_desc, department, N.Sections, year) %>%
+  select(courseID, course_title, section, semester, keyword, goal, weight, color, course_desc, clean_course_desc, department, N.Sections, year, course_level) %>%
   arrange(courseID) -> all_sdg_keywords_copy
 
 write.csv(all_sdg_keywords_copy, "master_course_sdg_data.csv", row.names = F)

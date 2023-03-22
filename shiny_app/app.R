@@ -154,8 +154,7 @@ ui <- dashboardPage( skin="black",
                                               Julie Hopper) with Carnegie Mellon University (Source Code Developers: Director of Sustainability Initiatives - Alex Hinicker 
                                               and Undergraduate Alumni - Peter Wu). Following the initial development of this dashboard, USC staff in the Office of 
                                               Sustainability and Faculty in the Presidential Working Group (PWG) on Sustainability in Education reviewed the dashboard and 
-                                              keywords. Keyword weights for the new keyword list were implemented via word2vec by a USC student, Bhavya Ramani. 
-                                              All of the datasets and source code used in this dashboard are open-source and can be found through", a("our
+                                              keywords. All of the datasets and source code used in this dashboard are open-source and can be found through", a("our
                                               Github page.", href="https://github.com/USC-Office-of-Sustainability/USC-SDGmap", target="_blank")),
                                                 h3(strong("What are the UN’s 17 Sustainability Development Goals (SDGs)?"),
                                                    "The 2030 Agenda for Sustainable Development was adopted in 2015 by all UN member 

@@ -15,7 +15,6 @@
 1,"bankruptcy","\b(\d*)bankruptcy(\d*)\b","#E5243B",1
 1,"basic necessities","\b(\d*)basic necessities(\d*)\b","#E5243B",1
 1,"beneficiaries","\b(\d*)beneficiaries(\d*)\b","#E5243B",1
-1,"budget","\b(\d*)budget(\d*)\b","#E5243B",1
 1,"budgeting","\b(\d*)budgeting(\d*)\b","#E5243B",1
 1,"budgets","\b(\d*)budgets(\d*)\b","#E5243B",1
 1,"build credit","\b(\d*)build credit(\d*)\b","#E5243B",1
@@ -37,7 +36,6 @@
 1,"destitute","\b(\d*)destitute(\d*)\b","#E5243B",1
 1,"destitution","\b(\d*)destitution(\d*)\b","#E5243B",1
 1,"developing countries","\b(\d*)developing countries(\d*)\b","#E5243B",1
-1,"development","\b(\d*)development(\d*)\b","#E5243B",1
 1,"disability benefits","\b(\d*)disability benefits(\d*)\b","#E5243B",1
 1,"disadvantaged","\b(\d*)disadvantaged(\d*)\b","#E5243B",1
 1,"discrimination","\b(\d*)discrimination(\d*)\b","#E5243B",1
@@ -574,6 +572,7 @@
 3,"als","\b(\d*)als(\d*)\b","#4C9F38",1
 3,"alzheimer","\b(\d*)alzheimer(\d*)\b","#4C9F38",1
 3,"alzheimer's","\b(\d*)alzheimer's(\d*)\b","#4C9F38",1
+3,"stem cell","\b(\d*)stem cell(\d*)\b","#4C9F38",1
 3,"amputation","\b(\d*)amputation(\d*)\b","#4C9F38",1
 3,"anemia","\b(\d*)anemia(\d*)\b","#4C9F38",1
 3,"angina","\b(\d*)angina(\d*)\b","#4C9F38",1
@@ -619,7 +618,6 @@
 3,"chronic kidney","\b(\d*)chronic kidney(\d*)\b","#4C9F38",1
 3,"cirrhosis","\b(\d*)cirrhosis(\d*)\b","#4C9F38",1
 3,"cisplatin","\b(\d*)cisplatin(\d*)\b","#4C9F38",1
-3,"clinic","\b(\d*)clinic(\d*)\b","#4C9F38",1
 3,"clinical","\b(\d*)clinical(\d*)\b","#4C9F38",1
 3,"cognitive decline","\b(\d*)cognitive decline(\d*)\b","#4C9F38",1
 3,"cognitive impairment","\b(\d*)cognitive impairment(\d*)\b","#4C9F38",1
@@ -657,6 +655,8 @@
 3,"doctor","\b(\d*)doctor(\d*)\b","#4C9F38",1
 3,"doula","\b(\d*)doula(\d*)\b","#4C9F38",1
 3,"drug","\b(\d*)drug(\d*)\b","#4C9F38",1
+3,"prosthodontics","\b(\d*)prosthodontics(\d*)\b","#4C9F38",1
+3,"prosthetics","\b(\d*)prosthetics(\d*)\b","#4C9F38",1
 3,"drugged","\b(\d*)drugged(\d*)\b","#4C9F38",1
 3,"drugs","\b(\d*)drugs(\d*)\b","#4C9F38",1
 3,"e.coli","\b(\d*)e.coli(\d*)\b","#4C9F38",1
@@ -689,6 +689,7 @@
 3,"h#n# strain","\b(\d*)h#n# strain(\d*)\b","#4C9F38",1
 3,"health access","\b(\d*)health access(\d*)\b","#4C9F38",1
 3,"health care","\b(\d*)health care(\d*)\b","#4C9F38",1
+3,"health services","\b(\d*)health services(\d*)\b","#4C9F38",1
 3,"health insurance","\b(\d*)health insurance(\d*)\b","#4C9F38",1
 3,"healthcare","\b(\d*)healthcare(\d*)\b","#4C9F38",1
 3,"healthy body","\b(\d*)healthy body(\d*)\b","#4C9F38",1
@@ -837,6 +838,7 @@
 3,"sleep","\b(\d*)sleep(\d*)\b","#4C9F38",1
 3,"smallpox","\b(\d*)smallpox(\d*)\b","#4C9F38",1
 3,"sneezing","\b(\d*)sneezing(\d*)\b","#4C9F38",1
+3,"safety and health","\b(\d*)safety and health(\d*)\b","#4C9F38",1
 3,"social safety net","\b(\d*)social safety net(\d*)\b","#4C9F38",1
 3,"staph","\b(\d*)staph(\d*)\b","#4C9F38",1
 3,"statin","\b(\d*)statin(\d*)\b","#4C9F38",1
@@ -848,6 +850,7 @@
 3,"stitches","\b(\d*)stitches(\d*)\b","#4C9F38",1
 3,"stroke","\b(\d*)stroke(\d*)\b","#4C9F38",1
 3,"substance abuse","\b(\d*)substance abuse(\d*)\b","#4C9F38",1
+3,"human life","\b(\d*)human life(\d*)\b","#4C9F38",1
 3,"sudden cardiac death","\b(\d*)sudden cardiac death(\d*)\b","#4C9F38",1
 3,"sudden infant death","\b(\d*)sudden infant death(\d*)\b","#4C9F38",1
 3,"superbug","\b(\d*)superbug(\d*)\b","#4C9F38",1
@@ -876,6 +879,7 @@
 3,"virtigo","\b(\d*)virtigo(\d*)\b","#4C9F38",1
 3,"virus","\b(\d*)virus(\d*)\b","#4C9F38",1
 3,"vitiligo","\b(\d*)vitiligo(\d*)\b","#4C9F38",1
+3,"well-being","\b(\d*)well-being(\d*)\b","#4C9F38",1
 3,"wellbeing","\b(\d*)wellbeing(\d*)\b","#4C9F38",1
 3,"west nile","\b(\d*)west nile(\d*)\b","#4C9F38",1
 3,"whooping cough","\b(\d*)whooping cough(\d*)\b","#4C9F38",1
@@ -914,7 +918,6 @@
 4,"biology program","\b(\d*)biology program(\d*)\b","#C5192D",1
 4,"braille","\b(\d*)braille(\d*)\b","#C5192D",1
 4,"bursaries","\b(\d*)bursaries(\d*)\b","#C5192D",1
-4,"care","\b(\d*)care(\d*)\b","#C5192D",1
 4,"charter schools","\b(\d*)charter schools(\d*)\b","#C5192D",1
 4,"childcare","\b(\d*)childcare(\d*)\b","#C5192D",1
 4,"childhood development","\b(\d*)childhood development(\d*)\b","#C5192D",1
@@ -947,6 +950,8 @@
 4,"equitable classroom","\b(\d*)equitable classroom(\d*)\b","#C5192D",1
 4,"equitable learning","\b(\d*)equitable learning(\d*)\b","#C5192D",1
 4,"experiential learning","\b(\d*)experiential learning(\d*)\b","#C5192D",1
+4,"pedagogy","\b(\d*)pedagogy(\d*)\b","#C5192D",1
+4,"pedagogical","\b(\d*)pedagogical(\d*)\b","#C5192D",1
 4,"extra curricular activities","\b(\d*)extra curricular activities(\d*)\b","#C5192D",1
 4,"extracurricular activities","\b(\d*)extracurricular activities(\d*)\b","#C5192D",1
 4,"gainful employment","\b(\d*)gainful employment(\d*)\b","#C5192D",1
@@ -954,7 +959,6 @@
 4,"ged","\b(\d*)ged(\d*)\b","#C5192D",1
 4,"global citizenship","\b(\d*)global citizenship(\d*)\b","#C5192D",1
 4,"good grades","\b(\d*)good grades(\d*)\b","#C5192D",1
-4,"graduate","\b(\d*)graduate(\d*)\b","#C5192D",1
 4,"graduated students","\b(\d*)graduated students(\d*)\b","#C5192D",1
 4,"graduates","\b(\d*)graduates(\d*)\b","#C5192D",1
 4,"graduating success","\b(\d*)graduating success(\d*)\b","#C5192D",1
@@ -990,6 +994,7 @@
 4,"liberal arts program","\b(\d*)liberal arts program(\d*)\b","#C5192D",1
 4,"librarians","\b(\d*)librarians(\d*)\b","#C5192D",1
 4,"libraries","\b(\d*)libraries(\d*)\b","#C5192D",1
+4,"effective teaching","\b(\d*)effective teaching(\d*)\b","#C5192D",1
 4,"library access","\b(\d*)library access(\d*)\b","#C5192D",1
 4,"lifelong learning","\b(\d*)lifelong learning(\d*)\b","#C5192D",1
 4,"literacy","\b(\d*)literacy(\d*)\b","#C5192D",1
@@ -1028,8 +1033,8 @@
 4,"sat scores","\b(\d*)sat scores(\d*)\b","#C5192D",1
 4,"sats","\b(\d*)sats(\d*)\b","#C5192D",1
 4,"save the children","\b(\d*)save the children(\d*)\b","#C5192D",1
-4,"scholarship","\b(\d*)scholarship(\d*)\b","#C5192D",1
-4,"scholarships","\b(\d*)scholarships(\d*)\b","#C5192D",1
+4,"educational scholarship","\b(\d*)educational scholarship(\d*)\b","#C5192D",1
+4,"educational scholarships","\b(\d*)educational scholarships(\d*)\b","#C5192D",1
 4,"school","\b(\d*)school(\d*)\b","#C5192D",1
 4,"school boards","\b(\d*)school boards(\d*)\b","#C5192D",1
 4,"school leavers","\b(\d*)school leavers(\d*)\b","#C5192D",1
@@ -1044,7 +1049,7 @@
 4,"small island developing states","\b(\d*)small island developing states(\d*)\b","#C5192D",1
 4,"sociology program","\b(\d*)sociology program(\d*)\b","#C5192D",1
 4,"standardized tests","\b(\d*)standardized tests(\d*)\b","#C5192D",1
-4,"stem","\b(\d*)stem(\d*)\b","#C5192D",1
+4,"stem education","\b(\d*)stem education(\d*)\b","#C5192D",1
 4,"student loan","\b(\d*)student loan(\d*)\b","#C5192D",1
 4,"superintendents","\b(\d*)superintendents(\d*)\b","#C5192D",1
 4,"teach for america","\b(\d*)teach for america(\d*)\b","#C5192D",1
@@ -1127,7 +1132,7 @@
 5,"husbands","\b(\d*)husbands(\d*)\b","#FF3A21",1
 5,"incest","\b(\d*)incest(\d*)\b","#FF3A21",1
 5,"income inequality","\b(\d*)income inequality(\d*)\b","#FF3A21",1
-5,"inequalities","\b(\d*)inequalities(\d*)\b","#FF3A21",1
+5,"gender inequalities","\b(\d*)gender inequalities(\d*)\b","#FF3A21",1
 5,"inequality","\b(\d*)inequality(\d*)\b","#FF3A21",1
 5,"inequities","\b(\d*)inequities(\d*)\b","#FF3A21",1
 5,"inequity","\b(\d*)inequity(\d*)\b","#FF3A21",1
@@ -1216,6 +1221,7 @@
 5,"victimization","\b(\d*)victimization(\d*)\b","#FF3A21",1
 5,"virgin","\b(\d*)virgin(\d*)\b","#FF3A21",1
 5,"virginity","\b(\d*)virginity(\d*)\b","#FF3A21",1
+5,"reproductive freedom","\b(\d*)reproductive freedom(\d*)\b","#FF3A21",1
 5,"vulgar","\b(\d*)vulgar(\d*)\b","#FF3A21",1
 5,"wives","\b(\d*)wives(\d*)\b","#FF3A21",1
 5,"woman","\b(\d*)woman(\d*)\b","#FF3A21",1
@@ -1447,7 +1453,11 @@
 6,"well water","\b(\d*)well water(\d*)\b","#26BDE2",1
 6,"wellwater","\b(\d*)wellwater(\d*)\b","#26BDE2",1
 6,"wells","\b(\d*)wells(\d*)\b","#26BDE2",1
+7,"oilfield","\b(\d*)oilfield(\d*)\b","#FCC30B",1
+7,"oil recovery","\b(\d*)oil recovery\d*)\b","#FCC30B",1
+7,"oil well","\b(\d*)oil well(\d*)\b","#FCC30B",1
 7,"access to power","\b(\d*)access to power(\d*)\b","#FCC30B",1
+7,"energy resources","\b(\d*)energy resources(\d*)\b","#FCC30B",1
 7,"alternative energy","\b(\d*)alternative energy(\d*)\b","#FCC30B",1
 7,"aluminum smelter","\b(\d*)aluminum smelter(\d*)\b","#FCC30B",1
 7,"batteries","\b(\d*)batteries(\d*)\b","#FCC30B",1
@@ -1886,7 +1896,6 @@
 9,"cutting edge","\b(\d*)cutting edge(\d*)\b","#FD6925",1
 9,"dealer","\b(\d*)dealer(\d*)\b","#FD6925",1
 9,"dealers","\b(\d*)dealers(\d*)\b","#FD6925",1
-9,"design","\b(\d*)design(\d*)\b","#FD6925",1
 9,"designs","\b(\d*)designs(\d*)\b","#FD6925",1
 9,"developing countries","\b(\d*)developing countries(\d*)\b","#FD6925",1
 9,"development spending","\b(\d*)development spending(\d*)\b","#FD6925",1
@@ -1978,7 +1987,6 @@
 9,"oems","\b(\d*)oems(\d*)\b","#FD6925",1
 9,"operators","\b(\d*)operators(\d*)\b","#FD6925",1
 9,"optics","\b(\d*)optics(\d*)\b","#FD6925",1
-9,"output","\b(\d*)output(\d*)\b","#FD6925",1
 9,"packaging","\b(\d*)packaging(\d*)\b","#FD6925",1
 9,"partners","\b(\d*)partners(\d*)\b","#FD6925",1
 9,"partners llc","\b(\d*)partners llc(\d*)\b","#FD6925",1
@@ -1988,7 +1996,6 @@
 9,"plastics","\b(\d*)plastics(\d*)\b","#FD6925",1
 9,"pneumatic","\b(\d*)pneumatic(\d*)\b","#FD6925",1
 9,"polymer","\b(\d*)polymer(\d*)\b","#FD6925",1
-9,"portfolio","\b(\d*)portfolio(\d*)\b","#FD6925",1
 9,"precision","\b(\d*)precision(\d*)\b","#FD6925",1
 9,"printing","\b(\d*)printing(\d*)\b","#FD6925",1
 9,"private research","\b(\d*)private research(\d*)\b","#FD6925",1
@@ -2082,7 +2089,6 @@
 10,"colorism","\b(\d*)colorism(\d*)\b","#DD1367",1
 10,"consular","\b(\d*)consular(\d*)\b","#DD1367",1
 10,"convicts","\b(\d*)convicts(\d*)\b","#DD1367",1
-10,"credit","\b(\d*)credit(\d*)\b","#DD1367",1
 10,"crisis","\b(\d*)crisis(\d*)\b","#DD1367",1
 10,"cultural competence","\b(\d*)cultural competence(\d*)\b","#DD1367",1
 10,"deport","\b(\d*)deport(\d*)\b","#DD1367",1
@@ -2096,7 +2102,6 @@
 10,"detention","\b(\d*)detention(\d*)\b","#DD1367",1
 10,"developing countries","\b(\d*)developing countries(\d*)\b","#DD1367",1
 10,"diaspora","\b(\d*)diaspora(\d*)\b","#DD1367",1
-10,"differences","\b(\d*)differences(\d*)\b","#DD1367",1
 10,"disability","\b(\d*)disability(\d*)\b","#DD1367",1
 10,"discriminate","\b(\d*)discriminate(\d*)\b","#DD1367",1
 10,"discriminated","\b(\d*)discriminated(\d*)\b","#DD1367",1
@@ -2184,7 +2189,7 @@
 10,"inclusion","\b(\d*)inclusion(\d*)\b","#DD1367",1
 10,"inclusive","\b(\d*)inclusive(\d*)\b","#DD1367",1
 10,"indigenous","\b(\d*)indigenous(\d*)\b","#DD1367",1
-10,"inequalities","\b(\d*)inequalities(\d*)\b","#DD1367",1
+10,"reduced inequalities","\b(\d*)reduced inequalities(\d*)\b","#DD1367",1
 10,"inequality","\b(\d*)inequality(\d*)\b","#DD1367",1
 10,"inequitable","\b(\d*)inequitable(\d*)\b","#DD1367",1
 10,"inequities","\b(\d*)inequities(\d*)\b","#DD1367",1
@@ -2361,7 +2366,6 @@
 11,"devastating earthquake","\b(\d*)devastating earthquake(\d*)\b","#FD9D24",1
 11,"devastating floods","\b(\d*)devastating floods(\d*)\b","#FD9D24",1
 11,"devastation","\b(\d*)devastation(\d*)\b","#FD9D24",1
-11,"development","\b(\d*)development(\d*)\b","#FD9D24",1
 11,"development planning","\b(\d*)development planning(\d*)\b","#FD9D24",1
 11,"disabled","\b(\d*)disabled(\d*)\b","#FD9D24",1
 11,"disaster management","\b(\d*)disaster management(\d*)\b","#FD9D24",1
@@ -2470,8 +2474,8 @@
 11,"peri-urban","\b(\d*)peri-urban(\d*)\b","#FD9D24",1
 11,"planning and management","\b(\d*)planning and management(\d*)\b","#FD9D24",1
 11,"preservation","\b(\d*)preservation(\d*)\b","#FD9D24",1
-11,"properties","\b(\d*)properties(\d*)\b","#FD9D24",1
-11,"property","\b(\d*)property(\d*)\b","#FD9D24",1
+11,"rental properties","\b(\d*)rental properties(\d*)\b","#FD9D24",1
+11,"rental property","\b(\d*)rental property(\d*)\b","#FD9D24",1
 11,"public space","\b(\d*)public space(\d*)\b","#FD9D24",1
 11,"public spaces","\b(\d*)public spaces(\d*)\b","#FD9D24",1
 11,"public transport","\b(\d*)public transport(\d*)\b","#FD9D24",1
@@ -2494,7 +2498,6 @@
 11,"rent","\b(\d*)rent(\d*)\b","#FD9D24",1
 11,"renter","\b(\d*)renter(\d*)\b","#FD9D24",1
 11,"renters","\b(\d*)renters(\d*)\b","#FD9D24",1
-11,"residents","\b(\d*)residents(\d*)\b","#FD9D24",1
 11,"resilience","\b(\d*)resilience(\d*)\b","#FD9D24",1
 11,"resilient","\b(\d*)resilient(\d*)\b","#FD9D24",1
 11,"revitalization","\b(\d*)revitalization(\d*)\b","#FD9D24",1
@@ -2542,11 +2545,10 @@
 11,"tradition","\b(\d*)tradition(\d*)\b","#FD9D24",1
 11,"traditional","\b(\d*)traditional(\d*)\b","#FD9D24",1
 11,"traffic","\b(\d*)traffic(\d*)\b","#FD9D24",1
-11,"train","\b(\d*)train(\d*)\b","#FD9D24",1
 11,"trains","\b(\d*)trains(\d*)\b","#FD9D24",1
 11,"tram","\b(\d*)tram(\d*)\b","#FD9D24",1
 11,"transit","\b(\d*)transit(\d*)\b","#FD9D24",1
-11,"transport","\b(\d*)transport(\d*)\b","#FD9D24",1
+11,"sustainable transport","\b(\d*)sustainable transport(\d*)\b","#FD9D24",1
 11,"transportation","\b(\d*)transportation(\d*)\b","#FD9D24",1
 11,"trolley","\b(\d*)trolley(\d*)\b","#FD9D24",1
 11,"tsunami","\b(\d*)tsunami(\d*)\b","#FD9D24",1
@@ -2607,7 +2609,7 @@
 12,"compostable","\b(\d*)compostable(\d*)\b","#BF8B2E",1
 12,"composted","\b(\d*)composted(\d*)\b","#BF8B2E",1
 12,"composting","\b(\d*)composting(\d*)\b","#BF8B2E",1
-12,"conservation","\b(\d*)conservation(\d*)\b","#BF8B2E",1
+12,"resource conservation","\b(\d*)resource conservation(\d*)\b","#BF8B2E",1
 12,"conserve resources","\b(\d*)conserve(\d*)\b","#BF8B2E",1
 12,"conserving","\b(\d*)conserving(\d*)\b","#BF8B2E",1
 12,"contaminant","\b(\d*)contaminant(\d*)\b","#BF8B2E",1
@@ -2748,15 +2750,12 @@
 12,"pollution","\b(\d*)pollution(\d*)\b","#BF8B2E",1
 12,"polystyrene","\b(\d*)polystyrene(\d*)\b","#BF8B2E",1
 12,"post-harvest","\b(\d*)post-harvest(\d*)\b","#BF8B2E",1
-12,"processing","\b(\d*)processing(\d*)\b","#BF8B2E",1
-12,"processors","\b(\d*)processors(\d*)\b","#BF8B2E",1
 12,"procurement","\b(\d*)procurement(\d*)\b","#BF8B2E",1
 12,"procurements","\b(\d*)procurements(\d*)\b","#BF8B2E",1
 12,"produced","\b(\d*)produced(\d*)\b","#BF8B2E",1
 12,"producers","\b(\d*)producers(\d*)\b","#BF8B2E",1
 12,"product","\b(\d*)product(\d*)\b","#BF8B2E",1
 12,"product line","\b(\d*)product line(\d*)\b","#BF8B2E",1
-12,"production","\b(\d*)production(\d*)\b","#BF8B2E",1
 12,"products","\b(\d*)products(\d*)\b","#BF8B2E",1
 12,"promotes local culture","\b(\d*)promotes local culture(\d*)\b","#BF8B2E",1
 12,"public procurement","\b(\d*)public procurement(\d*)\b","#BF8B2E",1
@@ -3156,8 +3155,8 @@
 14,"inshore","\b(\d*)inshore(\d*)\b","#0A97D9",1
 14,"intertidal","\b(\d*)intertidal(\d*)\b","#0A97D9",1
 14,"invertebrates","\b(\d*)invertebrates(\d*)\b","#0A97D9",1
-14,"island","\b(\d*)island(\d*)\b","#0A97D9",1
-14,"islands","\b(\d*)islands(\d*)\b","#0A97D9",1
+14,"manmade island","\b(\d*)manmade island(\d*)\b","#0A97D9",1
+14,"manmade islands","\b(\d*)manmade islands(\d*)\b","#0A97D9",1
 14,"jellyfish","\b(\d*)jellyfish(\d*)\b","#0A97D9",1
 14,"jetties","\b(\d*)jetties(\d*)\b","#0A97D9",1
 14,"kayak","\b(\d*)kayak(\d*)\b","#0A97D9",1
@@ -3177,6 +3176,7 @@
 14,"mangrove","\b(\d*)mangrove(\d*)\b","#0A97D9",1
 14,"mangroves","\b(\d*)mangroves(\d*)\b","#0A97D9",1
 14,"mariculture","\b(\d*)mariculture(\d*)\b","#0A97D9",1
+14,"mass extinction","\b(\d*)mass extinction(\d*)\b","#0A97D9",1
 14,"marinas","\b(\d*)marinas(\d*)\b","#0A97D9",1
 14,"marine","\b(\d*)marine(\d*)\b","#0A97D9",1
 14,"marine mammal","\b(\d*)marine mammal(\d*)\b","#0A97D9",1
@@ -3395,7 +3395,6 @@
 15,"clean water","\b(\d*)clean water(\d*)\b","#56C02B",1
 15,"climate change","\b(\d*)climate change(\d*)\b","#56C02B",1
 15,"conservancy","\b(\d*)conservancy(\d*)\b","#56C02B",1
-15,"conservation","\b(\d*)conservation(\d*)\b","#56C02B",1
 15,"conservation of the environment","\b(\d*)conservation of the environment(\d*)\b","#56C02B",1
 15,"conservationist","\b(\d*)conservationist(\d*)\b","#56C02B",1
 15,"conservationists","\b(\d*)conservationists(\d*)\b","#56C02B",1
@@ -3461,6 +3460,7 @@
 15,"estuaries","\b(\d*)estuaries(\d*)\b","#56C02B",1
 15,"estuary","\b(\d*)estuary(\d*)\b","#56C02B",1
 15,"evergreen","\b(\d*)evergreen(\d*)\b","#56C02B",1
+15,"mass extinction","\b(\d*)mass extinction(\d*)\b","#56C02B",1
 15,"extinct species","\b(\d*)extinct species(\d*)\b","#56C02B",1
 15,"extinction","\b(\d*)extinction(\d*)\b","#56C02B",1
 15,"falcon","\b(\d*)falcon(\d*)\b","#56C02B",1
