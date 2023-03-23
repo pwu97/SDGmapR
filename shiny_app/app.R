@@ -1,5 +1,5 @@
 # USC SHINY WEB APP
-# BRIAN TINSLEY
+# BRIAN TINSLEY -- btinsley@usc.edu
 # EXTENSION FROM PETER WU AT CMU
 
 # require(devtools)
@@ -57,6 +57,8 @@ key$full_name = paste(key$value, key$name, sep=" - ")
 ge_names = key$full_name
 
 
+# profvis({
+# s = shinyApp(
 ### Begin Shiny App Code ###
 
 # Define UI for application that draws a histogram
@@ -125,10 +127,10 @@ ui <- dashboardPage( skin="black",
                                                   column(6, plotOutput(outputId = "visualize_sdg"),br()),
                                                   column(6, img(src = "un_17sdgs.png", width = "100%"))
                                                 )),
-                                                h1(strong("SDG Keywords Table")),
+                                                h2(strong("SDG Keywords Table")),
                                                 fluidRow(bootstrapPage(
                                                   column(4, DT::dataTableOutput("keywords_table"))
-                                                )),
+                                                )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
@@ -170,7 +172,7 @@ ui <- dashboardPage( skin="black",
                                     “Mapping the 17 SDGs” to learn more."),
                                                 
                                                 h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please contact: oosdata@usc.edu"),
-                                                br(), br(), br(),
+                                                br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
@@ -203,28 +205,15 @@ ui <- dashboardPage( skin="black",
                                                 h3("SDG Mapping Data for:"),
                                                 h4(textOutput("personal_classes")),
                                                 br(),
-                                                # fluidRow(bootstrapPage(
-                                                #   column(6, plotOutput(outputId = "users_wordcloud"), br()),
-                                                #   column(6, plotOutput(outputId = "user_classes_barplot"), br())
-                                                # )),
-                                                # fluidRow(bootstrapPage(
-                                                #   column(6, plotOutput(outputId = "user_classes_barplot"), br()),
-                                                #   column(6, img(src="un_17sdgs.png", width="100%"))
-                                                # )),
-                                                # fluidRow(
-                                                #   column(6, plotOutput(outputId = "user_to_goals"), br(),
-                                                #          plotOutput(outputId = "user_classes_barplot"), br()),
-                                                #   column(6, img(src = "un_17sdgs.png", width="100%"), br(), plotOutput(outputId = "users_wordcloud"))
-                                                # ),
                                                 fluidRow(
                                                   column(6, plotOutput(outputId = "users_wordcloud"), br(),
                                                          plotOutput(outputId = "user_to_goals"), br()),
                                                   column(6, plotOutput(outputId = "user_classes_barplot"), img(src = "un_17sdgs.png", width="100%"), br())
                                                 ),
-                                                h1(strong("Your Classes")),
+                                                h2(strong("Your Classes")),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("user_table"))
-                                                )),
+                                                )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
@@ -264,10 +253,10 @@ ui <- dashboardPage( skin="black",
                                                   column(6, plotOutput(outputId = "classes_to_goals"), br()),
                                                   column(6, img(src = "un_17sdgs.png", width = "100%"))
                                                 )),
-                                                h1(strong("Keyword Table")),
+                                                h2(strong("Keyword Table")),
                                                 fluidRow(bootstrapPage(
                                                   column(4, DT::dataTableOutput("classes_table"))
-                                                )),
+                                                )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
@@ -303,14 +292,16 @@ ui <- dashboardPage( skin="black",
                                                                                             label = "Choose SDG", 
                                                                                             choices = goals
                                                 )),
+                                                br(),
+                                                h2(strong(textOutput("top_classes"))),
                                                 fluidRow(bootstrapPage(
                                                   column(6, plotOutput(outputId = "goals_to_classes"), br()),
                                                   column(6, img(src = "un_17sdgs.png", width = "100%"))
                                                 )),
-                                                h1(strong(textOutput("sdg_name"))),
+                                                h2(strong(textOutput("sdg_name"))),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("top_classes_sdg_table"))
-                                                )),
+                                                )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
@@ -345,8 +336,9 @@ ui <- dashboardPage( skin="black",
                                                 # textOutput("pie4_numbers")
                                                 h3("Sustainability Related Departments"),
                                                 fluidRow(column(6, plotOutput("pie3"))),
-                                                h1(strong("Department Sustainability Classification Table")),
-                                                column(12, DT::dataTableOutput("sustainability_table")), br(),
+                                                h2(strong("Department Sustainability Classification Table")),
+                                                fluidRow(column(12, DT::dataTableOutput("sustainability_table"))), 
+                                                br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
                                                    "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
@@ -384,7 +376,7 @@ ui <- dashboardPage( skin="black",
                                                 h1(strong(textOutput("ge_name"))),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("ge_table"))
-                                                )),
+                                                )), br(), br(),
                                                 
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
@@ -407,7 +399,7 @@ ui <- dashboardPage( skin="black",
                                 )#end tabitems
                      )#end dashboard body
 ) #end UI
-
+############ EDIT COMMA OUT HERE #####
 
 
 # Define server logic
@@ -444,6 +436,8 @@ server <- function(input, output, session) {
              SDG = goal) %>%
       select(Keyword)
   }, rownames=FALSE)
+  
+  
   
   
   
@@ -766,6 +760,8 @@ server <- function(input, output, session) {
       unique() %>%
       pull()
     
+    
+    
     sdg_class_keyword_barplot <- df %>%
       # filter(semester == input$usc_semester1) %>%
       filter(courseID %in% input$usc_classes) %>%
@@ -847,6 +843,7 @@ server <- function(input, output, session) {
   
   
   
+  
   #####
   ##### tabitem5 -- FIND CLASSES BY SDGS
   #####
@@ -856,6 +853,11 @@ server <- function(input, output, session) {
   # trying to get Classes by SDGs table name
   output$sdg_name = renderText({
     paste("All Classes Mapped to SDG", input$sdg_goal1, sep="")
+  })
+  
+  # title of graph
+  output$top_classes = renderText({
+    paste0("Top 10 Classes that Map to SDG", input$sdg_goal1)
   })
   
   #this part filters the departments by the semester chosen in input field
@@ -899,7 +901,7 @@ server <- function(input, output, session) {
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
         coord_flip() +
         scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(title = paste0("Top 10 Classes that Map to SDG", input$sdg_goal1),
+        labs(
              x = "Course",
              y = "Total SDG Keyword Frequency") +
         theme(text = element_text(size = 20, face="bold"))
@@ -1080,6 +1082,7 @@ server <- function(input, output, session) {
   
   
   
+  
   #####
   ##### tabitem6 -- ALL SUSTAINABILITY RELATED CLASSES ###
   #####
@@ -1139,7 +1142,16 @@ server <- function(input, output, session) {
   
   # sustainability courses offered pie chart
   output$pie4 <- renderPlot({
-    pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
+    if (input$course_level_pie == "All"){
+      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
+    }
+    else if (input$course_level_pie == "Undergraduate"){
+      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
+    }
+    else{
+      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "graduate")
+    }
+    # pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
     sum_notrelated = 0
     sum_inclusive = 0
     sum_focused = 0
@@ -1304,4 +1316,10 @@ server <- function(input, output, session) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
+# ) # end shinyApp(
+# runApp(s)
+# }) ## end profvis(
+
+
 
