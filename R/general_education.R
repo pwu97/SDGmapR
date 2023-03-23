@@ -49,7 +49,11 @@ master = read.csv("master_course_sdg_data.csv")
 # keep all our GE classes, grab matching rows from master
 result = left_join(df, master, by="courseID")
 
-write.csv(result, "ge_data.csv", row.names=F)
+# i also want to get"all goals" column from usc_courses_full
+sustainability = read.csv("sustainability_related_courses.csv")
+final = result %>% left_join(sustainability, by="courseID")
+
+write.csv(final, "ge_data.csv", row.names=F)
 
 
 
