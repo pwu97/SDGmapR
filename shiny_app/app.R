@@ -65,10 +65,11 @@ ge_names = key$full_name
 ui <- dashboardPage( skin="black",
                      
                      # Application title
-                     dashboardHeader(title = "USC SDG Mapping"),
+                     dashboardHeader(title = "USC Sustainability Course Finder", titleWidth = 350),
                      
                      
                      dashboardSidebar(
+                       width = 350,
                        sidebarMenu(
                          menuItem("Home (About)", tabName = "1"),
                          menuItem("FAQ", tabName = "2"),
@@ -81,13 +82,13 @@ ui <- dashboardPage( skin="black",
                        )
                      ),
                      
-                     
-                     dashboardBody( tags$head(tags$link(rel="stylesheet", type="text/css", href="custom.css")), #link up css stylesheet
+                     dashboardBody( tags$head(tags$link(rel="stylesheet", type="text/css", href="custom.css"),
+                                              tags$style(HTML(".main-sidebar { font-size: 20px; }"))), #link up css stylesheet
                                     tabItems(
                                       tabItem(tabName = "1",
                                               fluidPage(
                                                 h1("Home (About)"),
-                                                h3("Welcome to the USC Curriculum SDG Mapping Dashboard. Staff, Faculty and students at the 
+                                                h3("Welcome to the USC Sustainability Course Finder. Staff, faculty, and students at the 
                                                             University of Southern California and Carnegie Mellon University have collaborated on 
                                                             developing this dashboard to elevate awareness of sustainability in higher education. 
                                                             It enables users to determine how USC classes relate to the 17 United Nations 
@@ -105,7 +106,8 @@ ui <- dashboardPage( skin="black",
                                                    for people and the planet, now and into the future. The SDGs are an urgent call for action by all countries - developed and 
                                                    developing - in a global partnership. They recognize that ending poverty and other deprivations must go hand-in-hand with 
                                                    strategies that improve health and education, reduce inequality, and spur economic growth – all while tackling climate 
-                                                   change and working to preserve our oceans and forests. Below displays a wordcloud for the keywords for each SDG. The keywords 
+                                                   change and working to preserve our oceans and forests."), 
+                                                   h3("Below displays a wordcloud for the keywords for each SDG. The keywords 
                                                    were edited by USC’s Office of Sustainability staff and interns as well as the USC Presidential Working Group. These keywords 
                                                    evolved from lists suggested by Elsevier and Carnegie Mellon University."),
                                 
@@ -155,7 +157,7 @@ ui <- dashboardPage( skin="black",
                                               collaboration of USC’s Office of Sustainability (Source Code Developers: PSIP Intern- Brian Tinsley and Data Analyst- Dr. 
                                               Julie Hopper) with Carnegie Mellon University (Source Code Developers: Director of Sustainability Initiatives - Alex Hinicker 
                                               and Undergraduate Alumni - Peter Wu). Following the initial development of this dashboard, USC staff in the Office of 
-                                              Sustainability and Faculty in the Presidential Working Group (PWG) on Sustainability in Education reviewed the dashboard and 
+                                              Sustainability and faculty in the Presidential Working Group (PWG) on Sustainability in Education reviewed the dashboard and 
                                               keywords. All of the datasets and source code used in this dashboard are open-source and can be found through", a("our
                                               Github page.", href="https://github.com/USC-Office-of-Sustainability/USC-SDGmap", target="_blank")),
                                                 h3(strong("What are the UN’s 17 Sustainability Development Goals (SDGs)?"),
@@ -184,15 +186,16 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "3",
                                               fluidPage(
                                                 h1("Map Your Classes"),
-                                                h3("Select your classes below and see how your curriculum relates to the 17 SDGs."), 
+                                                h3("Select your classes below and see how your curriculum relates to the 17 SDGs. Some classes
+                                                   do not map to the SDGs via our keywords so those courses' mapping will be blank."), 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
                                                 # h3("Enter Your USC Courses"),
-                                                h3("Type in the course ID using the same format as this example: “ENST-100”"),
+                                                h3("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 div(style="font-size:24px;", selectizeInput(
                                                   inputId = "user_classes",
                                                   label = "Enter Your USC Courses",
-                                                  choices = unique(classes$courseID),
+                                                  choices = unique(sustainability_related$courseID), #changed this from master data
                                                   selected = NULL,
                                                   multiple = TRUE,
                                                   width = "100%",
@@ -227,16 +230,15 @@ ui <- dashboardPage( skin="black",
                                               fluidPage(
                                                 h1("Find SDGs by Classes"),
                                                 h4(""),
-                                                h3("Select a USC semester and course ID below to view the SDG mapping for 
-                          that particular class. If the mapping is
-                          blank, the course description may have been too short to draw
-                          any concrete conclusions. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
+                                                h3("Select a USC course ID below to view the SDG mapping for 
+                          that particular class. If you cannot find a class you are looking for, then it did not map to any of the SDGs via our keyword list.
+                                                   To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
-                                                h3("Type in the course ID using the same format as this example: “ENST-100”"),
+                                                h3("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 div(style="font-size:24px;",selectizeInput(inputId = "usc_classes", 
                                                                                            label = "Choose USC Class", 
-                                                                                           selected = "ENST-100",
+                                                                                           selected = "ENST-150",
                                                                                            # choices = unique(classes$courseID),
                                                                                            choices = unique(classes$courseID),
                                                                                            options = list(maxOptions = 10000))),
@@ -320,7 +322,7 @@ ui <- dashboardPage( skin="black",
                                                    focused SDG (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)."),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
-                                                h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY19 = SU18, F18, SP19)"),
+                                                h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY23 = SU22, F22, SP23)"),
                                                 div(style="font-size:24px;",selectInput(inputId = "usc_year",
                                                                                         label = "Choose USC Academic Year",
                                                                                         selected = "AY23",
@@ -328,13 +330,13 @@ ui <- dashboardPage( skin="black",
                                                 div(style="font-size:24px;", pickerInput(inputId = "course_level_pie",
                                                                                          label = "Restrict course level?",
                                                                                          choices = c("All", "Undergraduate", "Graduate"),
-                                                                                         options = list(height = 20))),
+                                                                                         options = list(height = 20))), br(),
                                                 # choicesOpt = list(
                                                 # style = rep(("font-size:24px; line-height: 1.5;"),2)))),
-                                                h3("Sustainability Related Courses Offered"),
+                                                h2("Sustainability Related Courses Offered"),
                                                 fluidRow(column(6, plotOutput("pie4"))),
                                                 # textOutput("pie4_numbers")
-                                                h3("Sustainability Related Departments"),
+                                                h2("Sustainability Related Departments"),
                                                 fluidRow(column(6, plotOutput("pie3"))),
                                                 h2(strong("Department Sustainability Classification Table")),
                                                 fluidRow(column(12, DT::dataTableOutput("sustainability_table"))), 
@@ -352,7 +354,8 @@ ui <- dashboardPage( skin="black",
                                                 h1("Search by GE Requirements"),
                                                 
                                                 # h3("All students at USC are required to fulfill their general education (GE) requirements."),
-                                                h3("Select a GE category below to see the sustainability related classes which satisfy that requirement."),
+                                                h3("Select a GE category below to see the sustainability related classes which satisfy that requirement. GE courses that
+                                                   did not map to the SDGs via our keywords are not shown, but you can find them in the course catalogue ", a("here.", href="https://dornsife.usc.edu/2015ge/2015ge-requirements/")),
                                                 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
@@ -453,7 +456,7 @@ server <- function(input, output, session) {
   output$personal_classes <- renderText({
     if (length(input$user_classes) > 0){ #first make sure they typed something in
       
-      class_list <- classes %>%
+      class_list <- sustainability_related %>% #changed this from master
         filter(courseID %in% input$user_classes) %>% #changed from section
         distinct(courseID, .keep_all = TRUE) %>%
         select(courseID) %>%
@@ -545,7 +548,7 @@ server <- function(input, output, session) {
         ggplot(aes(x = reorder(keyword, weight), y = weight, fill = factor(as.numeric(goal)))) +
         geom_col() +
         coord_flip() +
-        labs(title = paste0("All Keywords"),
+        labs(title = paste0("All SDG Keywords"),
              fill = "SDG",
              x = "SDG Keyword",
              y = "Total SDG Keyword Frequency") +
@@ -683,7 +686,6 @@ server <- function(input, output, session) {
   #                
   #              })
   
-  
   # barplot for sdgs
   output$classes_to_goals <- renderPlot({
     course_df = classes[classes$courseID == input$usc_classes, ]
@@ -726,7 +728,7 @@ server <- function(input, output, session) {
       geom_col() +
       coord_flip() +
       # geom_hline(yintercept = c(10, 15), color = c("#ffc33c", "#00bc9e")) +
-      labs(title = paste0(sdg_class_name, " (", input$usc_classes, ") ", "SDGs"),
+      labs(title = paste0("All SDGs Mapped to ", sdg_class_name),
            fill = "SDG",
            x = "SDG",
            y = "Total SDG Keyword Frequency") +
@@ -760,8 +762,6 @@ server <- function(input, output, session) {
       unique() %>%
       pull()
     
-    
-    
     sdg_class_keyword_barplot <- df %>%
       # filter(semester == input$usc_semester1) %>%
       filter(courseID %in% input$usc_classes) %>%
@@ -769,7 +769,7 @@ server <- function(input, output, session) {
       ggplot(aes(x = reorder(keyword, weight), y = weight, fill = factor(as.numeric(goal)))) +
       geom_col() +
       coord_flip() +
-      labs(title = paste0(sdg_class_name, " (", input$usc_classes, ") ", "\nSDG Keywords"),
+      labs(title = paste0(input$usc_classes, " SDG Keywords"),
            fill = "SDG",
            x = "SDG Keyword",
            y = "Total SDG Keyword Frequency") +
@@ -1128,10 +1128,14 @@ server <- function(input, output, session) {
     ggplot(pie, aes(x = "", y = vals, fill = labels)) +
       geom_col(color = "black") +
       coord_polar(theta = "y") +
-      geom_label(aes(label = pie_labels),
-                 fill="white", color = "black", size = 6.5, fontface="bold",
-                 position = position_stack(vjust = 0.5),
-                 show.legend = FALSE) +
+      # geom_label(aes(label = pie_labels),
+      #            fill="white", color = "black", size = 6.5, fontface="bold",
+      #            position = position_stack(vjust = 0.5),
+      #            show.legend = FALSE) +
+      geom_text(aes(label = pie_labels),
+                fill = "white", color = "white", size = 7.5, fontface="bold",
+                position = position_stack(vjust = 0.5),
+                show.legend = FALSE) +
       scale_fill_manual(values = c("#990000", 
                                             "#FFC72C", "#767676")) +
                                               guides(fill = guide_legend(title = "Sustainability Classification")) + 
@@ -1179,7 +1183,7 @@ server <- function(input, output, session) {
       # geom_text(aes(label = pie_labels), #changed
       #           position = position_stack(vjust = 0.5)) +
       geom_text(aes(label = pie_labels),
-                fill = "white", color = "white", size = 4.5, fontface="bold",
+                fill = "white", color = "white", size = 7.5, fontface="bold",
                 position = position_stack(vjust = 0.5),
                 show.legend = FALSE) +
       scale_fill_manual(values = c("#990000", 
