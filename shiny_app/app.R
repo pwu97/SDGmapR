@@ -71,7 +71,7 @@ ui <- dashboardPage( skin="black",
                      dashboardSidebar(
                        width = 350,
                        sidebarMenu(
-                         menuItem("Home (About)", tabName = "1"),
+                         menuItem("About", tabName = "1"),
                          menuItem("FAQ", tabName = "2"),
                          menuItem("Map Your Classes", tabName = "3"),
                          menuItem("Find SDGs by Classes", tabName = "4"),
@@ -87,7 +87,7 @@ ui <- dashboardPage( skin="black",
                                     tabItems(
                                       tabItem(tabName = "1",
                                               fluidPage(
-                                                h1("Home (About)"),
+                                                h1("About"),
                                                 h3("Welcome to the USC Sustainability Course Finder. Staff, faculty, and students at the 
                                                             University of Southern California and Carnegie Mellon University have collaborated on 
                                                             developing this dashboard to elevate awareness of sustainability in higher education. 
