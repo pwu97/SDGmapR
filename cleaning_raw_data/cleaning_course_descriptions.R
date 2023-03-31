@@ -3,12 +3,8 @@
 library(tidyverse)
 library(stringr)
 
-
-# first going to combine AY19 data with AY21, AY22, and AY23 data
-# old = read.csv("old_usc_courses.csv")
-# new = read.csv("new_usc_courses.csv")
-# usc_courses = rbind(old, new)
-usc_courses = read.csv("new_usc_courses_updated.csv")
+usc_courses = read.csv("usc_courses_updated.csv")
+# usc_courses = read.csv("usc_courses.csv")
 
 # column to hold cleaned course description
 usc_courses["clean_course_desc"] = NA
@@ -37,7 +33,6 @@ words = c("business", "reporting", "immersive", "learning", "visualization", "vi
 
 # words to remove before "power"
 # political, social, presidential, consistency, diversity, sex, motivation, film, n-th, functions
-
 
 
 ###

@@ -191,11 +191,12 @@ ui <- dashboardPage( skin="black",
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
                                                 # h3("Enter Your USC Courses"),
-                                                h3("Type in the course ID using the same format as this example: “ENST-150”"),
+                                                h4("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 div(style="font-size:24px;", selectizeInput(
                                                   inputId = "user_classes",
                                                   label = "Enter Your USC Courses",
-                                                  choices = unique(sustainability_related$courseID), #changed this from master data
+                                                  choices = "",
+                                                  # choices = unique(sustainability_related$courseID), #changed this from master data
                                                   selected = NULL,
                                                   multiple = TRUE,
                                                   width = "100%",
@@ -235,12 +236,11 @@ ui <- dashboardPage( skin="black",
                                                    To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                    If you have feedback, please email: oosdata@usc.edu"),
-                                                h3("Type in the course ID using the same format as this example: “ENST-150”"),
+                                                h4("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 div(style="font-size:24px;",selectizeInput(inputId = "usc_classes", 
                                                                                            label = "Choose USC Class", 
-                                                                                           selected = "ENST-150",
+                                                                                           choices = "",
                                                                                            # choices = unique(classes$courseID),
-                                                                                           choices = unique(classes$courseID),
                                                                                            options = list(maxOptions = 10000))),
                                                 h3(textOutput("semesters_offered")),
                                                 br(),
@@ -408,6 +408,11 @@ ui <- dashboardPage( skin="black",
 # Define server logic
 server <- function(input, output, session) {
   
+  ## updating inputs to speed up program
+  updateSelectizeInput(session, 'usc_classes', choices = unique(classes$courseID), selected = "ENST-150", server = TRUE)
+  # map classes in ascending order
+  updateSelectizeInput(session, 'user_classes', choices = unique(sustainability_related$courseID) %>% sort(), server = TRUE)
+  
   
   #####
   ##
@@ -470,7 +475,13 @@ server <- function(input, output, session) {
   output$users_wordcloud <- renderPlot({
     course_df = classes[classes$courseID %in% input$user_classes, ]
     # just grab one semester where the class is offered
-    sem = unique(course_df$semester)[1]
+    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+      sem = "SP23"
+    }
+    else{ # if no spring 23 just grab the last semester in df
+      sem = unique(course_df$semester)[length(unique(course_df$semester))]
+    }
+    # sem = unique(course_df$semester)[1]
     df = course_df[course_df$semester == sem, ]
     
     sdg_class_keyword_colors <-  df %>%
@@ -535,7 +546,13 @@ server <- function(input, output, session) {
       for (course in courses){
         course_df = class_data[class_data$courseID == course, ]
         # just grab one semester where the class is offered
-        sem = unique(course_df$semester)[1]
+        if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+          sem = "SP23"
+        }
+        else{ # if no spring 23 just grab the last semester in df
+          sem = unique(course_df$semester)[length(unique(course_df$semester))]
+        }
+        # sem = unique(course_df$semester)[1]
         # subet data to only that semester
         course_df = course_df[course_df$semester == sem, ]
         df = rbind(df, course_df)
@@ -588,7 +605,13 @@ server <- function(input, output, session) {
       for (course in courses){
         course_df = class_data[class_data$courseID == course, ]
         # just grab one semester where the class is offered
-        sem = unique(course_df$semester)[1]
+        if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+          sem = "SP23"
+        }
+        else{ # if no spring 23 just grab the last semester in df
+          sem = unique(course_df$semester)[length(unique(course_df$semester))]
+        }
+        # sem = unique(course_df$semester)[1]
         # subet data to only that semester
         course_df = course_df[course_df$semester == sem, ]
         df = rbind(df, course_df)
@@ -628,7 +651,19 @@ server <- function(input, output, session) {
   
   
   output$user_table <- DT::renderDataTable({
-    sustainability_related %>% filter(courseID %in% input$user_classes) %>%
+    
+    course_df = sustainability_related[sustainability_related$courseID %in% input$user_classes, ]
+    # just grab one semester where the class is offered
+    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+      sem = "SP23"
+    }
+    else{ # if no spring 23 just grab the last semester in df
+      sem = unique(course_df$semester)[length(unique(course_df$semester))]
+    }
+    # sem = unique(course_df$semester)[1]
+    df = course_df[course_df$semester == sem, ]
+    
+    df %>% filter(courseID %in% input$user_classes) %>%
       distinct(courseID, .keep_all = TRUE) %>%
       rename("Course ID" = courseID, "Course Description" = course_desc, "All Goals" = all_goals) %>%
       select("Course ID", "All Goals", "Course Description") %>%
@@ -650,7 +685,14 @@ server <- function(input, output, session) {
   output$course_desc <- renderText({
     course_df = classes[classes$courseID == input$usc_classes, ]
     # just grab one semester where the class is offered
-    sem = unique(course_df$semester)[1]
+    # cant figure out how to get the most recent semester so checking if sp23 available
+    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+      sem = "SP23"
+    }
+    else{ # if no spring 23 just grab the last semester in df
+      sem = unique(course_df$semester)[length(unique(course_df$semester))]
+    }
+    # sem = unique(course_df$semester)[1]
     df = course_df[course_df$semester == sem, ]
     usc_course_desc <- df %>%
       # filter(semester == input$usc_semester1) %>%
@@ -690,7 +732,13 @@ server <- function(input, output, session) {
   output$classes_to_goals <- renderPlot({
     course_df = classes[classes$courseID == input$usc_classes, ]
     # just grab one semester where the class is offered
-    sem = unique(course_df$semester)[1]
+    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+      sem = "SP23"
+    }
+    else{ # if no spring 23 just grab the last semester in df
+      sem = unique(course_df$semester)[length(unique(course_df$semester))]
+    }
+    # sem = unique(course_df$semester)[1]
     df = course_df[course_df$semester == sem, ]
     sdg_class_keyword_colors <- df %>%
       # filter(semester == input$usc_semester1) %>%
@@ -745,7 +793,13 @@ server <- function(input, output, session) {
   output$classes_to_keywords <- renderPlot({
     course_df = classes[classes$courseID == input$usc_classes, ]
     # just grab one semester where the class is offered
-    sem = unique(course_df$semester)[1]
+    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+      sem = "SP23"
+    }
+    else{ # if no spring 23 just grab the last semester in df
+      sem = unique(course_df$semester)[length(unique(course_df$semester))]
+    }
+    # sem = unique(course_df$semester)[1]
     df = course_df[course_df$semester == sem, ]
     
     sdg_class_keyword_colors <-  df %>%
@@ -785,7 +839,13 @@ server <- function(input, output, session) {
   output$classes_to_wordcloud <- renderPlot({
     course_df = classes[classes$courseID == input$usc_classes, ]
     # just grab one semester where the class is offered
-    sem = unique(course_df$semester)[1]
+    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+      sem = "SP23"
+    }
+    else{ # if no spring 23 just grab the last semester in df
+      sem = unique(course_df$semester)[length(unique(course_df$semester))]
+    }
+    # sem = unique(course_df$semester)[1]
     df = course_df[course_df$semester == sem, ]
     
     sdg_class_keyword_colors <-  df %>%
@@ -829,7 +889,13 @@ server <- function(input, output, session) {
   output$classes_table = DT::renderDataTable({
     course_df = classes[classes$courseID == input$usc_classes, ]
     # just grab one semester where the class is offered
-    sem = unique(course_df$semester)[1]
+    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
+      sem = "SP23"
+    }
+    else{ # if no spring 23 just grab the last semester in df
+      sem = unique(course_df$semester)[length(unique(course_df$semester))]
+    }
+    # sem = unique(course_df$semester)[1]
     df = course_df[course_df$semester == sem, ]
     
     df %>%
@@ -895,7 +961,11 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes) %>%
+        head(num_top_classes)
+        if (nrow(goals_to_classes_barplot) == 0){
+          return(0)
+        }
+        goals_to_classes_barplot = goals_to_classes_barplot %>%
         ggplot(aes(x = courseID1, y = total_weight)) +
         # as.numeric(substr(input$sdg_goal1, 1, 2))
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
@@ -927,7 +997,11 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes) %>%
+        head(num_top_classes)
+        if (nrow(goals_to_classes_barplot) == 0){
+          return(0)
+        }
+        goals_to_classes_barplot = goals_to_classes_barplot %>% 
         ggplot(aes(x = courseID1, y = total_weight)) +
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
         coord_flip() +
@@ -957,7 +1031,11 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes) %>%
+        head(num_top_classes)
+        if (nrow(goals_to_classes_barplot) == 0){
+          return(0)
+        }
+        goals_to_classes_barplot = goals_to_classes_barplot %>%
         ggplot(aes(x = courseID1, y = total_weight)) +
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
         coord_flip() +
@@ -987,7 +1065,11 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes) %>%
+        head(num_top_classes)
+        if (nrow(goals_to_classes_barplot) == 0){
+          return(0)
+        }
+        goals_to_classes_barplot = goals_to_classes_barplot %>%
         ggplot(aes(x = courseID1, y = total_weight)) +
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
         coord_flip() +
@@ -1257,6 +1339,9 @@ server <- function(input, output, session) {
       head(num_top_classes) %>%
       # rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title.x, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
       select(courseID, total_weight)
+    if (nrow(courses) == 0){
+      return(0)
+    }
     ids = courses$courseID
     #create empty dataframe 
     x = data.frame()
@@ -1266,7 +1351,13 @@ server <- function(input, output, session) {
       d = d[d$goal %in% input$ge_sdgs, ]
       # grab only one semester
       little_df = d[d$courseID == ids[i], ]
-      sem = unique(little_df$semester)[1]
+      if ("SP23" %in% unique(little_df$semester)){ #if sp23 is there just use that
+        sem = "SP23"
+      }
+      else{ # if no spring 23 just grab the last semester in df
+        sem = unique(little_df$semester)[length(unique(little_df$semester))]
+      }
+      # sem = unique(little_df$semester)[1]
       df = little_df[little_df$semester == sem, ]
       df = df %>% select(courseID, keyword, weight, goal, color)
       x = rbind(x, df)
@@ -1300,7 +1391,7 @@ server <- function(input, output, session) {
   
   # trying to get Classes by SDGs table name
   output$ge_name = renderText({
-    paste("All Classes Mapped to ", input$ge_category, sep="")
+    paste("All GE Classes Mapped to ", input$ge_category, sep="")
   })
   
   output$ge_table <- DT::renderDataTable({
