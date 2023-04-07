@@ -1,35 +1,39 @@
 # cleaning 2020-2022 course data
 # different format from the 2018/2019 data
 
-# need to remove more research courses!!!
-
 # data = read.csv("All_SOC_files_2020-2022_fixed.csv")
 data = read.csv("combined_data.csv")
 
-
+# filtering out Master's Thesis, Directed Research, and Doctoral Dissertation, all of which have a space at the end
+# also counting number of sections and number of enrolled students
 clean_data = function (raw_data){
-  # grab only the rows with enough students (except future classes it doesnt matter)
-  # update this number to be the current semester, so future semesters will be everything after this
-  future_classes = raw_data[raw_data$origin > 20231 & trimws(raw_data$COURSE_TITLE) !=  "Directed Research", ]
-  # remove basic research classes with boring descriptions
-  data_clean = raw_data[raw_data$TOTAL_ENR > 3 & trimws(raw_data$COURSE_TITLE) !=  "Directed Research", ] # added trimws for some spaces at end
-  # now combine with future classes
-  data_clean = rbind(data_clean, future_classes)
-  # now grab the unique courses by term
-  data_unique = data_clean[!duplicated(data_clean[ , c("COURSE_CODE", "origin")]), ] 
-  
-  # now getting the number of sections for each class offered in a semester
-  counts = c()
+  # we could split data in to origin < or > 20231
+  data_clean = raw_data[trimws(raw_data$COURSE_TITLE) !=  "Directed Research"
+                        & trimws(raw_data$COURSE_TITLE) !=  "Master's Thesis" 
+                        & trimws(raw_data$COURSE_TITLE) !=  "Doctoral Dissertation", ] # added trimws for some spaces at end
+  # want to get a column for the total number of enrolled students across all sections for class
+  # first grab all the unique courses per semester
+  data_unique = data_clean[!duplicated(data_clean[ , c("COURSE_CODE", "origin")]), ]
+  students = c()
+  sections = c()
   for (i in 1:nrow(data_unique)){
     course = data_unique[i, "COURSE_CODE"] 
     term = data_unique[i, "origin"]
+    # grab just the data for that course/semester
     mini_df = data_clean[ data_clean$COURSE_CODE == course & data_clean$origin == term , ]
+    # sum up the total students across all sections
+    total_students = sum(as.numeric(mini_df$TOTAL_ENR))
+    students = c(students, total_students)
+    # now get number of sections for each class in a semester
     rows = nrow(mini_df)
-    counts = c(counts, rows)
+    sections = c(sections, rows)
   }
-  data_unique["N.Sections"] = counts
+  data_unique["total_enrolled"] = students
+  data_unique["N.Sections"] = sections
+  
   return (data_unique)
 }
+# still need to cut out 700 level courses
 
 #takes awhile to run this line
 cleaned = clean_data(data)
@@ -96,7 +100,7 @@ transform_data = function(course_data){
   # create year column
   course_data$year = get_year(course_data$origin)
   # select relevant columns for the Shiny App
-  course_data = course_data[, c("courseID", "course_title", "semester", "section", "course_desc", "department", "N.Sections", "year")]
+  course_data = course_data[, c("courseID", "course_title", "semester", "section", "course_desc", "department", "N.Sections", "year", "total_enrolled")]
   
   return (course_data)
 }
@@ -132,6 +136,8 @@ get_class_levels <- function(data) {
 # now add the course levels to data
 data_final = get_class_levels(data_final)
 
+# i also want to add a function that creates "all semesters" column 
+# will do this later
 
 write.csv(data_final, "usc_courses.csv",row.names = F)
 

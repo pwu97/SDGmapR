@@ -57,13 +57,13 @@ for (i in 1:nrow(sustainability)){
   }
   # now we should know if there was at least one of the criteria present
   if (is_social_economic & is_environment){
-    sustainability$related[i] = "Focused"
+    sustainability$related[i] = "Sustainability-Focused"
   }
   if (is_social_economic & !is_environment){
-    sustainability$related[i] = "Inclusive"
+    sustainability$related[i] = "SDG-Related"
   }
   if (!is_social_economic & is_environment){
-    sustainability$related[i] = "Inclusive"
+    sustainability$related[i] = "SDG-Related"
   }
 }
 

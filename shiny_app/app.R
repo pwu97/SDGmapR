@@ -120,7 +120,7 @@ ui <- dashboardPage( skin="black",
                                                 #              the PWG. To see the words in a CSV file format, please see the ",a("USC-SDGmap package.", href="https://github.com/USC-Office-of-Sustainability/USC-SDG-Curriculum", target="_blank")),
                                                 h2("Select an SDG below to see its most relevant keywords."),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please email: oosdata@usc.edu"),
+                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 div(style="font-size:24px;",
                                                     selectizeInput(inputId = "sdg_goal3", label = "Choose SDG", choices = goals
                                                     )),
@@ -135,8 +135,9 @@ ui <- dashboardPage( skin="black",
                                                 )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu")),
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                                 
                                               ) #end fluid page
                                       ), # end tabitem 1
@@ -150,7 +151,7 @@ ui <- dashboardPage( skin="black",
                                  Here you can either find classes by the 17 different SDGs 
                                  (Find Classes by SDG) or see which SDGs map to a selected class 
                                  (Find SDGs by Class). To see how many classes at USC are sustainability-focused 
-                                 or sustainability-inclusive, please click on the bottom menu bottom 
+                                 or SDG-related, please click on the bottom menu bottom 
                                  ‘All Sustainability-Related Classes”."),
                                                 
                                                 h3(strong("How was this dashboard created?"), "This dashboard was created with R Shiny, based on source code in R through a 
@@ -170,15 +171,24 @@ ui <- dashboardPage( skin="black",
                                     tackling climate change. To explore the 17 SDGs, 
                                     please visit ", a("their website.", href= "https://sdgs.un.org/goals#icons", target="_blank")),
                                                 
-                                                h3(strong("How are USC's classes mapped to the 17 SDGs?"), "Please visit our page 
-                                    “Mapping the 17 SDGs” to learn more."),
+                                                h3(strong("Which USC courses are included in this dashboard?"), "All USC courses except for \"Directed Research,\"
+                                                   Master's Thesis,\" and \"Doctoral Dissertation\" classes. Although some classes do not map to the SDGs, they are still included
+                                                   in data analysis. "),
                                                 
-                                                h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please contact: oosdata@usc.edu"),
+                                                h3(strong("How often is this dashboard updated?"), "Data is updated at least once a semester after registration 
+                                                is complete for the following semester, and more frequently upon feedback."),
+                                                
+                                                h3(strong("How are USC's classes mapped to the 17 SDGs?"), "Please visit our 
+                                                   “Home” page to learn more."),
+                                                
+                                                h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please fill out our ", a("feedback form.", 
+                                                          href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                               ) #end fluidpage
                                       ), #end tabitem 2
                                       
@@ -189,12 +199,12 @@ ui <- dashboardPage( skin="black",
                                                 h3("Select your classes below and see how your curriculum relates to the 17 SDGs. Some classes
                                                    do not map to the SDGs via our keywords so those courses' mapping will be blank."), 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                   If you have feedback, please email: oosdata@usc.edu"),
+                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 # h3("Enter Your USC Courses"),
                                                 h4("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 div(style="font-size:24px;", selectizeInput(
                                                   inputId = "user_classes",
-                                                  label = "Enter Your USC Courses",
+                                                  label = "Enter Your USC Courses by Course ID",
                                                   choices = "",
                                                   # choices = unique(sustainability_related$courseID), #changed this from master data
                                                   selected = NULL,
@@ -220,8 +230,9 @@ ui <- dashboardPage( skin="black",
                                                 )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                               )#end fluid page
                                       ),# end tabitem 3
                                       
@@ -235,16 +246,21 @@ ui <- dashboardPage( skin="black",
                           that particular class. If you cannot find a class you are looking for, then it did not map to any of the SDGs via our keyword list.
                                                    To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                   If you have feedback, please email: oosdata@usc.edu"),
+                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 h4("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 div(style="font-size:24px;",selectizeInput(inputId = "usc_classes", 
-                                                                                           label = "Choose USC Class", 
+                                                                                           label = "Choose USC Class by Course ID", 
                                                                                            choices = "",
+                                                                                           width = "100%",
                                                                                            # choices = unique(classes$courseID),
                                                                                            options = list(maxOptions = 10000))),
                                                 h3(textOutput("semesters_offered")),
+                                                
+                                                h5("*special topics courses (course levels 499 and 599) often change, but the course data comes from the
+                                                   current semester for all courses."),
+                                                
                                                 br(),
-                                                h3(strong("Course description:")),
+                                                h3(strong("Course Title and Description:")),
                                                 h3(textOutput("course_desc")),
                                                 fluidRow(bootstrapPage(
                                                   column(6, plotOutput(outputId = "classes_to_wordcloud"), br()),
@@ -261,8 +277,9 @@ ui <- dashboardPage( skin="black",
                                                 )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                                 ) # end fluidpage
                                       ),#end tabitem 4
                                       
@@ -273,7 +290,7 @@ ui <- dashboardPage( skin="black",
                                                 h3("Select a USC semester and one of the SDGs to display the 10 most relevant USC classes that map to
                                                   that goal. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                   If you have feedback, please email: oosdata@usc.edu"),
+                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 div(style="font-size:24px;", selectInput(inputId = "usc_semester3",
                                                                                          label = "Choose USC Semester",
                                                                                          selected = "SP23",
@@ -306,8 +323,9 @@ ui <- dashboardPage( skin="black",
                                                 )), br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                               ) #end fluidpage
                                       ), #end tabitem5
                                       
@@ -315,13 +333,13 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "6",
                                               fluidPage(
                                                 h1("All Sustainably-Related Classes"),
-                                                h3("The below charts show the percent and number of USC courses that are ‘sustainability-focused’, ‘sustainability-inclusive’ or ‘not-related’ to 
-                                                sustainability, as well as the number and percent of departments that offer sustainability-focused or inclusive courses."),
-                                                h3("For a course to count as sustainability-inclusive, it has to map to at least one of the 17 UN SDGs. For a course to count as sustainability-focused, 
+                                                h3("The below charts show the percent and number of USC courses that are ‘sustainability-focused’, ‘SDG-related’ or ‘not related’ to 
+                                                sustainability, as well as the number and percent of departments that offer sustainability-focused or SDG-related courses."),
+                                                h3("For a course to count as SDG-related, it has to map to at least one of the 17 UN SDGs. For a course to count as sustainability-focused, 
                                                    it has to map to a combination of SDGs that includes at least one environmental focused SDG (13, 14, 15) and at least one economic or social 
                                                    focused SDG (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)."),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                   If you have feedback, please email: oosdata@usc.edu"),
+                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY23 = SU22, F22, SP23)"),
                                                 div(style="font-size:24px;",selectInput(inputId = "usc_year",
                                                                                         label = "Choose USC Academic Year",
@@ -343,8 +361,9 @@ ui <- dashboardPage( skin="black",
                                                 br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
                                                    "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                                            regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                               ), # end fluid page
                                       ), # end tabitem 6
                                       
@@ -358,7 +377,7 @@ ui <- dashboardPage( skin="black",
                                                    did not map to the SDGs via our keywords are not shown, but you can find them in the course catalogue ", a("here.", href="https://dornsife.usc.edu/2015ge/2015ge-requirements/")),
                                                 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                   If you have feedback, please email: oosdata@usc.edu"),
+                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 div(style="font-size:24px;",selectInput(inputId = "ge_category",
                                                                                         label = "Choose GE Category",
                                                                                         selected = "A - The Arts",
@@ -382,8 +401,10 @@ ui <- dashboardPage( skin="black",
                                                 )), br(), br(),
                                                 
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via instagram or twitter. You can also support the Office of Sustainability 
-                                              by donating here. More questions or suggestions in regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
+                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                               ) #end fluid page
                                       ) #end tabitem 7
                                       
@@ -1191,11 +1212,11 @@ server <- function(input, output, session) {
     for (i in 1:nrow(departments)){
       mini_df = pie_data[pie_data$department == departments$department[i], ]
       department_classifications = unique(mini_df$sustainability_classification)
-      if ("Focused" %in% department_classifications){
+      if ("Sustainability-Focused" %in% department_classifications){
         focused = focused + 1
         next
       }
-      else if ("Inclusive" %in% department_classifications){
+      else if ("SDG-Related" %in% department_classifications){
         inclusive = inclusive + 1
         next
       }
@@ -1204,8 +1225,8 @@ server <- function(input, output, session) {
       }
     }
     vals=c(notrelated, focused, inclusive)
-    labels=c(paste("Not Related (N=", notrelated, ")", sep = ""), paste("Focused (N=", focused, ")", sep=""), paste("Inclusive (N=", inclusive, ")", sep=""))
-    pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%")
+    labels=c(paste("Not Related (N=", notrelated, ")", sep = ""), paste("Sustainability-Focused (N=", focused, ")", sep=""), paste("SDG-Related (N=", inclusive, ")", sep=""))
+    pie_labels <- paste0(round(100 * vals/sum(vals), 1), "%")
     pie = data.frame(labels, vals)
     ggplot(pie, aes(x = "", y = vals, fill = labels)) +
       geom_col(color = "black") +
@@ -1218,8 +1239,8 @@ server <- function(input, output, session) {
                 fill = "white", color = "white", size = 7.5, fontface="bold",
                 position = position_stack(vjust = 0.5),
                 show.legend = FALSE) +
-      scale_fill_manual(values = c("#990000", 
-                                            "#FFC72C", "#767676")) +
+      scale_fill_manual(values = c("#767676", 
+                                            "#FFC72C", "#990000")) +
                                               guides(fill = guide_legend(title = "Sustainability Classification")) + 
       # guides(color = guide_legend(override.aes = list(size = 10))) + 
       theme_void() + 
@@ -1246,18 +1267,18 @@ server <- function(input, output, session) {
         sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
         next
       }
-      if (pie_data$sustainability_classification[i] == "Inclusive"){
+      if (pie_data$sustainability_classification[i] == "SDG-Related"){
         sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
         next
       }
-      if (pie_data$sustainability_classification[i] == "Focused"){
+      if (pie_data$sustainability_classification[i] == "Sustainability-Focused"){
         sum_focused = sum_focused + pie_data$N.Sections[i]
         next
       }
     }
     vals=c(sum_notrelated, sum_focused, sum_inclusive)
-    labels=c(paste("Not Related (N=", sum_notrelated, ")", sep = ""), paste("Focused (N=", sum_focused, ")", sep=""), paste("Inclusive (N=", sum_inclusive, ")", sep=""))
-    pie_labels <- paste0(round(100 * vals/sum(vals), 2), "%")
+    labels=c(paste("Not Related (N=", sum_notrelated, ")", sep = ""), paste("Sustainability-Focused (N=", sum_focused, ")", sep=""), paste("SDG-Related (N=", sum_inclusive, ")", sep=""))
+    pie_labels <- paste0(round(100 * vals/sum(vals), 1), "%")
     pie = data.frame(labels, vals)
     ggplot(pie, aes(x = "", y = vals, fill = labels)) +
       geom_col(color = "black") +
@@ -1268,8 +1289,8 @@ server <- function(input, output, session) {
                 fill = "white", color = "white", size = 7.5, fontface="bold",
                 position = position_stack(vjust = 0.5),
                 show.legend = FALSE) +
-      scale_fill_manual(values = c("#990000", 
-                                            "#FFC72C", "#767676")) +
+      scale_fill_manual(values = c("#767676", 
+                                            "#FFC72C", "#990000")) +
                                               guides(fill = guide_legend(title = "Sustainability Classification")) + 
       # guides(color = guide_legend(override.aes = list(size = 10))) + 
       theme_void() + 
@@ -1289,16 +1310,16 @@ server <- function(input, output, session) {
       # remove the classes with no department listed
       mini_df = mini_df[!is.na(mini_df$department),]
       department_classifications = unique(mini_df$sustainability_classification)
-      if ("Focused" %in% department_classifications){
-        departments[i, "sustainability"] = "Focused"
+      if ("Sustainability-Focused" %in% department_classifications){
+        departments[i, "sustainability"] = "Sustainability-Focused"
         # now grab the classes
-        classes_df = mini_df[mini_df$sustainability_classification == "Focused", ]
+        classes_df = mini_df[mini_df$sustainability_classification == "Sustainability-Focused", ]
         courses = unique(classes_df$courseID)
         departments[i, "focused_classes"] = paste(courses, collapse = ", ")
         next
       }
-      else if ("Inclusive" %in% department_classifications){
-        departments[i, "sustainability"] = "Inclusive"
+      else if ("SDG-Related" %in% department_classifications){
+        departments[i, "sustainability"] = "SDG-Related"
         next
       }
       else{
