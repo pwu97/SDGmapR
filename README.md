@@ -1,6 +1,5 @@
 # USC SDGmap R Package
 
-
 Peter Wu at Carnegie Mellon wrote the initial code that inspired this
 project, and his original R package can be found on
 [Github](https://github.com/pwu97/SDGmapR). At USC, Brian Tinsley and
@@ -17,6 +16,9 @@ in the `tidy` data format, the [UN Official SDG color
 scheme](https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/01/SDG_Guidelines_AUG_2019_Final.pdf)
 and several functions related to the mapping of text to particular sets
 of keywords.
+
+## Important Note (3/30/23)
+This ReadMe is in-progress as we are still finalizing all code. All instructions below will be updated in the coming weeks. Please stay tuned.
 
 ## Installation
 
