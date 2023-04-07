@@ -1264,15 +1264,18 @@ server <- function(input, output, session) {
     sum_focused = 0
     for (i in 1:nrow(pie_data)){
       if (pie_data$sustainability_classification[i] == "Not Related"){
-        sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        # sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        sum_notrelated = sum_notrelated + 1
         next
       }
       if (pie_data$sustainability_classification[i] == "SDG-Related"){
-        sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        # sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        sum_inclusive = sum_inclusive + 1
         next
       }
       if (pie_data$sustainability_classification[i] == "Sustainability-Focused"){
-        sum_focused = sum_focused + pie_data$N.Sections[i]
+        # sum_focused = sum_focused + pie_data$N.Sections[i]
+        sum_focused = sum_focused + 1
         next
       }
     }

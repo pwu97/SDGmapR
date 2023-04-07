@@ -10,7 +10,8 @@ clean_data = function (raw_data){
   # we could split data in to origin < or > 20231
   data_clean = raw_data[trimws(raw_data$COURSE_TITLE) !=  "Directed Research"
                         & trimws(raw_data$COURSE_TITLE) !=  "Master's Thesis" 
-                        & trimws(raw_data$COURSE_TITLE) !=  "Doctoral Dissertation", ] # added trimws for some spaces at end
+                        & trimws(raw_data$COURSE_TITLE) !=  "Doctoral Dissertation"
+                        & trimws(raw_data$COURSE_TITLE) !=  "Research" , ]
   # want to get a column for the total number of enrolled students across all sections for class
   # first grab all the unique courses per semester
   data_unique = data_clean[!duplicated(data_clean[ , c("COURSE_CODE", "origin")]), ]
