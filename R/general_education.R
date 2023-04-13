@@ -53,6 +53,15 @@ result = left_join(df, master, by="courseID")
 sustainability = read.csv("sustainability_related_courses.csv")
 final = result %>% left_join(sustainability, by="courseID")
 
+# there are 3 NA values in the sustainability related column
+# unique(final$sustainability_classification)
+
+for (i in 1:nrow(final)){
+  if (is.na(final$sustainability_classification[i])){
+    final$sustainability_classification[i] = "Not Related"
+  }
+}
+
 write.csv(final, "ge_data.csv", row.names=F)
 
 

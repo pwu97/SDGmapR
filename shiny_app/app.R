@@ -1273,7 +1273,7 @@ server <- function(input, output, session) {
         sum_inclusive = sum_inclusive + 1
         next
       }
-      if (pie_data$sustainability_classification[i] == "Sustainability-Focused"){
+      if (pie_data$sustainability_classification[i] == "Sustainability-Focused"){ 
         # sum_focused = sum_focused + pie_data$N.Sections[i]
         sum_focused = sum_focused + 1
         next

@@ -33,12 +33,12 @@ goal,keyword,pattern,color
 1,debtors,\b(\d*)debtors(\d*)\b,#E5243B
 1,debts,\b(\d*)debts(\d*)\b,#E5243B
 1,deprivation,\b(\d*)deprivation(\d*)\b,#E5243B
+1,deprived,\b(\d*)deprived(\d*)\b,#E5243B
 1,destitute,\b(\d*)destitute(\d*)\b,#E5243B
 1,destitution,\b(\d*)destitution(\d*)\b,#E5243B
 1,developing countries,\b(\d*)developing countries(\d*)\b,#E5243B
 1,disability benefits,\b(\d*)disability benefits(\d*)\b,#E5243B
 1,disadvantaged,\b(\d*)disadvantaged(\d*)\b,#E5243B
-1,discrimination,\b(\d*)discrimination(\d*)\b,#E5243B
 1,disparities,\b(\d*)disparities(\d*)\b,#E5243B
 1,dispossessed,\b(\d*)dispossessed(\d*)\b,#E5243B
 1,donation,\b(\d*)donation(\d*)\b,#E5243B
@@ -93,6 +93,7 @@ goal,keyword,pattern,color
 1,financial service,\b(\d*)financial service(\d*)\b,#E5243B
 1,financial services,\b(\d*)financial services(\d*)\b,#E5243B
 1,financial stress,\b(\d*)financial stress(\d*)\b,#E5243B
+1,financially challenged,\b(\d*)financially challenged(\d*)\b,#E5243B
 1,financially stable,\b(\d*)financially stable(\d*)\b,#E5243B
 1,food secure,\b(\d*)food secure(\d*)\b,#E5243B
 1,foreclosure,\b(\d*)foreclosure(\d*)\b,#E5243B
@@ -112,6 +113,7 @@ goal,keyword,pattern,color
 1,impoverished,\b(\d*)impoverished(\d*)\b,#E5243B
 1,income assistance,\b(\d*)income assistance(\d*)\b,#E5243B
 1,increased prices,\b(\d*)increased prices(\d*)\b,#E5243B
+1,indigent,\b(\d*)indigent(\d*)\b,#E5243B
 1,inflation impact,\b(\d*)inflation impact(\d*)\b,#E5243B
 1,inheritance,\b(\d*)inheritance(\d*)\b,#E5243B
 1,inherited,\b(\d*)inherited(\d*)\b,#E5243B
@@ -134,7 +136,7 @@ goal,keyword,pattern,color
 1,mortgage payment,\b(\d*)mortgage payment(\d*)\b,#E5243B
 1,mortgages,\b(\d*)mortgages(\d*)\b,#E5243B
 1,natural disaster,\b(\d*)natural disaster(\d*)\b,#E5243B
-1,Needy Families,\b(\d*)Needy Families(\d*)\b,#E5243B
+1,needy,\b(\d*)needy(\d*)\b,#E5243B
 1,ownership of land,\b(\d*)ownership of land(\d*)\b,#E5243B
 1,paid compensation,\b(\d*)paid compensation(\d*)\b,#E5243B
 1,paid family leave,\b(\d*)paid family leave(\d*)\b,#E5243B
@@ -197,6 +199,7 @@ goal,keyword,pattern,color
 1,spending,\b(\d*)spending(\d*)\b,#E5243B
 1,status and power,\b(\d*)status and power(\d*)\b,#E5243B
 1,stratification,\b(\d*)stratification(\d*)\b,#E5243B
+1,struggling financially,\b(\d*)struggling financially(\d*)\b,#E5243B
 1,superannuation,\b(\d*)superannuation(\d*)\b,#E5243B
 1,TANF,\b(\d*)TANF(\d*)\b,#E5243B
 1,tax credit,\b(\d*)tax credit(\d*)\b,#E5243B
@@ -223,6 +226,7 @@ goal,keyword,pattern,color
 1,veteran benefits,\b(\d*)veteran benefits(\d*)\b,#E5243B
 1,veteran care,\b(\d*)veteran care(\d*)\b,#E5243B
 1,vulnerability to climate-related,\b(\d*)vulnerability to climate-related(\d*)\b,#E5243B
+1,vulnerable groups,\b(\d*)vulnerable groups(\d*)\b,#E5243B
 1,vulnerable social class,\b(\d*)vulnerable social class(\d*)\b,#E5243B
 1,wage,\b(\d*)wage(\d*)\b,#E5243B
 1,wages,\b(\d*)wages(\d*)\b,#E5243B
@@ -572,7 +576,6 @@ goal,keyword,pattern,color
 3,als,\b(\d*)als(\d*)\b,#4C9F38
 3,alzheimer,\b(\d*)alzheimer(\d*)\b,#4C9F38
 3,alzheimer's,\b(\d*)alzheimer's(\d*)\b,#4C9F38
-3,stem cell,\b(\d*)stem cell(\d*)\b,#4C9F38
 3,amputation,\b(\d*)amputation(\d*)\b,#4C9F38
 3,anemia,\b(\d*)anemia(\d*)\b,#4C9F38
 3,angina,\b(\d*)angina(\d*)\b,#4C9F38
@@ -655,8 +658,6 @@ goal,keyword,pattern,color
 3,doctor,\b(\d*)doctor(\d*)\b,#4C9F38
 3,doula,\b(\d*)doula(\d*)\b,#4C9F38
 3,drug,\b(\d*)drug(\d*)\b,#4C9F38
-3,prosthodontics,\b(\d*)prosthodontics(\d*)\b,#4C9F38
-3,prosthetics,\b(\d*)prosthetics(\d*)\b,#4C9F38
 3,drugged,\b(\d*)drugged(\d*)\b,#4C9F38
 3,drugs,\b(\d*)drugs(\d*)\b,#4C9F38
 3,e.coli,\b(\d*)e.coli(\d*)\b,#4C9F38
@@ -689,8 +690,8 @@ goal,keyword,pattern,color
 3,h#n# strain,\b(\d*)h#n# strain(\d*)\b,#4C9F38
 3,health access,\b(\d*)health access(\d*)\b,#4C9F38
 3,health care,\b(\d*)health care(\d*)\b,#4C9F38
-3,health services,\b(\d*)health services(\d*)\b,#4C9F38
 3,health insurance,\b(\d*)health insurance(\d*)\b,#4C9F38
+3,health services,\b(\d*)health services(\d*)\b,#4C9F38
 3,healthcare,\b(\d*)healthcare(\d*)\b,#4C9F38
 3,healthy body,\b(\d*)healthy body(\d*)\b,#4C9F38
 3,healthy diet,\b(\d*)healthy diet(\d*)\b,#4C9F38
@@ -712,6 +713,7 @@ goal,keyword,pattern,color
 3,hsa,\b(\d*)hsa(\d*)\b,#4C9F38
 3,hsas,\b(\d*)hsas(\d*)\b,#4C9F38
 3,human health,\b(\d*)human health(\d*)\b,#4C9F38
+3,human life,\b(\d*)human life(\d*)\b,#4C9F38
 3,hypertension,\b(\d*)hypertension(\d*)\b,#4C9F38
 3,IBS,\b(\d*)IBS(\d*)\b,#4C9F38
 3,illness,\b(\d*)illness(\d*)\b,#4C9F38
@@ -816,8 +818,11 @@ goal,keyword,pattern,color
 3,prescriptions,\b(\d*)prescriptions(\d*)\b,#4C9F38
 3,preterm birth,\b(\d*)preterm birth(\d*)\b,#4C9F38
 3,prostate,\b(\d*)prostate(\d*)\b,#4C9F38
+3,prosthetics,\b(\d*)prosthetics(\d*)\b,#4C9F38
+3,prosthodontics,\b(\d*)prosthodontics(\d*)\b,#4C9F38
 3,psoriasis,\b(\d*)psoriasis(\d*)\b,#4C9F38
 3,PTSD,\b(\d*)PTSD(\d*)\b,#4C9F38
+3,public health,\b(\d*)public health(\d*)\b,#4C9F38
 3,rabies,\b(\d*)rabies(\d*)\b,#4C9F38
 3,radiation therapy,\b(\d*)radiation therapy(\d*)\b,#4C9F38
 3,rash,\b(\d*)rash(\d*)\b,#4C9F38
@@ -825,6 +830,7 @@ goal,keyword,pattern,color
 3,respiratory,\b(\d*)respiratory(\d*)\b,#4C9F38
 3,rosacea,\b(\d*)rosacea(\d*)\b,#4C9F38
 3,rsv,\b(\d*)rsv(\d*)\b,#4C9F38
+3,safety and health,\b(\d*)safety and health(\d*)\b,#4C9F38
 3,salmonella,\b(\d*)salmonella(\d*)\b,#4C9F38
 3,salt intake,\b(\d*)salt intake(\d*)\b,#4C9F38
 3,sanitary,\b(\d*)sanitary(\d*)\b,#4C9F38
@@ -838,19 +844,18 @@ goal,keyword,pattern,color
 3,sleep,\b(\d*)sleep(\d*)\b,#4C9F38
 3,smallpox,\b(\d*)smallpox(\d*)\b,#4C9F38
 3,sneezing,\b(\d*)sneezing(\d*)\b,#4C9F38
-3,safety and health,\b(\d*)safety and health(\d*)\b,#4C9F38
 3,social safety net,\b(\d*)social safety net(\d*)\b,#4C9F38
 3,staph,\b(\d*)staph(\d*)\b,#4C9F38
 3,statin,\b(\d*)statin(\d*)\b,#4C9F38
 3,statins,\b(\d*)statins(\d*)\b,#4C9F38
 3,std,\b(\d*)std(\d*)\b,#4C9F38
 3,stds,\b(\d*)stds(\d*)\b,#4C9F38
+3,stem cell,\b(\d*)stem cell(\d*)\b,#4C9F38
 3,sti,\b(\d*)sti(\d*)\b,#4C9F38
 3,stis,\b(\d*)stis(\d*)\b,#4C9F38
 3,stitches,\b(\d*)stitches(\d*)\b,#4C9F38
 3,stroke,\b(\d*)stroke(\d*)\b,#4C9F38
 3,substance abuse,\b(\d*)substance abuse(\d*)\b,#4C9F38
-3,human life,\b(\d*)human life(\d*)\b,#4C9F38
 3,sudden cardiac death,\b(\d*)sudden cardiac death(\d*)\b,#4C9F38
 3,sudden infant death,\b(\d*)sudden infant death(\d*)\b,#4C9F38
 3,superbug,\b(\d*)superbug(\d*)\b,#4C9F38
@@ -932,6 +937,8 @@ goal,keyword,pattern,color
 4,educated,\b(\d*)educated(\d*)\b,#C5192D
 4,education,\b(\d*)education(\d*)\b,#C5192D
 4,educational,\b(\d*)educational(\d*)\b,#C5192D
+4,educational scholarship,\b(\d*)educational scholarship(\d*)\b,#C5192D
+4,educational scholarships,\b(\d*)educational scholarships(\d*)\b,#C5192D
 4,educationally,\b(\d*)educationally(\d*)\b,#C5192D
 4,educations,\b(\d*)educations(\d*)\b,#C5192D
 4,educator,\b(\d*)educator(\d*)\b,#C5192D
@@ -939,6 +946,7 @@ goal,keyword,pattern,color
 4,effective learning,\b(\d*)effective learning(\d*)\b,#C5192D
 4,effective learning outcome,\b(\d*)effective learning outcome(\d*)\b,#C5192D
 4,effective learning outcomes,\b(\d*)effective learning outcomes(\d*)\b,#C5192D
+4,effective teaching,\b(\d*)effective teaching(\d*)\b,#C5192D
 4,elementaries,\b(\d*)elementaries(\d*)\b,#C5192D
 4,elementary school,\b(\d*)elementary school(\d*)\b,#C5192D
 4,elementary schools,\b(\d*)elementary schools(\d*)\b,#C5192D
@@ -950,8 +958,6 @@ goal,keyword,pattern,color
 4,equitable classroom,\b(\d*)equitable classroom(\d*)\b,#C5192D
 4,equitable learning,\b(\d*)equitable learning(\d*)\b,#C5192D
 4,experiential learning,\b(\d*)experiential learning(\d*)\b,#C5192D
-4,pedagogy,\b(\d*)pedagogy(\d*)\b,#C5192D
-4,pedagogical,\b(\d*)pedagogical(\d*)\b,#C5192D
 4,extra curricular activities,\b(\d*)extra curricular activities(\d*)\b,#C5192D
 4,extracurricular activities,\b(\d*)extracurricular activities(\d*)\b,#C5192D
 4,gainful employment,\b(\d*)gainful employment(\d*)\b,#C5192D
@@ -994,7 +1000,6 @@ goal,keyword,pattern,color
 4,liberal arts program,\b(\d*)liberal arts program(\d*)\b,#C5192D
 4,librarians,\b(\d*)librarians(\d*)\b,#C5192D
 4,libraries,\b(\d*)libraries(\d*)\b,#C5192D
-4,effective teaching,\b(\d*)effective teaching(\d*)\b,#C5192D
 4,library access,\b(\d*)library access(\d*)\b,#C5192D
 4,lifelong learning,\b(\d*)lifelong learning(\d*)\b,#C5192D
 4,literacy,\b(\d*)literacy(\d*)\b,#C5192D
@@ -1014,6 +1019,8 @@ goal,keyword,pattern,color
 4,parent teacher,\b(\d*)parent teacher(\d*)\b,#C5192D
 4,parental involvement,\b(\d*)parental involvement(\d*)\b,#C5192D
 4,parents,\b(\d*)parents(\d*)\b,#C5192D
+4,pedagogical,\b(\d*)pedagogical(\d*)\b,#C5192D
+4,pedagogy,\b(\d*)pedagogy(\d*)\b,#C5192D
 4,pedagogy,\b(\d*)pedagogy(\d*)\b,#C5192D
 4,PhD,\b(\d*)PhD(\d*)\b,#C5192D
 4,physical education program,\b(\d*)physical education program(\d*)\b,#C5192D
@@ -1033,8 +1040,6 @@ goal,keyword,pattern,color
 4,sat scores,\b(\d*)sat scores(\d*)\b,#C5192D
 4,sats,\b(\d*)sats(\d*)\b,#C5192D
 4,save the children,\b(\d*)save the children(\d*)\b,#C5192D
-4,educational scholarship,\b(\d*)educational scholarship(\d*)\b,#C5192D
-4,educational scholarships,\b(\d*)educational scholarships(\d*)\b,#C5192D
 4,school,\b(\d*)school(\d*)\b,#C5192D
 4,school boards,\b(\d*)school boards(\d*)\b,#C5192D
 4,school leavers,\b(\d*)school leavers(\d*)\b,#C5192D
@@ -1114,6 +1119,7 @@ goal,keyword,pattern,color
 5,fgm,\b(\d*)fgm(\d*)\b,#FF3A21
 5,gbv,\b(\d*)gbv(\d*)\b,#FF3A21
 5,gender,\b(\d*)gender(\d*)\b,#FF3A21
+5,gender inequalities,\b(\d*)gender inequalities(\d*)\b,#FF3A21
 5,gender pay gap,\b(\d*)gender pay gap(\d*)\b,#FF3A21
 5,gender rights,\b(\d*)gender rights(\d*)\b,#FF3A21
 5,gender-based violence,\b(\d*)gender-based violence(\d*)\b,#FF3A21
@@ -1132,7 +1138,6 @@ goal,keyword,pattern,color
 5,husbands,\b(\d*)husbands(\d*)\b,#FF3A21
 5,incest,\b(\d*)incest(\d*)\b,#FF3A21
 5,income inequality,\b(\d*)income inequality(\d*)\b,#FF3A21
-5,gender inequalities,\b(\d*)gender inequalities(\d*)\b,#FF3A21
 5,inequality,\b(\d*)inequality(\d*)\b,#FF3A21
 5,inequities,\b(\d*)inequities(\d*)\b,#FF3A21
 5,inequity,\b(\d*)inequity(\d*)\b,#FF3A21
@@ -1154,8 +1159,6 @@ goal,keyword,pattern,color
 5,male,\b(\d*)male(\d*)\b,#FF3A21
 5,male counterparts,\b(\d*)male counterparts(\d*)\b,#FF3A21
 5,males,\b(\d*)males(\d*)\b,#FF3A21
-5,marginalization,\b(\d*)marginalization(\d*)\b,#FF3A21
-5,marginalized,\b(\d*)marginalized(\d*)\b,#FF3A21
 5,marriage equality,\b(\d*)marriage equality(\d*)\b,#FF3A21
 5,marriage rights,\b(\d*)marriage rights(\d*)\b,#FF3A21
 5,masculine,\b(\d*)masculine(\d*)\b,#FF3A21
@@ -1191,6 +1194,7 @@ goal,keyword,pattern,color
 5,rape,\b(\d*)rape(\d*)\b,#FF3A21
 5,rapes,\b(\d*)rapes(\d*)\b,#FF3A21
 5,rapist,\b(\d*)rapist(\d*)\b,#FF3A21
+5,reproductive freedom,\b(\d*)reproductive freedom(\d*)\b,#FF3A21
 5,Roe v. Wade,\b(\d*)Roe v. Wade(\d*)\b,#FF3A21
 5,Roe versus Wade,\b(\d*)Roe versus Wade(\d*)\b,#FF3A21
 5,Roe vs. Wade,\b(\d*)Roe vs. Wade(\d*)\b,#FF3A21
@@ -1221,7 +1225,6 @@ goal,keyword,pattern,color
 5,victimization,\b(\d*)victimization(\d*)\b,#FF3A21
 5,virgin,\b(\d*)virgin(\d*)\b,#FF3A21
 5,virginity,\b(\d*)virginity(\d*)\b,#FF3A21
-5,reproductive freedom,\b(\d*)reproductive freedom(\d*)\b,#FF3A21
 5,vulgar,\b(\d*)vulgar(\d*)\b,#FF3A21
 5,wives,\b(\d*)wives(\d*)\b,#FF3A21
 5,woman,\b(\d*)woman(\d*)\b,#FF3A21
@@ -1301,8 +1304,8 @@ goal,keyword,pattern,color
 6,formaldehyde,\b(\d*)formaldehyde(\d*)\b,#26BDE2
 6,freshwater sanitation,\b(\d*)freshwater sanitation(\d*)\b,#26BDE2
 6,freshwater supply,\b(\d*)freshwater supply(\d*)\b,#26BDE2
-6,groundwater,\b(\d*)groundwater(\d*)\b,#26BDE2
 6,ground water,\b(\d*)ground water(\d*)\b,#26BDE2
+6,groundwater,\b(\d*)groundwater(\d*)\b,#26BDE2
 6,gutters,\b(\d*)gutters(\d*)\b,#26BDE2
 6,H2O,\b(\d*)H2O(\d*)\b,#26BDE2
 6,handwashing,\b(\d*)handwashing(\d*)\b,#26BDE2
@@ -1451,13 +1454,9 @@ goal,keyword,pattern,color
 6,waterways,\b(\d*)waterways(\d*)\b,#26BDE2
 6,waterworks,\b(\d*)waterworks(\d*)\b,#26BDE2
 6,well water,\b(\d*)well water(\d*)\b,#26BDE2
-6,wellwater,\b(\d*)wellwater(\d*)\b,#26BDE2
 6,wells,\b(\d*)wells(\d*)\b,#26BDE2
-7,oilfield,\b(\d*)oilfield(\d*)\b,#FCC30B
-7,oil recovery,\b(\d*)oil recovery\d*)\b,#FCC30B
-7,oil well,\b(\d*)oil well(\d*)\b,#FCC30B
+6,wellwater,\b(\d*)wellwater(\d*)\b,#26BDE2
 7,access to power,\b(\d*)access to power(\d*)\b,#FCC30B
-7,energy resources,\b(\d*)energy resources(\d*)\b,#FCC30B
 7,alternative energy,\b(\d*)alternative energy(\d*)\b,#FCC30B
 7,aluminum smelter,\b(\d*)aluminum smelter(\d*)\b,#FCC30B
 7,batteries,\b(\d*)batteries(\d*)\b,#FCC30B
@@ -1502,6 +1501,7 @@ goal,keyword,pattern,color
 7,emission reductions,\b(\d*)emission reductions(\d*)\b,#FCC30B
 7,energy agency,\b(\d*)energy agency(\d*)\b,#FCC30B
 7,energy efficiency,\b(\d*)energy efficiency(\d*)\b,#FCC30B
+7,energy resources,\b(\d*)energy resources(\d*)\b,#FCC30B
 7,energy-intensive,\b(\d*)energy-intensive(\d*)\b,#FCC30B
 7,environmental issues,\b(\d*)environmental issues(\d*)\b,#FCC30B
 7,environmental studies,\b(\d*)environmental studies(\d*)\b,#FCC30B
@@ -1569,8 +1569,11 @@ goal,keyword,pattern,color
 7,nuclear,\b(\d*)nuclear(\d*)\b,#FCC30B
 7,offshore,\b(\d*)offshore(\d*)\b,#FCC30B
 7,oil production,\b(\d*)oil production(\d*)\b,#FCC30B
+7,oil recovery,\b(\d*)oil recovery(\d*)\b,#FCC30B
 7,oil refinery,\b(\d*)oil refinery(\d*)\b,#FCC30B
 7,oil sands,\b(\d*)oil sands(\d*)\b,#FCC30B
+7,oil well,\b(\d*)oil well(\d*)\b,#FCC30B
+7,oilfield,\b(\d*)oilfield(\d*)\b,#FCC30B
 7,oilsands,\b(\d*)oilsands(\d*)\b,#FCC30B
 7,oilseed,\b(\d*)oilseed(\d*)\b,#FCC30B
 7,palm oil,\b(\d*)palm oil(\d*)\b,#FCC30B
@@ -2109,7 +2112,9 @@ goal,keyword,pattern,color
 10,discriminates,\b(\d*)discriminates(\d*)\b,#DD1367
 10,discrimination,\b(\d*)discrimination(\d*)\b,#DD1367
 10,discriminatory,\b(\d*)discriminatory(\d*)\b,#DD1367
+10,disenfranchised,\b(\d*)disenfranchised(\d*)\b,#DD1367
 10,disenfranchisement,\b(\d*)disenfranchisement(\d*)\b,#DD1367
+10,disfranchisement,\b(\d*)disfranchisement\d*)\b,#DD1367
 10,disparities,\b(\d*)disparities(\d*)\b,#DD1367
 10,disparity,\b(\d*)disparity(\d*)\b,#DD1367
 10,displaced,\b(\d*)displaced(\d*)\b,#DD1367
@@ -2127,6 +2132,7 @@ goal,keyword,pattern,color
 10,emigration,\b(\d*)emigration(\d*)\b,#DD1367
 10,employers,\b(\d*)employers(\d*)\b,#DD1367
 10,employment,\b(\d*)employment(\d*)\b,#DD1367
+10,empowerment,\b(\d*)empowerment(\d*)\b,#DD1367
 10,environmental studies,\b(\d*)environmental studies(\d*)\b,#DD1367
 10,equal,\b(\d*)equal(\d*)\b,#DD1367
 10,equal opportunity,\b(\d*)equal opportunity(\d*)\b,#DD1367
@@ -2189,7 +2195,6 @@ goal,keyword,pattern,color
 10,inclusion,\b(\d*)inclusion(\d*)\b,#DD1367
 10,inclusive,\b(\d*)inclusive(\d*)\b,#DD1367
 10,indigenous,\b(\d*)indigenous(\d*)\b,#DD1367
-10,reduced inequalities,\b(\d*)reduced inequalities(\d*)\b,#DD1367
 10,inequality,\b(\d*)inequality(\d*)\b,#DD1367
 10,inequitable,\b(\d*)inequitable(\d*)\b,#DD1367
 10,inequities,\b(\d*)inequities(\d*)\b,#DD1367
@@ -2222,7 +2227,7 @@ goal,keyword,pattern,color
 10,lgbtqia+,\b(\d*)lgbtqia+(\d*)\b,#DD1367
 10,loan,\b(\d*)loan(\d*)\b,#DD1367
 10,marginalization,\b(\d*)marginalization(\d*)\b,#DD1367
-10,marginalized communities,\b(\d*)marginalized communities(\d*)\b,#DD1367
+10,marginalized,\b(\d*)marginalized(\d*)\b,#DD1367
 10,maternal mortality,\b(\d*)maternal mortality(\d*)\b,#DD1367
 10,medicaid,\b(\d*)medicaid(\d*)\b,#DD1367
 10,Middle Eastern,\b(\d*)Middle Eastern(\d*)\b,#DD1367
@@ -2237,6 +2242,7 @@ goal,keyword,pattern,color
 10,misgender,\b(\d*)misgender(\d*)\b,#DD1367
 10,mortgage,\b(\d*)mortgage(\d*)\b,#DD1367
 10,mortgages,\b(\d*)mortgages(\d*)\b,#DD1367
+10,multicultural,\b(\d*)multicultural(\d*)\b,#DD1367
 10,multiculturalism,\b(\d*)multiculturalism(\d*)\b,#DD1367
 10,naacp,\b(\d*)naacp(\d*)\b,#DD1367
 10,nationals,\b(\d*)nationals(\d*)\b,#DD1367
@@ -2245,6 +2251,7 @@ goal,keyword,pattern,color
 10,oppression,\b(\d*)oppression(\d*)\b,#DD1367
 10,orphans,\b(\d*)orphans(\d*)\b,#DD1367
 10,overcrowding,\b(\d*)overcrowding(\d*)\b,#DD1367
+10,people of color,\b(\d*)people of color(\d*)\b,#DD1367
 10,permanent residency,\b(\d*)permanent residency(\d*)\b,#DD1367
 10,persecution,\b(\d*)persecution(\d*)\b,#DD1367
 10,politics,\b(\d*)politics(\d*)\b,#DD1367
@@ -2260,6 +2267,7 @@ goal,keyword,pattern,color
 10,racist,\b(\d*)racist(\d*)\b,#DD1367
 10,racists,\b(\d*)racists(\d*)\b,#DD1367
 10,redlining,\b(\d*)redlining(\d*)\b,#DD1367
+10,reduced inequalities,\b(\d*)reduced inequalities(\d*)\b,#DD1367
 10,refugee,\b(\d*)refugee(\d*)\b,#DD1367
 10,refugee agency,\b(\d*)refugee agency(\d*)\b,#DD1367
 10,refugee camps,\b(\d*)refugee camps(\d*)\b,#DD1367
@@ -2301,6 +2309,7 @@ goal,keyword,pattern,color
 10,underdeveloped,\b(\d*)underdeveloped(\d*)\b,#DD1367
 10,underdevelopment,\b(\d*)underdevelopment(\d*)\b,#DD1367
 10,underfunding,\b(\d*)underfunding(\d*)\b,#DD1367
+10,underrepresented groups,\b(\d*)marginalized(\d*)\b,#DD1367
 10,undocumented,\b(\d*)undocumented(\d*)\b,#DD1367
 10,undocumented immigrants,\b(\d*)undocumented immigrants(\d*)\b,#DD1367
 10,undocumented workers,\b(\d*)undocumented workers(\d*)\b,#DD1367
@@ -2367,6 +2376,7 @@ goal,keyword,pattern,color
 11,devastating floods,\b(\d*)devastating floods(\d*)\b,#FD9D24
 11,devastation,\b(\d*)devastation(\d*)\b,#FD9D24
 11,development planning,\b(\d*)development planning(\d*)\b,#FD9D24
+11,development projects,\b(\d*)development projects(\d*)\b,#FD9D24
 11,disabled,\b(\d*)disabled(\d*)\b,#FD9D24
 11,disaster management,\b(\d*)disaster management(\d*)\b,#FD9D24
 11,disaster preparedness,\b(\d*)disaster preparedness(\d*)\b,#FD9D24
@@ -2474,8 +2484,6 @@ goal,keyword,pattern,color
 11,peri-urban,\b(\d*)peri-urban(\d*)\b,#FD9D24
 11,planning and management,\b(\d*)planning and management(\d*)\b,#FD9D24
 11,preservation,\b(\d*)preservation(\d*)\b,#FD9D24
-11,rental properties,\b(\d*)rental properties(\d*)\b,#FD9D24
-11,rental property,\b(\d*)rental property(\d*)\b,#FD9D24
 11,public space,\b(\d*)public space(\d*)\b,#FD9D24
 11,public spaces,\b(\d*)public spaces(\d*)\b,#FD9D24
 11,public transport,\b(\d*)public transport(\d*)\b,#FD9D24
@@ -2496,6 +2504,8 @@ goal,keyword,pattern,color
 11,redevelopment,\b(\d*)redevelopment(\d*)\b,#FD9D24
 11,relics,\b(\d*)relics(\d*)\b,#FD9D24
 11,rent,\b(\d*)rent(\d*)\b,#FD9D24
+11,rental properties,\b(\d*)rental properties(\d*)\b,#FD9D24
+11,rental property,\b(\d*)rental property(\d*)\b,#FD9D24
 11,renter,\b(\d*)renter(\d*)\b,#FD9D24
 11,renters,\b(\d*)renters(\d*)\b,#FD9D24
 11,resilience,\b(\d*)resilience(\d*)\b,#FD9D24
@@ -2532,6 +2542,7 @@ goal,keyword,pattern,color
 11,suburban,\b(\d*)suburban(\d*)\b,#FD9D24
 11,sustainable building,\b(\d*)sustainable building(\d*)\b,#FD9D24
 11,sustainable development,\b(\d*)sustainable development(\d*)\b,#FD9D24
+11,sustainable transport,\b(\d*)sustainable transport(\d*)\b,#FD9D24
 11,taxi,\b(\d*)taxi(\d*)\b,#FD9D24
 11,taxis,\b(\d*)taxis(\d*)\b,#FD9D24
 11,temblor,\b(\d*)temblor(\d*)\b,#FD9D24
@@ -2548,7 +2559,6 @@ goal,keyword,pattern,color
 11,trains,\b(\d*)trains(\d*)\b,#FD9D24
 11,tram,\b(\d*)tram(\d*)\b,#FD9D24
 11,transit,\b(\d*)transit(\d*)\b,#FD9D24
-11,sustainable transport,\b(\d*)sustainable transport(\d*)\b,#FD9D24
 11,transportation,\b(\d*)transportation(\d*)\b,#FD9D24
 11,trolley,\b(\d*)trolley(\d*)\b,#FD9D24
 11,tsunami,\b(\d*)tsunami(\d*)\b,#FD9D24
@@ -2609,7 +2619,6 @@ goal,keyword,pattern,color
 12,compostable,\b(\d*)compostable(\d*)\b,#BF8B2E
 12,composted,\b(\d*)composted(\d*)\b,#BF8B2E
 12,composting,\b(\d*)composting(\d*)\b,#BF8B2E
-12,resource conservation,\b(\d*)resource conservation(\d*)\b,#BF8B2E
 12,conserve resources,\b(\d*)conserve(\d*)\b,#BF8B2E
 12,conserving,\b(\d*)conserving(\d*)\b,#BF8B2E
 12,contaminant,\b(\d*)contaminant(\d*)\b,#BF8B2E
@@ -2784,6 +2793,7 @@ goal,keyword,pattern,color
 12,renewables,\b(\d*)renewables(\d*)\b,#BF8B2E
 12,reporting cycle,\b(\d*)reporting cycle(\d*)\b,#BF8B2E
 12,resellers,\b(\d*)resellers(\d*)\b,#BF8B2E
+12,resource conservation,\b(\d*)resource conservation(\d*)\b,#BF8B2E
 12,resource efficiency,\b(\d*)resource efficiency(\d*)\b,#BF8B2E
 12,responsible production,\b(\d*)responsible production(\d*)\b,#BF8B2E
 12,retailer,\b(\d*)retailer(\d*)\b,#BF8B2E
@@ -2886,6 +2896,7 @@ goal,keyword,pattern,color
 13,climate education,\b(\d*)climate education(\d*)\b,#3F7E44
 13,climate hazards,\b(\d*)climate hazards(\d*)\b,#3F7E44
 13,climate impact,\b(\d*)climate impact(\d*)\b,#3F7E44
+13,climate justice,\b(\d*)climate justice(\d*)\b,#3F7E44
 13,climate mitigation,\b(\d*)climate mitigation(\d*)\b,#3F7E44
 13,climate neutral,\b(\d*)climate neutral(\d*)\b,#3F7E44
 13,climate refugees,\b(\d*)climate refugees(\d*)\b,#3F7E44
@@ -3155,8 +3166,6 @@ goal,keyword,pattern,color
 14,inshore,\b(\d*)inshore(\d*)\b,#0A97D9
 14,intertidal,\b(\d*)intertidal(\d*)\b,#0A97D9
 14,invertebrates,\b(\d*)invertebrates(\d*)\b,#0A97D9
-14,manmade island,\b(\d*)manmade island(\d*)\b,#0A97D9
-14,manmade islands,\b(\d*)manmade islands(\d*)\b,#0A97D9
 14,jellyfish,\b(\d*)jellyfish(\d*)\b,#0A97D9
 14,jetties,\b(\d*)jetties(\d*)\b,#0A97D9
 14,kayak,\b(\d*)kayak(\d*)\b,#0A97D9
@@ -3175,8 +3184,9 @@ goal,keyword,pattern,color
 14,manatees,\b(\d*)manatees(\d*)\b,#0A97D9
 14,mangrove,\b(\d*)mangrove(\d*)\b,#0A97D9
 14,mangroves,\b(\d*)mangroves(\d*)\b,#0A97D9
+14,manmade island,\b(\d*)manmade island(\d*)\b,#0A97D9
+14,manmade islands,\b(\d*)manmade islands(\d*)\b,#0A97D9
 14,mariculture,\b(\d*)mariculture(\d*)\b,#0A97D9
-14,mass extinction,\b(\d*)mass extinction(\d*)\b,#0A97D9
 14,marinas,\b(\d*)marinas(\d*)\b,#0A97D9
 14,marine,\b(\d*)marine(\d*)\b,#0A97D9
 14,marine mammal,\b(\d*)marine mammal(\d*)\b,#0A97D9
@@ -3190,6 +3200,7 @@ goal,keyword,pattern,color
 14,marshes,\b(\d*)marshes(\d*)\b,#0A97D9
 14,marshland,\b(\d*)marshland(\d*)\b,#0A97D9
 14,marshlands,\b(\d*)marshlands(\d*)\b,#0A97D9
+14,mass extinction,\b(\d*)mass extinction(\d*)\b,#0A97D9
 14,maximum sustainable yield,\b(\d*)maximum sustainable yield(\d*)\b,#0A97D9
 14,mesopelagic,\b(\d*)mesopelagic(\d*)\b,#0A97D9
 14,micro organisms,\b(\d*)micro organisms(\d*)\b,#0A97D9
@@ -3460,7 +3471,6 @@ goal,keyword,pattern,color
 15,estuaries,\b(\d*)estuaries(\d*)\b,#56C02B
 15,estuary,\b(\d*)estuary(\d*)\b,#56C02B
 15,evergreen,\b(\d*)evergreen(\d*)\b,#56C02B
-15,mass extinction,\b(\d*)mass extinction(\d*)\b,#56C02B
 15,extinct species,\b(\d*)extinct species(\d*)\b,#56C02B
 15,extinction,\b(\d*)extinction(\d*)\b,#56C02B
 15,falcon,\b(\d*)falcon(\d*)\b,#56C02B
@@ -3575,6 +3585,7 @@ goal,keyword,pattern,color
 15,mangroves,\b(\d*)mangroves(\d*)\b,#56C02B
 15,marsh,\b(\d*)marsh(\d*)\b,#56C02B
 15,marshes,\b(\d*)marshes(\d*)\b,#56C02B
+15,mass extinction,\b(\d*)mass extinction(\d*)\b,#56C02B
 15,monkey,\b(\d*)monkey(\d*)\b,#56C02B
 15,monkeys,\b(\d*)monkeys(\d*)\b,#56C02B
 15,mountain,\b(\d*)mountain(\d*)\b,#56C02B
@@ -3989,6 +4000,7 @@ goal,keyword,pattern,color
 16,rapist,\b(\d*)rapist(\d*)\b,#00689D
 16,regime,\b(\d*)regime(\d*)\b,#00689D
 16,representative decision-making,\b(\d*)representative decision-making(\d*)\b,#00689D
+16,responsible tourism,\b(\d*)sustainable and responsible tourism(\d*)\b,#00689D
 16,responsive decision-making,\b(\d*)responsive decision-making(\d*)\b,#00689D
 16,robberies,\b(\d*)robberies(\d*)\b,#00689D
 16,robbery,\b(\d*)robbery(\d*)\b,#00689D
@@ -4111,6 +4123,7 @@ goal,keyword,pattern,color
 17,G20,\b(\d*)G20(\d*)\b,#19486A
 17,Gates Foundation,\b(\d*)Gates Foundation(\d*)\b,#19486A
 17,GDP,\b(\d*)GDP(\d*)\b,#19486A
+17,global affairs,\b(\d*)global affairs(\d*)\b,#19486A
 17,global cooperation,\b(\d*)global cooperation(\d*)\b,#19486A
 17,global exports,\b(\d*)global exports(\d*)\b,#19486A
 17,global governance,\b(\d*)global governance(\d*)\b,#19486A
