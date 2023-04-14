@@ -1021,7 +1021,6 @@
 4,"parents","\b(\d*)parents(\d*)\b","#C5192D",1
 4,"pedagogical","\b(\d*)pedagogical(\d*)\b","#C5192D",1
 4,"pedagogy","\b(\d*)pedagogy(\d*)\b","#C5192D",1
-4,"pedagogy","\b(\d*)pedagogy(\d*)\b","#C5192D",1
 4,"phd","\b(\d*)phd(\d*)\b","#C5192D",1
 4,"physical education program","\b(\d*)physical education program(\d*)\b","#C5192D",1
 4,"plan international","\b(\d*)plan international(\d*)\b","#C5192D",1
@@ -2830,7 +2829,6 @@
 12,"sustainability","\b(\d*)sustainability(\d*)\b","#BF8B2E",1
 12,"sustainable chemical","\b(\d*)sustainable chemical(\d*)\b","#BF8B2E",1
 12,"sustainable chemicals","\b(\d*)sustainable chemicals(\d*)\b","#BF8B2E",1
-12,"sustainable chemicals","\b(\d*)sustainable chemicals(\d*)\b","#BF8B2E",1
 12,"sustainable material","\b(\d*)sustainable material(\d*)\b","#BF8B2E",1
 12,"sustainable materials","\b(\d*)sustainable materials(\d*)\b","#BF8B2E",1
 12,"sustainable product","\b(\d*)sustainable product(\d*)\b","#BF8B2E",1
@@ -3003,7 +3001,6 @@
 13,"temperature threshold","\b(\d*)temperature threshold(\d*)\b","#3F7E44",1
 13,"temperature thresholds","\b(\d*)temperature thresholds(\d*)\b","#3F7E44",1
 13,"tfcd","\b(\d*)tfcd(\d*)\b","#3F7E44",1
-13,"unfccc","\b(\d*)unfccc(\d*)\b","#3F7E44",1
 13,"unfccc","\b(\d*)unfccc(\d*)\b","#3F7E44",1
 13,"warmer temperature","\b(\d*)warmer temperature(\d*)\b","#3F7E44",1
 13,"warmer temperatures","\b(\d*)warmer temperatures(\d*)\b","#3F7E44",1
@@ -4076,7 +4073,6 @@
 16,"voter","\b(\d*)voter(\d*)\b","#00689D",1
 16,"voting rights","\b(\d*)voting rights(\d*)\b","#00689D",1
 16,"war","\b(\d*)war(\d*)\b","#00689D",1
-16,"warfare","\b(\d*)warfare(\d*)\b","#00689D",1
 16,"warfare","\b(\d*)warfare(\d*)\b","#00689D",1
 16,"wealth disparity","\b(\d*)wealth disparity(\d*)\b","#00689D",1
 16,"wealth gap","\b(\d*)wealth gap(\d*)\b","#00689D",1

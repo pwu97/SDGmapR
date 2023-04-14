@@ -24,7 +24,6 @@ library(ggrepel)
 # install.packages("shinyWidgets")
 library(shinyWidgets)
 
-# read in the filtered or unfiltered data
 classes = read.csv("master_course_sdg_data.csv")
 
 keywords = read.csv("usc_keywords.csv")
@@ -45,6 +44,9 @@ sustainability_related = read.csv("usc_courses_full.csv")
 
 # data for GE's
 ge_data = read.csv("ge_data.csv")
+
+# data for find classes by sdgs
+classes_by_sdgs = read.csv("classes_by_sdgs.csv")
 
 # for the ordering of GE's in dropdown
 values = c("A", "B", "C",
@@ -287,19 +289,20 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "5",
                                               fluidPage(
                                                 h1("Find Classes by SDGs"),
-                                                h3("Select a USC semester and one of the SDGs to display the 10 most relevant USC classes that map to
+                                                h3("Select USC departments and course levels, and then choose an SDGs to display the 10 most relevant USC classes that map to
                                                   that goal. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
-                                                div(style="font-size:24px;", selectInput(inputId = "usc_semester3",
-                                                                                         label = "Choose USC Semester",
-                                                                                         selected = "SP23",
-                                                                                         choices = unique(classes$semester))),
+                                                # div(style="font-size:24px;", selectInput(inputId = "usc_semester3",
+                                                #                                          label = "Choose USC Semester",
+                                                #                                          selected = "SP23",
+                                                #                                          choices = unique(classes$semester))),
                                                 # tags$style("course_level_input {background-color:grey; color:red;}"),
                                                 div(style="font-size:24px;", pickerInput(inputId = "department_input", 
                                                                                             label = "Choose Department", 
-                                                                                            # choices = unique(classes$department),
-                                                                                            choices = NULL,
+                                                                                            choices = unique(classes_by_sdgs$department) %>% sort(),
+                                                                                            # choices = NULL,
+                                                                                            selected = unique(classes_by_sdgs$department) %>% sort(),
                                                                                             options = list(maxOptions = 10000, `actions-box` = TRUE), multiple = T)),
                                                 div(style="font-size:24px;", pickerInput(inputId = "course_level_input",
                                                                                         label = "Restrict course level?",
@@ -948,16 +951,17 @@ server <- function(input, output, session) {
   })
   
   #this part filters the departments by the semester chosen in input field
-  observeEvent(input$usc_semester3,
-               {
-                 updatePickerInput(session=session,
-                                   inputId = "department_input",
-                                      # server = TRUE,
-                                      choices = unique(sort(classes %>% filter(semester == input$usc_semester3) %>% select(department) %>% pull())),#change this section to course_
-                                      selected = unique(classes %>% filter(semester == input$usc_semester3) %>% select(department) %>% pull()))
-                                      # selected = "All")
-                 
-               })
+  # observeEvent(input$usc_semester3,
+  #              {
+  #                updatePickerInput(session=session,
+  #                                  inputId = "department_input",
+  #                                     # server = TRUE,
+  #                                     
+  #                                     choices = unique(sort(classes %>% filter(semester == input$usc_semester3) %>% select(department) %>% pull())),#change this section to course_
+  #                                     selected = unique(classes %>% filter(semester == input$usc_semester3) %>% select(department) %>% pull()))
+  #                                     # selected = "All")
+  #                
+  #              })
   
   # need to filter for these options based on input from input$course_level
   # "All", "Graduate", "Undergrad lower divison", "Undergrad upper division"
@@ -967,8 +971,8 @@ server <- function(input, output, session) {
   
   output$goals_to_classes <- renderPlot({
     if (input$course_level_input == "All"){
-      goals_to_classes_barplot <- classes %>%
-        filter(semester == input$usc_semester3) %>%
+      goals_to_classes_barplot <- classes_by_sdgs %>%
+        # filter(semester == input$usc_semester3) %>%
         filter(department %in% input$department_input) %>%
         # filter(goal %in% input$sdg_goal1) %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
@@ -1003,8 +1007,8 @@ server <- function(input, output, session) {
       
     }
     else if (input$course_level_input == "Graduate"){
-      goals_to_classes_barplot <- classes %>%
-        filter(semester == input$usc_semester3) %>%
+      goals_to_classes_barplot <- classes_by_sdgs %>%
+        # filter(semester == input$usc_semester3) %>%
         filter(department %in% input$department_input) %>%
         # filter(goal %in% input$sdg_goal1) %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
@@ -1037,8 +1041,8 @@ server <- function(input, output, session) {
       return(goals_to_classes_barplot)
     }
     else if(input$course_level_input == "Undergrad upper division"){
-      goals_to_classes_barplot <- classes %>%
-        filter(semester == input$usc_semester3) %>%
+      goals_to_classes_barplot <- classes_by_sdgs %>%
+        # filter(semester == input$usc_semester3) %>%
         filter(department %in% input$department_input) %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
         # filter(goal %in% input$sdg_goal1) %>%
@@ -1071,8 +1075,8 @@ server <- function(input, output, session) {
       return(goals_to_classes_barplot)
     }
     else if(input$course_level_input == "Undergrad lower division"){
-      goals_to_classes_barplot <- classes %>%
-        filter(semester == input$usc_semester3) %>%
+      goals_to_classes_barplot <- classes_by_sdgs %>%
+        # filter(semester == input$usc_semester3) %>%
         filter(department %in% input$department_input) %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
         # filter(goal %in% input$sdg_goal1) %>%
@@ -1109,11 +1113,11 @@ server <- function(input, output, session) {
   # table for sdgs to classes
   output$top_classes_sdg_table <- DT::renderDataTable({
     if (input$course_level_input == "All"){
-      classes %>%
+      classes_by_sdgs %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
         # filter(goal %in% input$sdg_goal1) %>%
         filter(department %in% input$department_input) %>%
-        filter(semester == input$usc_semester3) %>%
+        # filter(semester == input$usc_semester3) %>%
         # left_join(classes %>% select(section, courseID), by = "section") %>% 
         # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
         group_by(courseID) %>%
@@ -1121,15 +1125,15 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Course Description")
+        rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
+        select('Course ID', "Total SDG Keyword Frequency", "Course Description", "Semesters Offered")
     }
     else if (input$course_level_input == "Undergrad lower division"){
-      classes %>%
+      classes_by_sdgs %>%
         # filter(goal %in% input$sdg_goal1) %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
         filter(department %in% input$department_input) %>%
-        filter(semester == input$usc_semester3) %>%
+        # filter(semester == input$usc_semester3) %>%
         filter(course_level == "undergrad lower division") %>%
         # left_join(classes %>% select(section, courseID), by = "section") %>% 
         # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
@@ -1142,11 +1146,11 @@ server <- function(input, output, session) {
         select('Course ID', "Total SDG Keyword Frequency", "Course Description")
     }
     else if (input$course_level_input == "Undergrad upper division"){
-      classes %>%
+      classes_by_sdgs %>%
         # filter(goal %in% input$sdg_goal1) %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
         filter(department %in% input$department_input) %>%
-        filter(semester == input$usc_semester3) %>%
+        # filter(semester == input$usc_semester3) %>%
         filter(course_level == "undergrad upper division") %>%
       # left_join(classes %>% select(section, courseID), by = "section") %>% 
       # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
@@ -1159,11 +1163,11 @@ server <- function(input, output, session) {
         select('Course ID', "Total SDG Keyword Frequency", "Course Description")
     }
     else if (input$course_level_input == "Graduate"){
-      classes %>%
+      classes_by_sdgs %>%
         # filter(goal %in% input$sdg_goal1) %>%
         filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
         filter(department %in% input$department_input) %>%
-        filter(semester == input$usc_semester3) %>%
+        # filter(semester == input$usc_semester3) %>%
         filter(course_level == "graduate") %>%
       # left_join(classes %>% select(section, courseID), by = "section") %>% 
       # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%

@@ -109,6 +109,24 @@ transform_data = function(course_data){
 data_final = transform_data(cleaned)
 
 
+# also want to get "all semesters" column in the usc_courses dataframe
+get_all_semesters <- function(data) {
+  data$all_semesters = NA
+  for (i in 1:nrow(data)){
+    print(i)
+    # grab the course ID
+    course = data$courseID[i]
+    df = data[data$courseID == course, ]
+    sems = unique(df$semester)
+    result = paste(sems, collapse=", ")
+    data$all_semesters[i] = result
+  }
+  return (data)
+}
+
+data_final = get_all_semesters(data_final)
+
+
 # last thing!
 # helper function to get the grad/undergrad column from courseID column
 get_class_levels <- function(data) {
@@ -136,9 +154,6 @@ get_class_levels <- function(data) {
 
 # now add the course levels to data
 data_final = get_class_levels(data_final)
-
-# i also want to add a function that creates "all semesters" column 
-# will do this later
 
 write.csv(data_final, "usc_courses.csv",row.names = F)
 
