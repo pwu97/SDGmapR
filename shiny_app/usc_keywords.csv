@@ -431,6 +431,7 @@
 2,"landowners","\b(\d*)landowners(\d*)\b","#DDA63A",1
 2,"lemon","\b(\d*)lemon(\d*)\b","#DDA63A",1
 2,"lemons","\b(\d*)lemons(\d*)\b","#DDA63A",1
+2,"lettuce","\b(\d*)lettuce(\d*)\b","#DDA63A",1
 2,"limabean","\b(\d*)limabean(\d*)\b","#DDA63A",1
 2,"lime","\b(\d*)lime(\d*)\b","#DDA63A",1
 2,"limes","\b(\d*)limes(\d*)\b","#DDA63A",1
@@ -451,7 +452,6 @@
 2,"milk","\b(\d*)milk(\d*)\b","#DDA63A",1
 2,"milking","\b(\d*)milking(\d*)\b","#DDA63A",1
 2,"monsanto","\b(\d*)monsanto(\d*)\b","#DDA63A",1
-2,"natural resource","\b(\d*)natural resource(\d*)\b","#DDA63A",1
 2,"nut","\b(\d*)nut(\d*)\b","#DDA63A",1
 2,"nutrition","\b(\d*)nutrition(\d*)\b","#DDA63A",1
 2,"nutritional","\b(\d*)nutritional(\d*)\b","#DDA63A",1
@@ -490,8 +490,6 @@
 2,"potatoes","\b(\d*)potatoes(\d*)\b","#DDA63A",1
 2,"poultry","\b(\d*)poultry(\d*)\b","#DDA63A",1
 2,"poultry farms","\b(\d*)poultry farms(\d*)\b","#DDA63A",1
-2,"poverty","\b(\d*)poverty(\d*)\b","#DDA63A",1
-2,"produce","\b(\d*)produce(\d*)\b","#DDA63A",1
 2,"quality of lands","\b(\d*)quality of lands(\d*)\b","#DDA63A",1
 2,"ranch","\b(\d*)ranch(\d*)\b","#DDA63A",1
 2,"rancher","\b(\d*)rancher(\d*)\b","#DDA63A",1
@@ -569,6 +567,10 @@
 2,"wheat crop","\b(\d*)wheat crop(\d*)\b","#DDA63A",1
 2,"wine","\b(\d*)wine(\d*)\b","#DDA63A",1
 2,"winery","\b(\d*)winery(\d*)\b","#DDA63A",1
+2,"natural resource","\b(\d*)natural resource(\d*)\b","#DDA63A",1
+3,"addiction","\b(\d*)addiction(\d*)\b","#4C9F38",1
+3,"addictions","\b(\d*)addictions(\d*)\b","#4C9F38",1
+3,"aging","\b(\d*)aging(\d*)\b","#4C9F38",1
 3,"aids","\b(\d*)aids(\d*)\b","#4C9F38",1
 3,"allergies","\b(\d*)allergies(\d*)\b","#4C9F38",1
 3,"allergy","\b(\d*)allergy(\d*)\b","#4C9F38",1
@@ -589,10 +591,20 @@
 3,"atherosclerosis","\b(\d*)atherosclerosis(\d*)\b","#4C9F38",1
 3,"atrial fibrillation","\b(\d*)atrial fibrillation(\d*)\b","#4C9F38",1
 3,"autism","\b(\d*)autism(\d*)\b","#4C9F38",1
+3,"immune system","\b(\d*)immune system(\d*)\b","#4C9F38",1
 3,"autoimmune","\b(\d*)autoimmune(\d*)\b","#4C9F38",1
 3,"bacterial infection","\b(\d*)bacterial infection(\d*)\b","#4C9F38",1
 3,"bacterial infections","\b(\d*)bacterial infections(\d*)\b","#4C9F38",1
 3,"bacterial meningitis","\b(\d*)bacterial meningitis(\d*)\b","#4C9F38",1
+3,"wellness","\b(\d*)wellness(\d*)\b","#4C9F38",1
+3,"oral health","\b(\d*)oral health(\d*)\b","#4C9F38",1
+3,"maternal health","\b(\d*)maternal health(\d*)\b","#4C9F38",1
+3,"maternal and child health","\b(\d*)maternal and child health(\d*)\b","#4C9F38",1
+3,"behavior and health","\b(\d*)behavior and health(\d*)\b","#4C9F38",1
+3,"brain disorders","\b(\d*)brain disorders(\d*)\b","#4C9F38",1
+3,"brain disorder","\b(\d*)brain disorder(\d*)\b","#4C9F38",1
+3,"behavioral disorder","\b(\d*)behavioral disorder(\d*)\b","#4C9F38",1
+3,"behavioral disorders","\b(\d*)behavioral disorders(\d*)\b","#4C9F38",1
 3,"binge eating","\b(\d*)binge eating(\d*)\b","#4C9F38",1
 3,"bipolar","\b(\d*)bipolar(\d*)\b","#4C9F38",1
 3,"blind","\b(\d*)blind(\d*)\b","#4C9F38",1
@@ -617,25 +629,25 @@
 3,"chlamydia","\b(\d*)chlamydia(\d*)\b","#4C9F38",1
 3,"cholera","\b(\d*)cholera(\d*)\b","#4C9F38",1
 3,"cholesterol","\b(\d*)cholesterol(\d*)\b","#4C9F38",1
-3,"chronic diseases","\b(\d*)chronic diseases(\d*)\b","#4C9F38",1
 3,"chronic kidney","\b(\d*)chronic kidney(\d*)\b","#4C9F38",1
+3,"chronic pain","\b(\d*)chronic pain(\d*)\b","#4C9F38",1
 3,"cirrhosis","\b(\d*)cirrhosis(\d*)\b","#4C9F38",1
 3,"cisplatin","\b(\d*)cisplatin(\d*)\b","#4C9F38",1
 3,"clinical","\b(\d*)clinical(\d*)\b","#4C9F38",1
 3,"cognitive decline","\b(\d*)cognitive decline(\d*)\b","#4C9F38",1
+3,"cognitive function","\b(\d*)cognitive function(\d*)\b","#4C9F38",1
 3,"cognitive impairment","\b(\d*)cognitive impairment(\d*)\b","#4C9F38",1
+3,"community health","\b(\d*)community health(\d*)\b","#4C9F38",1
 3,"congenital heart","\b(\d*)congenital heart(\d*)\b","#4C9F38",1
 3,"congestion","\b(\d*)congestion(\d*)\b","#4C9F38",1
 3,"congestive heart failure","\b(\d*)congestive heart failure(\d*)\b","#4C9F38",1
 3,"contagious","\b(\d*)contagious(\d*)\b","#4C9F38",1
 3,"copd","\b(\d*)copd(\d*)\b","#4C9F38",1
-3,"coronary artery disease","\b(\d*)coronary artery disease(\d*)\b","#4C9F38",1
 3,"coronary heart","\b(\d*)coronary heart(\d*)\b","#4C9F38",1
 3,"cough","\b(\d*)cough(\d*)\b","#4C9F38",1
 3,"covid","\b(\d*)covid(\d*)\b","#4C9F38",1
 3,"covid-19","\b(\d*)covid-19(\d*)\b","#4C9F38",1
 3,"covid19","\b(\d*)covid19(\d*)\b","#4C9F38",1
-3,"crohn disease","\b(\d*)crohn disease(\d*)\b","#4C9F38",1
 3,"cvd","\b(\d*)cvd(\d*)\b","#4C9F38",1
 3,"cystic acne","\b(\d*)cystic acne(\d*)\b","#4C9F38",1
 3,"cystic fibrosis","\b(\d*)cystic fibrosis(\d*)\b","#4C9F38",1
@@ -669,9 +681,12 @@
 3,"emphysema","\b(\d*)emphysema(\d*)\b","#4C9F38",1
 3,"encephalitis","\b(\d*)encephalitis(\d*)\b","#4C9F38",1
 3,"endometriosis","\b(\d*)endometriosis(\d*)\b","#4C9F38",1
+3,"environmental and physiological influences","\b(\d*)environmental and physiological influences(\d*)\b","#4C9F38",1
+3,"environmental health","\b(\d*)environmental health(\d*)\b","#4C9F38",1
 3,"environmental studies","\b(\d*)environmental studies(\d*)\b","#4C9F38",1
 3,"epidemic","\b(\d*)epidemic(\d*)\b","#4C9F38",1
 3,"epidemics","\b(\d*)epidemics(\d*)\b","#4C9F38",1
+3,"epidemiological","\b(\d*)epidemiological(\d*)\b","#4C9F38",1
 3,"epidemiology","\b(\d*)epidemiology(\d*)\b","#4C9F38",1
 3,"epilepsy","\b(\d*)epilepsy(\d*)\b","#4C9F38",1
 3,"eye","\b(\d*)eye(\d*)\b","#4C9F38",1
@@ -683,14 +698,25 @@
 3,"flu","\b(\d*)flu(\d*)\b","#4C9F38",1
 3,"gastric bypass","\b(\d*)gastric bypass(\d*)\b","#4C9F38",1
 3,"gastroenteritis","\b(\d*)gastroenteritis(\d*)\b","#4C9F38",1
+3,"geriatric care","\b(\d*)geriatric care(\d*)\b","#4C9F38",1
+3,"geriatrics","\b(\d*)geriatrics(\d*)\b","#4C9F38",1
 3,"glaucoma","\b(\d*)glaucoma(\d*)\b","#4C9F38",1
 3,"gonorrhea","\b(\d*)gonorrhea(\d*)\b","#4C9F38",1
 3,"gout","\b(\d*)gout(\d*)\b","#4C9F38",1
+3,"gynecology","\b(\d*)gynecology(\d*)\b","#4C9F38",1
 3,"h#n# pandemic","\b(\d*)h#n# pandemic(\d*)\b","#4C9F38",1
 3,"h#n# strain","\b(\d*)h#n# strain(\d*)\b","#4C9F38",1
 3,"health access","\b(\d*)health access(\d*)\b","#4C9F38",1
+3,"health behavior","\b(\d*)health behavior(\d*)\b","#4C9F38",1
 3,"health care","\b(\d*)health care(\d*)\b","#4C9F38",1
 3,"health insurance","\b(\d*)health insurance(\d*)\b","#4C9F38",1
+3,"health problem","\b(\d*)health problem(\d*)\b","#4C9F38",1
+3,"health problems","\b(\d*)health problems(\d*)\b","#4C9F38",1
+3,"health promotion","\b(\d*)health promotion(\d*)\b","#4C9F38",1
+3,"health risk","\b(\d*)health risk(\d*)\b","#4C9F38",1
+3,"health risks","\b(\d*)health risks(\d*)\b","#4C9F38",1
+3,"health science","\b(\d*)health science(\d*)\b","#4C9F38",1
+3,"health sciences","\b(\d*)health sciences(\d*)\b","#4C9F38",1
 3,"health services","\b(\d*)health services(\d*)\b","#4C9F38",1
 3,"healthcare","\b(\d*)healthcare(\d*)\b","#4C9F38",1
 3,"healthy body","\b(\d*)healthy body(\d*)\b","#4C9F38",1
@@ -701,7 +727,6 @@
 3,"hearing aid","\b(\d*)hearing aid(\d*)\b","#4C9F38",1
 3,"heart association","\b(\d*)heart association(\d*)\b","#4C9F38",1
 3,"heart attack","\b(\d*)heart attack(\d*)\b","#4C9F38",1
-3,"heart disease","\b(\d*)heart disease(\d*)\b","#4C9F38",1
 3,"hematology","\b(\d*)hematology(\d*)\b","#4C9F38",1
 3,"hepatitis","\b(\d*)hepatitis(\d*)\b","#4C9F38",1
 3,"hereditary","\b(\d*)hereditary(\d*)\b","#4C9F38",1
@@ -721,15 +746,16 @@
 3,"immunization","\b(\d*)immunization(\d*)\b","#4C9F38",1
 3,"immunizations","\b(\d*)immunizations(\d*)\b","#4C9F38",1
 3,"improvements in safety","\b(\d*)improvements in safety(\d*)\b","#4C9F38",1
-3,"inequities in global health","\b(\d*)inequities in global health(\d*)\b","#4C9F38",1
+3,"global health","\b(\d*)global health(\d*)\b","#4C9F38",1
 3,"infection","\b(\d*)infection(\d*)\b","#4C9F38",1
 3,"infections","\b(\d*)infections(\d*)\b","#4C9F38",1
 3,"influenza","\b(\d*)influenza(\d*)\b","#4C9F38",1
+3,"injured","\b(\d*)injured(\d*)\b","#4C9F38",1
+3,"injury","\b(\d*)injury(\d*)\b","#4C9F38",1
 3,"insulin","\b(\d*)insulin(\d*)\b","#4C9F38",1
 3,"iodine","\b(\d*)iodine(\d*)\b","#4C9F38",1
 3,"ischemic stroke","\b(\d*)ischemic stroke(\d*)\b","#4C9F38",1
 3,"kidney","\b(\d*)kidney(\d*)\b","#4C9F38",1
-3,"kidney disease","\b(\d*)kidney disease(\d*)\b","#4C9F38",1
 3,"kidney failure","\b(\d*)kidney failure(\d*)\b","#4C9F38",1
 3,"latrines","\b(\d*)latrines(\d*)\b","#4C9F38",1
 3,"lead poisoning","\b(\d*)lead poisoning(\d*)\b","#4C9F38",1
@@ -738,6 +764,7 @@
 3,"life expectancy","\b(\d*)life expectancy(\d*)\b","#4C9F38",1
 3,"liver","\b(\d*)liver(\d*)\b","#4C9F38",1
 3,"loneliness","\b(\d*)loneliness(\d*)\b","#4C9F38",1
+3,"longevity","\b(\d*)longevity(\d*)\b","#4C9F38",1
 3,"lung","\b(\d*)lung(\d*)\b","#4C9F38",1
 3,"lupus","\b(\d*)lupus(\d*)\b","#4C9F38",1
 3,"lymph nodes","\b(\d*)lymph nodes(\d*)\b","#4C9F38",1
@@ -752,6 +779,7 @@
 3,"measles","\b(\d*)measles(\d*)\b","#4C9F38",1
 3,"medical","\b(\d*)medical(\d*)\b","#4C9F38",1
 3,"medicinal","\b(\d*)medicinal(\d*)\b","#4C9F38",1
+3,"medicines","\b(\d*)medicines(\d*)\b","#4C9F38",1
 3,"medicine","\b(\d*)medicine(\d*)\b","#4C9F38",1
 3,"meditate","\b(\d*)meditate(\d*)\b","#4C9F38",1
 3,"meditation","\b(\d*)meditation(\d*)\b","#4C9F38",1
@@ -765,7 +793,9 @@
 3,"metastasis","\b(\d*)metastasis(\d*)\b","#4C9F38",1
 3,"metastatic","\b(\d*)metastatic(\d*)\b","#4C9F38",1
 3,"midwife","\b(\d*)midwife(\d*)\b","#4C9F38",1
+3,"mind and body","\b(\d*)mind and body(\d*)\b","#4C9F38",1
 3,"mind body","\b(\d*)mind body(\d*)\b","#4C9F38",1
+3,"mindful","\b(\d*)mindful(\d*)\b","#4C9F38",1
 3,"mindfulness","\b(\d*)mindfulness(\d*)\b","#4C9F38",1
 3,"mononucleosis","\b(\d*)mononucleosis(\d*)\b","#4C9F38",1
 3,"mortality rate","\b(\d*)mortality rate(\d*)\b","#4C9F38",1
@@ -778,6 +808,7 @@
 3,"myocardial infarction","\b(\d*)myocardial infarction(\d*)\b","#4C9F38",1
 3,"neuroblastoma","\b(\d*)neuroblastoma(\d*)\b","#4C9F38",1
 3,"neurodevelopment","\b(\d*)neurodevelopment(\d*)\b","#4C9F38",1
+3,"neurodevelopmental","\b(\d*)neurodevelopmental(\d*)\b","#4C9F38",1
 3,"neurosurgeon","\b(\d*)neurosurgeon(\d*)\b","#4C9F38",1
 3,"norovirus","\b(\d*)norovirus(\d*)\b","#4C9F38",1
 3,"nurse","\b(\d*)nurse(\d*)\b","#4C9F38",1
@@ -824,7 +855,8 @@
 3,"ptsd","\b(\d*)ptsd(\d*)\b","#4C9F38",1
 3,"public health","\b(\d*)public health(\d*)\b","#4C9F38",1
 3,"rabies","\b(\d*)rabies(\d*)\b","#4C9F38",1
-3,"radiation therapy","\b(\d*)radiation therapy(\d*)\b","#4C9F38",1
+3,"therapeutic","\b(\d*)therapeutic(\d*)\b","#4C9F38",1
+3,"therapy","\b(\d*)therapy(\d*)\b","#4C9F38",1
 3,"rash","\b(\d*)rash(\d*)\b","#4C9F38",1
 3,"rashes","\b(\d*)rashes(\d*)\b","#4C9F38",1
 3,"respiratory","\b(\d*)respiratory(\d*)\b","#4C9F38",1
@@ -838,7 +870,7 @@
 3,"schizophrenia","\b(\d*)schizophrenia(\d*)\b","#4C9F38",1
 3,"scleroderma","\b(\d*)scleroderma(\d*)\b","#4C9F38",1
 3,"sepsis","\b(\d*)sepsis(\d*)\b","#4C9F38",1
-3,"sexually transmitted disease","\b(\d*)sexually transmitted disease(\d*)\b","#4C9F38",1
+3,"sexually transmitted","\b(\d*)sexually transmitted(\d*)\b","#4C9F38",1
 3,"sids","\b(\d*)sids(\d*)\b","#4C9F38",1
 3,"skin","\b(\d*)skin(\d*)\b","#4C9F38",1
 3,"sleep","\b(\d*)sleep(\d*)\b","#4C9F38",1
@@ -860,12 +892,12 @@
 3,"sudden infant death","\b(\d*)sudden infant death(\d*)\b","#4C9F38",1
 3,"superbug","\b(\d*)superbug(\d*)\b","#4C9F38",1
 3,"surgeon","\b(\d*)surgeon(\d*)\b","#4C9F38",1
+3,"surgery","\b(\d*)surgery(\d*)\b","#4C9F38",1
 3,"syphilis","\b(\d*)syphilis(\d*)\b","#4C9F38",1
 3,"tb","\b(\d*)tb(\d*)\b","#4C9F38",1
 3,"teeth","\b(\d*)teeth(\d*)\b","#4C9F38",1
 3,"tetanus","\b(\d*)tetanus(\d*)\b","#4C9F38",1
 3,"therapist","\b(\d*)therapist(\d*)\b","#4C9F38",1
-3,"therapy","\b(\d*)therapy(\d*)\b","#4C9F38",1
 3,"thyroid","\b(\d*)thyroid(\d*)\b","#4C9F38",1
 3,"tinnitus","\b(\d*)tinnitus(\d*)\b","#4C9F38",1
 3,"tobacco control","\b(\d*)tobacco control(\d*)\b","#4C9F38",1
@@ -883,7 +915,10 @@
 3,"viral","\b(\d*)viral(\d*)\b","#4C9F38",1
 3,"virtigo","\b(\d*)virtigo(\d*)\b","#4C9F38",1
 3,"virus","\b(\d*)virus(\d*)\b","#4C9F38",1
+3,"vitamin","\b(\d*)vitamin(\d*)\b","#4C9F38",1
+3,"vitamins","\b(\d*)vitamins(\d*)\b","#4C9F38",1
 3,"vitiligo","\b(\d*)vitiligo(\d*)\b","#4C9F38",1
+3,"well being","\b(\d*)well being(\d*)\b","#4C9F38",1
 3,"well-being","\b(\d*)well-being(\d*)\b","#4C9F38",1
 3,"wellbeing","\b(\d*)wellbeing(\d*)\b","#4C9F38",1
 3,"west nile","\b(\d*)west nile(\d*)\b","#4C9F38",1
@@ -965,6 +1000,7 @@
 4,"ged","\b(\d*)ged(\d*)\b","#C5192D",1
 4,"global citizenship","\b(\d*)global citizenship(\d*)\b","#C5192D",1
 4,"good grades","\b(\d*)good grades(\d*)\b","#C5192D",1
+4,"student achievement","\b(\d*)student achievement(\d*)\b","#C5192D",1
 4,"graduated students","\b(\d*)graduated students(\d*)\b","#C5192D",1
 4,"graduates","\b(\d*)graduates(\d*)\b","#C5192D",1
 4,"graduating success","\b(\d*)graduating success(\d*)\b","#C5192D",1
@@ -988,7 +1024,9 @@
 4,"kindergartners","\b(\d*)kindergartners(\d*)\b","#C5192D",1
 4,"language learners","\b(\d*)language learners(\d*)\b","#C5192D",1
 4,"learning centers","\b(\d*)learning centers(\d*)\b","#C5192D",1
+4,"cognitive development","\b(\d*)cognitive development(\d*)\b","#C5192D",1
 4,"learning disabilities","\b(\d*)learning disabilities(\d*)\b","#C5192D",1
+4,"childrens learning","\b(\d*)childrens learning(\d*)\b","#C5192D",1
 4,"learning environment","\b(\d*)learning environment(\d*)\b","#C5192D",1
 4,"learning environments","\b(\d*)learning environments(\d*)\b","#C5192D",1
 4,"learning facilities","\b(\d*)learning facilities(\d*)\b","#C5192D",1
@@ -1002,7 +1040,7 @@
 4,"libraries","\b(\d*)libraries(\d*)\b","#C5192D",1
 4,"library access","\b(\d*)library access(\d*)\b","#C5192D",1
 4,"lifelong learning","\b(\d*)lifelong learning(\d*)\b","#C5192D",1
-4,"literacy","\b(\d*)literacy(\d*)\b","#C5192D",1
+4,"literacy rate","\b(\d*)literacy rate(\d*)\b","#C5192D",1
 4,"master degree","\b(\d*)master degree(\d*)\b","#C5192D",1
 4,"maths","\b(\d*)maths(\d*)\b","#C5192D",1
 4,"mba","\b(\d*)mba(\d*)\b","#C5192D",1
@@ -1021,7 +1059,6 @@
 4,"parents","\b(\d*)parents(\d*)\b","#C5192D",1
 4,"pedagogical","\b(\d*)pedagogical(\d*)\b","#C5192D",1
 4,"pedagogy","\b(\d*)pedagogy(\d*)\b","#C5192D",1
-4,"phd","\b(\d*)phd(\d*)\b","#C5192D",1
 4,"physical education program","\b(\d*)physical education program(\d*)\b","#C5192D",1
 4,"plan international","\b(\d*)plan international(\d*)\b","#C5192D",1
 4,"polytechnic","\b(\d*)polytechnic(\d*)\b","#C5192D",1
@@ -1076,6 +1113,7 @@
 4,"vocational training","\b(\d*)vocational training(\d*)\b","#C5192D",1
 4,"youth build","\b(\d*)youth build(\d*)\b","#C5192D",1
 4,"youthbuild","\b(\d*)youthbuild(\d*)\b","#C5192D",1
+5,"childbearing","\b(\d*)childbearing(\d*)\b","#FF3A21",1
 5,"abortion","\b(\d*)abortion(\d*)\b","#FF3A21",1
 5,"abortions","\b(\d*)abortions(\d*)\b","#FF3A21",1
 5,"abstinence","\b(\d*)abstinence(\d*)\b","#FF3A21",1
@@ -1125,6 +1163,7 @@
 5,"genital mutilation","\b(\d*)genital mutilation(\d*)\b","#FF3A21",1
 5,"girl","\b(\d*)girl(\d*)\b","#FF3A21",1
 5,"girls","\b(\d*)girls(\d*)\b","#FF3A21",1
+5,"gynecology","\b(\d*)gynecology(\d*)\b","#FF3A21",1
 5,"harassment","\b(\d*)harassment(\d*)\b","#FF3A21",1
 5,"hate crimes","\b(\d*)hate crimes(\d*)\b","#FF3A21",1
 5,"hate speech","\b(\d*)hate speech(\d*)\b","#FF3A21",1
@@ -1287,6 +1326,7 @@
 6,"drip irrigation","\b(\d*)drip irrigation(\d*)\b","#26BDE2",1
 6,"dumping","\b(\d*)dumping(\d*)\b","#26BDE2",1
 6,"effluent","\b(\d*)effluent(\d*)\b","#26BDE2",1
+6,"environmental fluid mechanics","\b(\d*)environmental fluid mechanics(\d*)\b","#26BDE2",1
 6,"environmental issues","\b(\d*)environmental issues(\d*)\b","#26BDE2",1
 6,"environmental problem","\b(\d*)environmental problem(\d*)\b","#26BDE2",1
 6,"environmental problems","\b(\d*)environmental problems(\d*)\b","#26BDE2",1
@@ -1499,6 +1539,7 @@
 7,"emission reduction","\b(\d*)emission reduction(\d*)\b","#FCC30B",1
 7,"emission reductions","\b(\d*)emission reductions(\d*)\b","#FCC30B",1
 7,"energy agency","\b(\d*)energy agency(\d*)\b","#FCC30B",1
+7,"energy concepts and systems","\b(\d*)energy concepts and systems(\d*)\b","#FCC30B",1
 7,"energy efficiency","\b(\d*)energy efficiency(\d*)\b","#FCC30B",1
 7,"energy resources","\b(\d*)energy resources(\d*)\b","#FCC30B",1
 7,"energy-intensive","\b(\d*)energy-intensive(\d*)\b","#FCC30B",1
@@ -1528,8 +1569,6 @@
 7,"greenhouse gas","\b(\d*)greenhouse gas(\d*)\b","#FCC30B",1
 7,"greenhouse gasses","\b(\d*)greenhouse gasses(\d*)\b","#FCC30B",1
 7,"heat transfer","\b(\d*)heat transfer(\d*)\b","#FCC30B",1
-7,"hybrid","\b(\d*)hybrid(\d*)\b","#FCC30B",1
-7,"hybrids","\b(\d*)hybrids(\d*)\b","#FCC30B",1
 7,"hydroelectric","\b(\d*)hydroelectric(\d*)\b","#FCC30B",1
 7,"hydrogen fuel","\b(\d*)hydrogen fuel(\d*)\b","#FCC30B",1
 7,"hydrogen powered","\b(\d*)hydrogen powered(\d*)\b","#FCC30B",1
@@ -1576,6 +1615,7 @@
 7,"oilsands","\b(\d*)oilsands(\d*)\b","#FCC30B",1
 7,"oilseed","\b(\d*)oilseed(\d*)\b","#FCC30B",1
 7,"palm oil","\b(\d*)palm oil(\d*)\b","#FCC30B",1
+7,"passive and active energy","\b(\d*)passive and active energy(\d*)\b","#FCC30B",1
 7,"petrochemical","\b(\d*)petrochemical(\d*)\b","#FCC30B",1
 7,"petrochemicals","\b(\d*)petrochemicals(\d*)\b","#FCC30B",1
 7,"petrol","\b(\d*)petrol(\d*)\b","#FCC30B",1
@@ -1686,7 +1726,6 @@
 8,"equal pay","\b(\d*)equal pay(\d*)\b","#A21942",1
 8,"equal work","\b(\d*)equal work(\d*)\b","#A21942",1
 8,"equities","\b(\d*)equities(\d*)\b","#A21942",1
-8,"equity","\b(\d*)equity(\d*)\b","#A21942",1
 8,"executives","\b(\d*)executives(\d*)\b","#A21942",1
 8,"exporters","\b(\d*)exporters(\d*)\b","#A21942",1
 8,"exports","\b(\d*)exports(\d*)\b","#A21942",1
@@ -1695,6 +1734,7 @@
 8,"finance","\b(\d*)finance(\d*)\b","#A21942",1
 8,"finances","\b(\d*)finances(\d*)\b","#A21942",1
 8,"financial","\b(\d*)financial(\d*)\b","#A21942",1
+8,"financial equity","\b(\d*)financial equity(\d*)\b","#A21942",1
 8,"financials","\b(\d*)financials(\d*)\b","#A21942",1
 8,"financing","\b(\d*)financing(\d*)\b","#A21942",1
 8,"firms","\b(\d*)firms(\d*)\b","#A21942",1
@@ -1730,6 +1770,7 @@
 8,"investors","\b(\d*)investors(\d*)\b","#A21942",1
 8,"invests","\b(\d*)invests(\d*)\b","#A21942",1
 8,"issuers","\b(\d*)issuers(\d*)\b","#A21942",1
+8,"access to work","\b(\d*)access to work(\d*)\b","#A21942",1
 8,"job","\b(\d*)job(\d*)\b","#A21942",1
 8,"jobless","\b(\d*)jobless(\d*)\b","#A21942",1
 8,"joblessness","\b(\d*)joblessness(\d*)\b","#A21942",1
@@ -1807,7 +1848,6 @@
 8,"socio economic","\b(\d*)socio economic(\d*)\b","#A21942",1
 8,"socio-economic","\b(\d*)socio-economic(\d*)\b","#A21942",1
 8,"socioeconomic","\b(\d*)socioeconomic(\d*)\b","#A21942",1
-8,"staff","\b(\d*)staff(\d*)\b","#A21942",1
 8,"staffing","\b(\d*)staffing(\d*)\b","#A21942",1
 8,"startups","\b(\d*)startups(\d*)\b","#A21942",1
 8,"subprime","\b(\d*)subprime(\d*)\b","#A21942",1
@@ -1824,7 +1864,6 @@
 8,"trade support","\b(\d*)trade support(\d*)\b","#A21942",1
 8,"trade-related","\b(\d*)trade-related(\d*)\b","#A21942",1
 8,"traders","\b(\d*)traders(\d*)\b","#A21942",1
-8,"training","\b(\d*)training(\d*)\b","#A21942",1
 8,"underemployed","\b(\d*)underemployed(\d*)\b","#A21942",1
 8,"underwriting","\b(\d*)underwriting(\d*)\b","#A21942",1
 8,"unemployed","\b(\d*)unemployed(\d*)\b","#A21942",1
@@ -1840,9 +1879,8 @@
 8,"worker","\b(\d*)worker(\d*)\b","#A21942",1
 8,"workers","\b(\d*)workers(\d*)\b","#A21942",1
 8,"workforce","\b(\d*)workforce(\d*)\b","#A21942",1
-8,"working","\b(\d*)working(\d*)\b","#A21942",1
+8,"opportunity to work","\b(\d*)opportunity to work(\d*)\b","#A21942",1
 8,"workplace","\b(\d*)workplace(\d*)\b","#A21942",1
-9,"advanced","\b(\d*)advanced(\d*)\b","#FD6925",1
 9,"advanced materials","\b(\d*)advanced materials(\d*)\b","#FD6925",1
 9,"aerospace","\b(\d*)aerospace(\d*)\b","#FD6925",1
 9,"affordable credit","\b(\d*)affordable credit(\d*)\b","#FD6925",1
@@ -1875,8 +1913,8 @@
 9,"commercialization","\b(\d*)commercialization(\d*)\b","#FD6925",1
 9,"commodities","\b(\d*)commodities(\d*)\b","#FD6925",1
 9,"commodity","\b(\d*)commodity(\d*)\b","#FD6925",1
-9,"communication","\b(\d*)communication(\d*)\b","#FD6925",1
-9,"communications","\b(\d*)communications(\d*)\b","#FD6925",1
+9,"communication system","\b(\d*)communication system(\d*)\b","#FD6925",1
+9,"communication systems","\b(\d*)communication systems(\d*)\b","#FD6925",1
 9,"companies","\b(\d*)companies(\d*)\b","#FD6925",1
 9,"component","\b(\d*)component(\d*)\b","#FD6925",1
 9,"components","\b(\d*)components(\d*)\b","#FD6925",1
@@ -1893,12 +1931,10 @@
 9,"consumers","\b(\d*)consumers(\d*)\b","#FD6925",1
 9,"contractors","\b(\d*)contractors(\d*)\b","#FD6925",1
 9,"controls","\b(\d*)controls(\d*)\b","#FD6925",1
-9,"creative","\b(\d*)creative(\d*)\b","#FD6925",1
 9,"creativity","\b(\d*)creativity(\d*)\b","#FD6925",1
 9,"cutting edge","\b(\d*)cutting edge(\d*)\b","#FD6925",1
 9,"dealer","\b(\d*)dealer(\d*)\b","#FD6925",1
 9,"dealers","\b(\d*)dealers(\d*)\b","#FD6925",1
-9,"designs","\b(\d*)designs(\d*)\b","#FD6925",1
 9,"developing countries","\b(\d*)developing countries(\d*)\b","#FD6925",1
 9,"development spending","\b(\d*)development spending(\d*)\b","#FD6925",1
 9,"devices","\b(\d*)devices(\d*)\b","#FD6925",1
@@ -1911,11 +1947,13 @@
 9,"emerging markets","\b(\d*)emerging markets(\d*)\b","#FD6925",1
 9,"energy efficiency","\b(\d*)energy efficiency(\d*)\b","#FD6925",1
 9,"energy efficient","\b(\d*)energy efficient(\d*)\b","#FD6925",1
-9,"engineer","\b(\d*)engineer(\d*)\b","#FD6925",1
 9,"engineered","\b(\d*)engineered(\d*)\b","#FD6925",1
-9,"engineering","\b(\d*)engineering(\d*)\b","#FD6925",1
 9,"engines","\b(\d*)engines(\d*)\b","#FD6925",1
 9,"entrepreneurship","\b(\d*)entrepreneurship(\d*)\b","#FD6925",1
+9,"environmental design","\b(\d*)environmental design(\d*)\b","#FD6925",1
+9,"environmental designs","\b(\d*)environmental designs(\d*)\b","#FD6925",1
+9,"environmental engineer","\b(\d*)environmental engineer(\d*)\b","#FD6925",1
+9,"environmental engineering","\b(\d*)environmental engineering(\d*)\b","#FD6925",1
 9,"environmental studies","\b(\d*)environmental studies(\d*)\b","#FD6925",1
 9,"equipment","\b(\d*)equipment(\d*)\b","#FD6925",1
 9,"extrusion","\b(\d*)extrusion(\d*)\b","#FD6925",1
@@ -1940,9 +1978,6 @@
 9,"industries","\b(\d*)industries(\d*)\b","#FD6925",1
 9,"industry","\b(\d*)industry(\d*)\b","#FD6925",1
 9,"informatics","\b(\d*)informatics(\d*)\b","#FD6925",1
-9,"information and communications technology","\b(\d*)information and communications technology(\d*)\b","#FD6925",1
-9,"information technologies","\b(\d*)information technologies(\d*)\b","#FD6925",1
-9,"information technology","\b(\d*)information technology(\d*)\b","#FD6925",1
 9,"infrastructure","\b(\d*)infrastructure(\d*)\b","#FD6925",1
 9,"infrastructures","\b(\d*)infrastructures(\d*)\b","#FD6925",1
 9,"innovate","\b(\d*)innovate(\d*)\b","#FD6925",1
@@ -2025,6 +2060,8 @@
 9,"small island developing states","\b(\d*)small island developing states(\d*)\b","#FD6925",1
 9,"smart grid","\b(\d*)smart grid(\d*)\b","#FD6925",1
 9,"startups","\b(\d*)startups(\d*)\b","#FD6925",1
+9,"structural design","\b(\d*)structural design(\d*)\b","#FD6925",1
+9,"structural designs","\b(\d*)structural designs(\d*)\b","#FD6925",1
 9,"tech","\b(\d*)tech(\d*)\b","#FD6925",1
 9,"technical","\b(\d*)technical(\d*)\b","#FD6925",1
 9,"techno","\b(\d*)techno(\d*)\b","#FD6925",1
@@ -2062,8 +2099,11 @@
 10,"abuses","\b(\d*)abuses(\d*)\b","#DD1367",1
 10,"advocacy","\b(\d*)advocacy(\d*)\b","#DD1367",1
 10,"affirmative action","\b(\d*)affirmative action(\d*)\b","#DD1367",1
+10,"colonial times","\b(\d*)colonial times(\d*)\b","#DD1367",1
 10,"african american","\b(\d*)african american(\d*)\b","#DD1367",1
 10,"african americans","\b(\d*)african americans(\d*)\b","#DD1367",1
+10,"age friendly environment","\b(\d*)age friendly environment(\d*)\b","#DD1367",1
+10,"age friendly environments","\b(\d*)age friendly environments(\d*)\b","#DD1367",1
 10,"amnesty","\b(\d*)amnesty(\d*)\b","#DD1367",1
 10,"anti semitism","\b(\d*)anti semitism(\d*)\b","#DD1367",1
 10,"apartheid","\b(\d*)apartheid(\d*)\b","#DD1367",1
@@ -2113,14 +2153,12 @@
 10,"discriminatory","\b(\d*)discriminatory(\d*)\b","#DD1367",1
 10,"disenfranchised","\b(\d*)disenfranchised(\d*)\b","#DD1367",1
 10,"disenfranchisement","\b(\d*)disenfranchisement(\d*)\b","#DD1367",1
-10,"disfranchisement","\b(\d*)disfranchisement\d*)\b","#DD1367",1
 10,"disparities","\b(\d*)disparities(\d*)\b","#DD1367",1
 10,"disparity","\b(\d*)disparity(\d*)\b","#DD1367",1
 10,"displaced","\b(\d*)displaced(\d*)\b","#DD1367",1
 10,"displaced persons","\b(\d*)displaced persons(\d*)\b","#DD1367",1
 10,"distortions","\b(\d*)distortions(\d*)\b","#DD1367",1
 10,"diversity","\b(\d*)diversity(\d*)\b","#DD1367",1
-10,"divide","\b(\d*)divide(\d*)\b","#DD1367",1
 10,"divisiveness","\b(\d*)divisiveness(\d*)\b","#DD1367",1
 10,"domestic violence","\b(\d*)domestic violence(\d*)\b","#DD1367",1
 10,"dropout rates","\b(\d*)dropout rates(\d*)\b","#DD1367",1
@@ -2137,9 +2175,13 @@
 10,"equal opportunity","\b(\d*)equal opportunity(\d*)\b","#DD1367",1
 10,"equal pay","\b(\d*)equal pay(\d*)\b","#DD1367",1
 10,"equal rights","\b(\d*)equal rights(\d*)\b","#DD1367",1
+10,"veteran","\b(\d*)veteran(\d*)\b","#DD1367",1
+10,"veterans","\b(\d*)veterans(\d*)\b","#DD1367",1
 10,"equality","\b(\d*)equality(\d*)\b","#DD1367",1
 10,"equitable","\b(\d*)equitable(\d*)\b","#DD1367",1
+10,"ethical issues","\b(\d*)ethical issues(\d*)\b","#DD1367",1
 10,"ethical treatment","\b(\d*)ethical treatment(\d*)\b","#DD1367",1
+10,"ethics","\b(\d*)ethics(\d*)\b","#DD1367",1
 10,"ethnic","\b(\d*)ethnic(\d*)\b","#DD1367",1
 10,"ethnic minorities","\b(\d*)ethnic minorities(\d*)\b","#DD1367",1
 10,"ethnicity","\b(\d*)ethnicity(\d*)\b","#DD1367",1
@@ -2331,6 +2373,8 @@
 10,"xenophobia","\b(\d*)xenophobia(\d*)\b","#DD1367",1
 11,"#.# magnitude earthquake","\b(\d*)#.# magnitude earthquake(\d*)\b","#FD9D24",1
 11,"#.# magnitude quake","\b(\d*)#.# magnitude quake(\d*)\b","#FD9D24",1
+11,"active fault","\b(\d*)active fault(\d*)\b","#FD9D24",1
+11,"active faults","\b(\d*)active faults(\d*)\b","#FD9D24",1
 11,"affordable housing","\b(\d*)affordable housing(\d*)\b","#FD9D24",1
 11,"aftershock","\b(\d*)aftershock(\d*)\b","#FD9D24",1
 11,"aftershocks","\b(\d*)aftershocks(\d*)\b","#FD9D24",1
@@ -2345,7 +2389,11 @@
 11,"bike lanes","\b(\d*)bike lanes(\d*)\b","#FD9D24",1
 11,"bike paths","\b(\d*)bike paths(\d*)\b","#FD9D24",1
 11,"brt","\b(\d*)brt(\d*)\b","#FD9D24",1
+11,"building science","\b(\d*)building science(\d*)\b","#FD9D24",1
+11,"building structure","\b(\d*)building structure(\d*)\b","#FD9D24",1
+11,"building structures","\b(\d*)building structures(\d*)\b","#FD9D24",1
 11,"buildings","\b(\d*)buildings(\d*)\b","#FD9D24",1
+11,"built landscape","\b(\d*)built landscape(\d*)\b","#FD9D24",1
 11,"built environment","\b(\d*)built environment(\d*)\b","#FD9D24",1
 11,"bus","\b(\d*)bus(\d*)\b","#FD9D24",1
 11,"bus rapid transit","\b(\d*)bus rapid transit(\d*)\b","#FD9D24",1
@@ -2367,7 +2415,6 @@
 11,"corridor","\b(\d*)corridor(\d*)\b","#FD9D24",1
 11,"crisis","\b(\d*)crisis(\d*)\b","#FD9D24",1
 11,"cultural","\b(\d*)cultural(\d*)\b","#FD9D24",1
-11,"culture","\b(\d*)culture(\d*)\b","#FD9D24",1
 11,"cyclone","\b(\d*)cyclone(\d*)\b","#FD9D24",1
 11,"cyclones","\b(\d*)cyclones(\d*)\b","#FD9D24",1
 11,"deluge","\b(\d*)deluge(\d*)\b","#FD9D24",1
@@ -2392,12 +2439,16 @@
 11,"earthquake","\b(\d*)earthquake(\d*)\b","#FD9D24",1
 11,"earthquakes","\b(\d*)earthquakes(\d*)\b","#FD9D24",1
 11,"emergency preparedness","\b(\d*)emergency preparedness(\d*)\b","#FD9D24",1
+11,"energy concepts and systems","\b(\d*)energy concepts and systems(\d*)\b","#FD9D24",1
+11,"engineered environmental systems","\b(\d*)engineered environmental systems(\d*)\b","#FD9D24",1
+11,"environmental engineering","\b(\d*)environmental engineering(\d*)\b","#FD9D24",1
 11,"environmental issues","\b(\d*)environmental issues(\d*)\b","#FD9D24",1
 11,"environmental problem","\b(\d*)environmental problem(\d*)\b","#FD9D24",1
 11,"environmental problems","\b(\d*)environmental problems(\d*)\b","#FD9D24",1
 11,"environmental risk","\b(\d*)environmental risk(\d*)\b","#FD9D24",1
 11,"environmental risks","\b(\d*)environmental risks(\d*)\b","#FD9D24",1
 11,"environmental studies","\b(\d*)environmental studies(\d*)\b","#FD9D24",1
+11,"environmentally responsive building","\b(\d*)environmentally responsive building(\d*)\b","#FD9D24",1
 11,"explosion","\b(\d*)explosion(\d*)\b","#FD9D24",1
 11,"expressway","\b(\d*)expressway(\d*)\b","#FD9D24",1
 11,"expressways","\b(\d*)expressways(\d*)\b","#FD9D24",1
@@ -2419,6 +2470,7 @@
 11,"handicap","\b(\d*)handicap(\d*)\b","#FD9D24",1
 11,"handicapped","\b(\d*)handicapped(\d*)\b","#FD9D24",1
 11,"handicaps","\b(\d*)handicaps(\d*)\b","#FD9D24",1
+11,"hazard assessment","\b(\d*)hazard assessment(\d*)\b","#FD9D24",1
 11,"heavy downpours","\b(\d*)heavy downpours(\d*)\b","#FD9D24",1
 11,"heavy rail","\b(\d*)heavy rail(\d*)\b","#FD9D24",1
 11,"heritage","\b(\d*)heritage(\d*)\b","#FD9D24",1
@@ -2507,8 +2559,7 @@
 11,"rental property","\b(\d*)rental property(\d*)\b","#FD9D24",1
 11,"renter","\b(\d*)renter(\d*)\b","#FD9D24",1
 11,"renters","\b(\d*)renters(\d*)\b","#FD9D24",1
-11,"resilience","\b(\d*)resilience(\d*)\b","#FD9D24",1
-11,"resilient","\b(\d*)resilient(\d*)\b","#FD9D24",1
+11,"resilient building","\b(\d*)resilient building(\d*)\b","#FD9D24",1
 11,"revitalization","\b(\d*)revitalization(\d*)\b","#FD9D24",1
 11,"ridership","\b(\d*)ridership(\d*)\b","#FD9D24",1
 11,"roads","\b(\d*)roads(\d*)\b","#FD9D24",1
@@ -2546,6 +2597,7 @@
 11,"taxis","\b(\d*)taxis(\d*)\b","#FD9D24",1
 11,"temblor","\b(\d*)temblor(\d*)\b","#FD9D24",1
 11,"tenant","\b(\d*)tenant(\d*)\b","#FD9D24",1
+11,"thermal environment","\b(\d*)thermal environment(\d*)\b","#FD9D24",1
 11,"thunderstorm","\b(\d*)thunderstorm(\d*)\b","#FD9D24",1
 11,"thunderstorms","\b(\d*)thunderstorms(\d*)\b","#FD9D24",1
 11,"tidal waves","\b(\d*)tidal waves(\d*)\b","#FD9D24",1
@@ -2553,7 +2605,6 @@
 11,"tornadoes","\b(\d*)tornadoes(\d*)\b","#FD9D24",1
 11,"tornados","\b(\d*)tornados(\d*)\b","#FD9D24",1
 11,"tradition","\b(\d*)tradition(\d*)\b","#FD9D24",1
-11,"traditional","\b(\d*)traditional(\d*)\b","#FD9D24",1
 11,"traffic","\b(\d*)traffic(\d*)\b","#FD9D24",1
 11,"trains","\b(\d*)trains(\d*)\b","#FD9D24",1
 11,"tram","\b(\d*)tram(\d*)\b","#FD9D24",1
@@ -2567,6 +2618,7 @@
 11,"typhoon","\b(\d*)typhoon(\d*)\b","#FD9D24",1
 11,"typhoons","\b(\d*)typhoons(\d*)\b","#FD9D24",1
 11,"unesco","\b(\d*)unesco(\d*)\b","#FD9D24",1
+11,"urbanism","\b(\d*)urbanism(\d*)\b","#FD9D24",1
 11,"urban","\b(\d*)urban(\d*)\b","#FD9D24",1
 11,"urbanization","\b(\d*)urbanization(\d*)\b","#FD9D24",1
 11,"volcanic eruption","\b(\d*)volcanic eruption(\d*)\b","#FD9D24",1
@@ -2762,9 +2814,7 @@
 12,"procurements","\b(\d*)procurements(\d*)\b","#BF8B2E",1
 12,"produced","\b(\d*)produced(\d*)\b","#BF8B2E",1
 12,"producers","\b(\d*)producers(\d*)\b","#BF8B2E",1
-12,"product","\b(\d*)product(\d*)\b","#BF8B2E",1
 12,"product line","\b(\d*)product line(\d*)\b","#BF8B2E",1
-12,"products","\b(\d*)products(\d*)\b","#BF8B2E",1
 12,"promotes local culture","\b(\d*)promotes local culture(\d*)\b","#BF8B2E",1
 12,"public procurement","\b(\d*)public procurement(\d*)\b","#BF8B2E",1
 12,"purchasers","\b(\d*)purchasers(\d*)\b","#BF8B2E",1
@@ -2891,6 +2941,7 @@
 13,"climate change","\b(\d*)climate change(\d*)\b","#3F7E44",1
 13,"climate change-related","\b(\d*)climate change-related(\d*)\b","#3F7E44",1
 13,"climate crisis","\b(\d*)climate crisis(\d*)\b","#3F7E44",1
+13,"climate dynamics","\b(\d*)climate dynamics(\d*)\b","#3F7E44",1
 13,"climate education","\b(\d*)climate education(\d*)\b","#3F7E44",1
 13,"climate hazards","\b(\d*)climate hazards(\d*)\b","#3F7E44",1
 13,"climate impact","\b(\d*)climate impact(\d*)\b","#3F7E44",1
@@ -2900,6 +2951,8 @@
 13,"climate refugees","\b(\d*)climate refugees(\d*)\b","#3F7E44",1
 13,"climate related","\b(\d*)climate related(\d*)\b","#3F7E44",1
 13,"climate resilience","\b(\d*)climate resilience(\d*)\b","#3F7E44",1
+13,"climate system","\b(\d*)climate system(\d*)\b","#3F7E44",1
+13,"climate systems","\b(\d*)climate systems(\d*)\b","#3F7E44",1
 13,"climate warming","\b(\d*)climate warming(\d*)\b","#3F7E44",1
 13,"climate-related","\b(\d*)climate-related(\d*)\b","#3F7E44",1
 13,"co2","\b(\d*)co2(\d*)\b","#3F7E44",1
@@ -3039,7 +3092,6 @@
 14,"bathyal","\b(\d*)bathyal(\d*)\b","#0A97D9",1
 14,"bathypelagic","\b(\d*)bathypelagic(\d*)\b","#0A97D9",1
 14,"bay","\b(\d*)bay(\d*)\b","#0A97D9",1
-14,"beach","\b(\d*)beach(\d*)\b","#0A97D9",1
 14,"beaches","\b(\d*)beaches(\d*)\b","#0A97D9",1
 14,"benthic","\b(\d*)benthic(\d*)\b","#0A97D9",1
 14,"bering sea","\b(\d*)bering sea(\d*)\b","#0A97D9",1
@@ -3107,6 +3159,7 @@
 14,"eelgrass","\b(\d*)eelgrass(\d*)\b","#0A97D9",1
 14,"eels","\b(\d*)eels(\d*)\b","#0A97D9",1
 14,"environmental conservation","\b(\d*)environmental conservation(\d*)\b","#0A97D9",1
+14,"environmental ethics","\b(\d*)environmental ethics(\d*)\b","#0A97D9",1
 14,"environmental issues","\b(\d*)environmental issues(\d*)\b","#0A97D9",1
 14,"environmental pollution","\b(\d*)environmental pollution(\d*)\b","#0A97D9",1
 14,"environmental problem","\b(\d*)environmental problem(\d*)\b","#0A97D9",1
@@ -3155,7 +3208,7 @@
 14,"hatcheries","\b(\d*)hatcheries(\d*)\b","#0A97D9",1
 14,"hatchery","\b(\d*)hatchery(\d*)\b","#0A97D9",1
 14,"herring","\b(\d*)herring(\d*)\b","#0A97D9",1
-14,"humpback whales","\b(\d*)humpback whales(\d*)\b","#0A97D9",1
+14,"humpback","\b(\d*)humpback(\d*)\b","#0A97D9",1
 14,"humpbacks","\b(\d*)humpbacks(\d*)\b","#0A97D9",1
 14,"illegal harvesting","\b(\d*)illegal harvesting(\d*)\b","#0A97D9",1
 14,"indian ocean","\b(\d*)indian ocean(\d*)\b","#0A97D9",1
@@ -3211,12 +3264,15 @@
 14,"mussel","\b(\d*)mussel(\d*)\b","#0A97D9",1
 14,"mussels","\b(\d*)mussels(\d*)\b","#0A97D9",1
 14,"national marine fisheries","\b(\d*)national marine fisheries(\d*)\b","#0A97D9",1
+14,"natural selection","\b(\d*)natural selection(\d*)\b","#0A97D9",1
 14,"nitrogen cycle","\b(\d*)nitrogen cycle(\d*)\b","#0A97D9",1
+14,"nonhuman world","\b(\d*)nonhuman world(\d*)\b","#0A97D9",1
 14,"ocean","\b(\d*)ocean(\d*)\b","#0A97D9",1
 14,"ocean acidification","\b(\d*)ocean acidification(\d*)\b","#0A97D9",1
 14,"ocean currents","\b(\d*)ocean currents(\d*)\b","#0A97D9",1
 14,"oceanic","\b(\d*)oceanic(\d*)\b","#0A97D9",1
 14,"oceanographer","\b(\d*)oceanographer(\d*)\b","#0A97D9",1
+14,"oceanographic","\b(\d*)oceanographic(\d*)\b","#0A97D9",1
 14,"oceanography","\b(\d*)oceanography(\d*)\b","#0A97D9",1
 14,"oceans","\b(\d*)oceans(\d*)\b","#0A97D9",1
 14,"octopus","\b(\d*)octopus(\d*)\b","#0A97D9",1
@@ -3386,7 +3442,9 @@
 15,"biome","\b(\d*)biome(\d*)\b","#56C02B",1
 15,"biomes","\b(\d*)biomes(\d*)\b","#56C02B",1
 15,"bioremediation","\b(\d*)bioremediation(\d*)\b","#56C02B",1
+15,"biosedimentology","\b(\d*)biosedimentology(\d*)\b","#56C02B",1
 15,"biosphere","\b(\d*)biosphere(\d*)\b","#56C02B",1
+15,"bioturbation","\b(\d*)bioturbation(\d*)\b","#56C02B",1
 15,"bird","\b(\d*)bird(\d*)\b","#56C02B",1
 15,"birds","\b(\d*)birds(\d*)\b","#56C02B",1
 15,"bobcat","\b(\d*)bobcat(\d*)\b","#56C02B",1
@@ -3403,7 +3461,9 @@
 15,"clean water","\b(\d*)clean water(\d*)\b","#56C02B",1
 15,"climate change","\b(\d*)climate change(\d*)\b","#56C02B",1
 15,"conservancy","\b(\d*)conservancy(\d*)\b","#56C02B",1
+15,"conservation ecology","\b(\d*)conservation ecology(\d*)\b","#56C02B",1
 15,"conservation of the environment","\b(\d*)conservation of the environment(\d*)\b","#56C02B",1
+15,"conservation paleoecology","\b(\d*)conservation paleoecology(\d*)\b","#56C02B",1
 15,"conservationist","\b(\d*)conservationist(\d*)\b","#56C02B",1
 15,"conservationists","\b(\d*)conservationists(\d*)\b","#56C02B",1
 15,"corridors","\b(\d*)corridors(\d*)\b","#56C02B",1
@@ -3451,8 +3511,10 @@
 15,"elephants","\b(\d*)elephants(\d*)\b","#56C02B",1
 15,"elk","\b(\d*)elk(\d*)\b","#56C02B",1
 15,"endangered species","\b(\d*)endangered species(\d*)\b","#56C02B",1
+15,"environment and life study","\b(\d*)environment and life study(\d*)\b","#56C02B",1
 15,"environmental conservation","\b(\d*)environmental conservation(\d*)\b","#56C02B",1
 15,"environmental degradation","\b(\d*)environmental degradation(\d*)\b","#56C02B",1
+15,"environmental ethics","\b(\d*)environmental ethics(\d*)\b","#56C02B",1
 15,"environmental issues","\b(\d*)environmental issues(\d*)\b","#56C02B",1
 15,"environmental planning","\b(\d*)environmental planning(\d*)\b","#56C02B",1
 15,"environmental problem","\b(\d*)environmental problem(\d*)\b","#56C02B",1
@@ -3504,7 +3566,9 @@
 15,"geochemical","\b(\d*)geochemical(\d*)\b","#56C02B",1
 15,"geological","\b(\d*)geological(\d*)\b","#56C02B",1
 15,"geology","\b(\d*)geology(\d*)\b","#56C02B",1
+15,"geomorphology","\b(\d*)geomorphology(\d*)\b","#56C02B",1
 15,"geospatial information science","\b(\d*)geospatial information science(\d*)\b","#56C02B",1
+15,"geosystems","\b(\d*)geosystems(\d*)\b","#56C02B",1
 15,"giraffe","\b(\d*)giraffe(\d*)\b","#56C02B",1
 15,"giraffes","\b(\d*)giraffes(\d*)\b","#56C02B",1
 15,"gis","\b(\d*)gis(\d*)\b","#56C02B",1
@@ -3557,10 +3621,12 @@
 15,"land","\b(\d*)land(\d*)\b","#56C02B",1
 15,"land degradation","\b(\d*)land degradation(\d*)\b","#56C02B",1
 15,"land trust","\b(\d*)land trust(\d*)\b","#56C02B",1
+15,"landform","\b(\d*)landform(\d*)\b","#56C02B",1
+15,"landforms","\b(\d*)landforms(\d*)\b","#56C02B",1
 15,"landmass","\b(\d*)landmass(\d*)\b","#56C02B",1
 15,"landowners","\b(\d*)landowners(\d*)\b","#56C02B",1
 15,"lands","\b(\d*)lands(\d*)\b","#56C02B",1
-15,"landscape","\b(\d*)landscape(\d*)\b","#56C02B",1
+15,"natural landscape","\b(\d*)natural landscape(\d*)\b","#56C02B",1
 15,"landscapes","\b(\d*)landscapes(\d*)\b","#56C02B",1
 15,"leopards","\b(\d*)leopards(\d*)\b","#56C02B",1
 15,"lion","\b(\d*)lion(\d*)\b","#56C02B",1
@@ -3580,6 +3646,7 @@
 15,"manatees","\b(\d*)manatees(\d*)\b","#56C02B",1
 15,"mangrove","\b(\d*)mangrove(\d*)\b","#56C02B",1
 15,"mangroves","\b(\d*)mangroves(\d*)\b","#56C02B",1
+15,"mantle convection","\b(\d*)mantle convection(\d*)\b","#56C02B",1
 15,"marsh","\b(\d*)marsh(\d*)\b","#56C02B",1
 15,"marshes","\b(\d*)marshes(\d*)\b","#56C02B",1
 15,"mass extinction","\b(\d*)mass extinction(\d*)\b","#56C02B",1
@@ -3596,6 +3663,7 @@
 15,"natural reserve","\b(\d*)natural reserve(\d*)\b","#56C02B",1
 15,"natural resource","\b(\d*)natural resource(\d*)\b","#56C02B",1
 15,"natural resources","\b(\d*)natural resources(\d*)\b","#56C02B",1
+15,"natural selection","\b(\d*)natural selection(\d*)\b","#56C02B",1
 15,"nature","\b(\d*)nature(\d*)\b","#56C02B",1
 15,"orangutan","\b(\d*)orangutan(\d*)\b","#56C02B",1
 15,"orangutans","\b(\d*)orangutans(\d*)\b","#56C02B",1
@@ -3605,6 +3673,8 @@
 15,"otters","\b(\d*)otters(\d*)\b","#56C02B",1
 15,"owl","\b(\d*)owl(\d*)\b","#56C02B",1
 15,"owls","\b(\d*)owls(\d*)\b","#56C02B",1
+15,"paleoecological","\b(\d*)paleoecological(\d*)\b","#56C02B",1
+15,"paleoenvironmental","\b(\d*)paleoenvironmental(\d*)\b","#56C02B",1
 15,"panda","\b(\d*)panda(\d*)\b","#56C02B",1
 15,"panther","\b(\d*)panther(\d*)\b","#56C02B",1
 15,"park","\b(\d*)park(\d*)\b","#56C02B",1
@@ -3652,10 +3722,12 @@
 15,"rhino","\b(\d*)rhino(\d*)\b","#56C02B",1
 15,"rhinos","\b(\d*)rhinos(\d*)\b","#56C02B",1
 15,"riparian","\b(\d*)riparian(\d*)\b","#56C02B",1
+15,"rocks","\b(\d*)rocks(\d*)\b","#56C02B",1
 15,"safari","\b(\d*)safari(\d*)\b","#56C02B",1
 15,"salamander","\b(\d*)salamander(\d*)\b","#56C02B",1
 15,"salamanders","\b(\d*)salamanders(\d*)\b","#56C02B",1
 15,"seabirds","\b(\d*)seabirds(\d*)\b","#56C02B",1
+15,"sedimentological","\b(\d*)sedimentological(\d*)\b","#56C02B",1
 15,"shorelines","\b(\d*)shorelines(\d*)\b","#56C02B",1
 15,"snake","\b(\d*)snake(\d*)\b","#56C02B",1
 15,"soil","\b(\d*)soil(\d*)\b","#56C02B",1
@@ -3674,6 +3746,9 @@
 15,"terrestrial ecosystems","\b(\d*)terrestrial ecosystems(\d*)\b","#56C02B",1
 15,"terrestrial foodweb","\b(\d*)terrestrial foodweb(\d*)\b","#56C02B",1
 15,"terrestrial foodwebs","\b(\d*)terrestrial foodwebs(\d*)\b","#56C02B",1
+15,"terrestrial life","\b(\d*)terrestrial life(\d*)\b","#56C02B",1
+15,"terrestrial setting","\b(\d*)terrestrial setting(\d*)\b","#56C02B",1
+15,"terrestrial settings","\b(\d*)terrestrial settings(\d*)\b","#56C02B",1
 15,"threatened species","\b(\d*)threatened species(\d*)\b","#56C02B",1
 15,"tiger","\b(\d*)tiger(\d*)\b","#56C02B",1
 15,"tigers","\b(\d*)tigers(\d*)\b","#56C02B",1
@@ -3707,8 +3782,6 @@
 15,"weeds","\b(\d*)weeds(\d*)\b","#56C02B",1
 15,"wetland","\b(\d*)wetland(\d*)\b","#56C02B",1
 15,"wetlands","\b(\d*)wetlands(\d*)\b","#56C02B",1
-15,"whale","\b(\d*)whale(\d*)\b","#56C02B",1
-15,"whales","\b(\d*)whales(\d*)\b","#56C02B",1
 15,"white tailed deer","\b(\d*)white tailed deer(\d*)\b","#56C02B",1
 15,"wilderness","\b(\d*)wilderness(\d*)\b","#56C02B",1
 15,"wildlife","\b(\d*)wildlife(\d*)\b","#56C02B",1
@@ -3864,7 +3937,10 @@
 16,"gerrymandering","\b(\d*)gerrymandering(\d*)\b","#00689D",1
 16,"global governance","\b(\d*)global governance(\d*)\b","#00689D",1
 16,"global peace","\b(\d*)global peace(\d*)\b","#00689D",1
-16,"government policy","\b(\d*)government policy(\d*)\b","#00689D",1
+16,"information security","\b(\d*)information security(\d*)\b","#00689D",1
+16,"global security","\b(\d*)global security(\d*)\b","#00689D",1
+16,"governmental","\b(\d*)governmental(\d*)\b","#00689D",1
+16,"government","\b(\d*)government(\d*)\b","#00689D",1
 16,"greed","\b(\d*)greed(\d*)\b","#00689D",1
 16,"green card","\b(\d*)green card(\d*)\b","#00689D",1
 16,"green peace","\b(\d*)green peace(\d*)\b","#00689D",1
@@ -3924,6 +4000,7 @@
 16,"kkk","\b(\d*)kkk(\d*)\b","#00689D",1
 16,"klu klux klan","\b(\d*)klu klux klan(\d*)\b","#00689D",1
 16,"law","\b(\d*)law(\d*)\b","#00689D",1
+16,"laws","\b(\d*)laws(\d*)\b","#00689D",1
 16,"legal","\b(\d*)legal(\d*)\b","#00689D",1
 16,"lewd","\b(\d*)lewd(\d*)\b","#00689D",1
 16,"lewdness","\b(\d*)lewdness(\d*)\b","#00689D",1
@@ -3950,6 +4027,7 @@
 16,"murderer","\b(\d*)murderer(\d*)\b","#00689D",1
 16,"murders","\b(\d*)murders(\d*)\b","#00689D",1
 16,"national institutions","\b(\d*)national institutions(\d*)\b","#00689D",1
+16,"national security","\b(\d*)national security(\d*)\b","#00689D",1
 16,"nationalism","\b(\d*)nationalism(\d*)\b","#00689D",1
 16,"nationalist","\b(\d*)nationalist(\d*)\b","#00689D",1
 16,"nazi","\b(\d*)nazi(\d*)\b","#00689D",1
@@ -3983,12 +4061,15 @@
 16,"prosecuter","\b(\d*)prosecuter(\d*)\b","#00689D",1
 16,"prosecution","\b(\d*)prosecution(\d*)\b","#00689D",1
 16,"protect people","\b(\d*)protect people(\d*)\b","#00689D",1
+16,"network security","\b(\d*)network security(\d*)\b","#00689D",1
 16,"protest","\b(\d*)protest(\d*)\b","#00689D",1
 16,"public policy","\b(\d*)public policy(\d*)\b","#00689D",1
 16,"qaeda","\b(\d*)qaeda(\d*)\b","#00689D",1
 16,"racial profiling","\b(\d*)racial profiling(\d*)\b","#00689D",1
+16,"regulatory compliance","\b(\d*)regulatory compliance(\d*)\b","#00689D",1
 16,"radical islam","\b(\d*)radical islam(\d*)\b","#00689D",1
 16,"radical islamist","\b(\d*)radical islamist(\d*)\b","#00689D",1
+16,"civil procedure","\b(\d*)civil procedure(\d*)\b","#00689D",1
 16,"radical islamists","\b(\d*)radical islamists(\d*)\b","#00689D",1
 16,"rape","\b(\d*)rape(\d*)\b","#00689D",1
 16,"raped","\b(\d*)raped(\d*)\b","#00689D",1
@@ -3996,6 +4077,7 @@
 16,"raping","\b(\d*)raping(\d*)\b","#00689D",1
 16,"rapist","\b(\d*)rapist(\d*)\b","#00689D",1
 16,"regime","\b(\d*)regime(\d*)\b","#00689D",1
+16,"regulations","\b(\d*)regulations(\d*)\b","#00689D",1
 16,"representative decision-making","\b(\d*)representative decision-making(\d*)\b","#00689D",1
 16,"responsible tourism","\b(\d*)sustainable and responsible tourism(\d*)\b","#00689D",1
 16,"responsive decision-making","\b(\d*)responsive decision-making(\d*)\b","#00689D",1

@@ -78,8 +78,8 @@ ui <- dashboardPage( skin="black",
                          menuItem("Map Your Classes", tabName = "3"),
                          menuItem("Find SDGs by Classes", tabName = "4"),
                          menuItem("Find Classes by SDGs", tabName = "5"),
-                         menuItem("All Sustainability-Related Classes", tabName = "6"),
-                         menuItem("Search by GE Requirements", tabName = "7")
+                         menuItem("Search by GE Requirements", tabName = "6"),
+                         menuItem("All Sustainability-Related Classes", tabName = "7")
                          # menuItem("Sustainability Focused Programs", tabName="8")
                        )
                      ),
@@ -332,46 +332,7 @@ ui <- dashboardPage( skin="black",
                                               ) #end fluidpage
                                       ), #end tabitem5
                                       
-                                      
-                                      tabItem(tabName = "6",
-                                              fluidPage(
-                                                h1("All Sustainably-Related Classes"),
-                                                h3("The below charts show the percent and number of USC courses that are ‘sustainability-focused’, ‘SDG-related’ or ‘not related’ to 
-                                                sustainability, as well as the number and percent of departments that offer sustainability-focused or SDG-related courses."),
-                                                h3("For a course to count as SDG-related, it has to map to at least one of the 17 UN SDGs. For a course to count as sustainability-focused, 
-                                                   it has to map to a combination of SDGs that includes at least one environmental focused SDG (13, 14, 15) and at least one economic or social 
-                                                   focused SDG (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)."),
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
-                                                h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY23 = SU22, F22, SP23)"),
-                                                div(style="font-size:24px;",selectInput(inputId = "usc_year",
-                                                                                        label = "Choose USC Academic Year",
-                                                                                        selected = "AY23",
-                                                                                        choices = unique(sustainability_related$year))),
-                                                div(style="font-size:24px;", pickerInput(inputId = "course_level_pie",
-                                                                                         label = "Restrict course level?",
-                                                                                         choices = c("All", "Undergraduate", "Graduate"),
-                                                                                         options = list(height = 20))), br(),
-                                                # choicesOpt = list(
-                                                # style = rep(("font-size:24px; line-height: 1.5;"),2)))),
-                                                h2("Sustainability Related Courses Offered"),
-                                                fluidRow(column(6, plotOutput("pie4"))),
-                                                # textOutput("pie4_numbers")
-                                                h2("Sustainability Related Departments"),
-                                                fluidRow(column(6, plotOutput("pie3"))),
-                                                h2(strong("Department Sustainability Classification Table")),
-                                                fluidRow(column(12, DT::dataTableOutput("sustainability_table"))), 
-                                                br(), br(),
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
-                                              ), # end fluid page
-                                      ), # end tabitem 6
-                                      
-
-                                      tabItem(tabName="7",
+                                      tabItem(tabName="6",
                                               fluidPage(
                                                 h1("Search by GE Requirements"),
                                                 
@@ -409,9 +370,48 @@ ui <- dashboardPage( skin="black",
                                                    a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
                                                    Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                               ) #end fluid page
-                                      ) #end tabitem 7
+                                      ), #end tabitem 6
                                       
                                       
+                                      tabItem(tabName = "7",
+                                              fluidPage(
+                                                h1("All Sustainably-Related Classes"),
+                                                h3("The below charts show the percent and number of USC courses that are ‘sustainability-focused’, ‘SDG-related’ or ‘not related’ to 
+                                                sustainability, as well as the number and percent of departments that offer sustainability-focused or SDG-related courses. Note that there are often many sections
+                                                   for an offered course."),
+                                                h3("For a course to count as SDG-related, it has to include at least two SDG keywords. For a course to count as sustainability-focused, 
+                                                   it has to map to a combination of SDGs that includes at least one environmental focused SDG (13, 14, 15) and at least one economic or social 
+                                                   focused SDG (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)."),
+                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
+                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
+                                                h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY23 = SU22, F22, SP23)"),
+                                                div(style="font-size:24px;",selectInput(inputId = "usc_year",
+                                                                                        label = "Choose USC Academic Year",
+                                                                                        selected = "AY23",
+                                                                                        choices = unique(sustainability_related$year))),
+                                                div(style="font-size:24px;", pickerInput(inputId = "course_level_pie",
+                                                                                         label = "Restrict course level?",
+                                                                                         choices = c("All", "Undergraduate", "Graduate"),
+                                                                                         options = list(height = 20))), br(),
+                                                # choicesOpt = list(
+                                                # style = rep(("font-size:24px; line-height: 1.5;"),2)))),
+                                                h2("Sustainability Related Courses Offered"),
+                                                fluidRow(column(6, plotOutput("pie4"))),
+                                                # textOutput("pie4_numbers")
+                                                h2("Sustainability Related Departments"),
+                                                fluidRow(column(6, plotOutput("pie3"))),
+                                                h2(strong("Department Sustainability Classification Table")),
+                                                fluidRow(column(12, DT::dataTableOutput("sustainability_table"))), 
+                                                br(), br(),
+                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
+                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
+                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
+                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
+                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
+                                              ), # end fluid page
+                                      ) # end tabitem 7
+                                      
+
                                       # tabItem(tabName="8",
                                       #         fluidPage(
                                       #           h1("Sustainability-Focused Programs"),
@@ -1190,8 +1190,107 @@ server <- function(input, output, session) {
   
   
   
+  
+  
+  
+  
+  
   #####
-  ##### tabitem6 -- ALL SUSTAINABILITY RELATED CLASSES ###
+  ##### tabitem6 -- GE requirements
+  #####
+  
+  
+  
+  # stacked bar chart for GEs
+  output$ge_bar <- renderPlot({
+    # get the top 10 classes and total weights
+    courses = ge_data %>%
+      filter(full_name == input$ge_category) %>%
+      filter(goal %in% input$ge_sdgs) %>%
+      group_by(courseID, semester) %>%
+      mutate(total_weight = sum(weight)) %>%
+      arrange(desc(total_weight)) %>%
+      ungroup() %>%
+      mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
+      distinct(courseID, .keep_all = TRUE) %>%
+      head(num_top_classes) %>%
+      # rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title.x, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
+      select(courseID, total_weight)
+    if (nrow(courses) == 0){
+      return(0)
+    }
+    ids = courses$courseID
+    #create empty dataframe 
+    x = data.frame()
+    for (i in 1:length(ids)){
+      # grab only data for category and sdgs
+      d = ge_data[ge_data$full_name == input$ge_category, ]
+      d = d[d$goal %in% input$ge_sdgs, ]
+      # grab only one semester
+      little_df = d[d$courseID == ids[i], ]
+      if ("SP23" %in% unique(little_df$semester)){ #if sp23 is there just use that
+        sem = "SP23"
+      }
+      else{ # if no spring 23 just grab the last semester in df
+        sem = unique(little_df$semester)[length(unique(little_df$semester))]
+      }
+      # sem = unique(little_df$semester)[1]
+      df = little_df[little_df$semester == sem, ]
+      df = df %>% select(courseID, keyword, weight, goal, color)
+      x = rbind(x, df)
+      # colors = df %>% select(color) %>% unique() %>% pull()
+    }
+    x = x %>% left_join(courses, by="courseID") %>% mutate(courseID1 = fct_reorder(courseID, total_weight))
+    # grab the colors
+    cols = x %>%
+      arrange(goal) %>%
+      select(color) %>% 
+      unique() %>% 
+      pull()
+    ge_plot = x %>% ggplot(aes(x = courseID1, y = weight, fill=factor(as.numeric(goal)))) +
+      geom_col() +
+      coord_flip() + 
+      scale_fill_manual(values = cols) + 
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+      labs(
+        fill="SDG",
+        x = "Course",
+        y = "Total SDG Keyword Frequency") +
+      theme(text = element_text(size = 20, face="bold"))
+    
+    return(ge_plot)
+  })
+  
+  # title above the chart
+  output$top_ge_chart = renderText({
+    paste("Top 10 Classes that Map to ", input$ge_category)
+  })
+  
+  # trying to get Classes by SDGs table name
+  output$ge_name = renderText({
+    paste("All GE Classes Mapped to ", input$ge_category, sep="")
+  })
+  
+  output$ge_table <- DT::renderDataTable({
+    ge_data %>%
+      filter(full_name == input$ge_category) %>%
+      filter(goal %in% input$ge_sdgs) %>%
+      group_by(courseID, semester) %>%
+      mutate(total_weight = sum(weight)) %>%
+      arrange(desc(total_weight)) %>%
+      ungroup() %>%
+      distinct(courseID, .keep_all = TRUE) %>%
+      rename('Course ID' = courseID, Semester = semester, "All Goals" = all_goals, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
+      select('Course ID', "Total SDG Keyword Frequency", "All Goals", "Course Description")
+  }, rownames=FALSE)
+  
+  
+  
+  
+  
+  
+  #####
+  ##### tabitem7 -- ALL SUSTAINABILITY RELATED CLASSES ###
   #####
   
   
@@ -1206,7 +1305,7 @@ server <- function(input, output, session) {
     else{
       pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "graduate")
     }
-    department = unique(pie_data$department) # theres 179 departments
+    department = unique(pie_data$department)
     departments = data.frame(department)
     # split courses into df by department and see if theres focused course or not
     # total = length(departments$department)
@@ -1262,24 +1361,23 @@ server <- function(input, output, session) {
     else{
       pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "graduate")
     }
-    # pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
     sum_notrelated = 0
     sum_inclusive = 0
     sum_focused = 0
     for (i in 1:nrow(pie_data)){
       if (pie_data$sustainability_classification[i] == "Not Related"){
-        # sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
-        sum_notrelated = sum_notrelated + 1
+        sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        # sum_notrelated = sum_notrelated + 1
         next
       }
       if (pie_data$sustainability_classification[i] == "SDG-Related"){
-        # sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
-        sum_inclusive = sum_inclusive + 1
+        sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        # sum_inclusive = sum_inclusive + 1
         next
       }
       if (pie_data$sustainability_classification[i] == "Sustainability-Focused"){ 
-        # sum_focused = sum_focused + pie_data$N.Sections[i]
-        sum_focused = sum_focused + 1
+        sum_focused = sum_focused + pie_data$N.Sections[i]
+        # sum_focused = sum_focused + 1
         next
       }
     }
@@ -1341,99 +1439,6 @@ server <- function(input, output, session) {
       select(Department, "Sustainability Classification", "Sustainability-Focused Classes")
   }, rownames=FALSE)
   
-  
-  
-  
-  
-  
-  #####
-  ##### tabitem 7 -- GE requirements
-  #####
-  
-  
-  
-  # stacked bar chart for GEs
-  output$ge_bar <- renderPlot({
-    # get the top 10 classes and total weights
-    courses = ge_data %>%
-      filter(full_name == input$ge_category) %>%
-      filter(goal %in% input$ge_sdgs) %>%
-      group_by(courseID, semester) %>%
-      mutate(total_weight = sum(weight)) %>%
-      arrange(desc(total_weight)) %>%
-      ungroup() %>%
-      mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-      distinct(courseID, .keep_all = TRUE) %>%
-      head(num_top_classes) %>%
-      # rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title.x, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-      select(courseID, total_weight)
-    if (nrow(courses) == 0){
-      return(0)
-    }
-    ids = courses$courseID
-    #create empty dataframe 
-    x = data.frame()
-    for (i in 1:length(ids)){
-      # grab only data for category and sdgs
-      d = ge_data[ge_data$full_name == input$ge_category, ]
-      d = d[d$goal %in% input$ge_sdgs, ]
-      # grab only one semester
-      little_df = d[d$courseID == ids[i], ]
-      if ("SP23" %in% unique(little_df$semester)){ #if sp23 is there just use that
-        sem = "SP23"
-      }
-      else{ # if no spring 23 just grab the last semester in df
-        sem = unique(little_df$semester)[length(unique(little_df$semester))]
-      }
-      # sem = unique(little_df$semester)[1]
-      df = little_df[little_df$semester == sem, ]
-      df = df %>% select(courseID, keyword, weight, goal, color)
-      x = rbind(x, df)
-      # colors = df %>% select(color) %>% unique() %>% pull()
-    }
-    x = x %>% left_join(courses, by="courseID") %>% mutate(courseID1 = fct_reorder(courseID, total_weight))
-    # grab the colors
-    cols = x %>%
-      arrange(goal) %>%
-      select(color) %>% 
-      unique() %>% 
-      pull()
-    ge_plot = x %>% ggplot(aes(x = courseID1, y = weight, fill=factor(as.numeric(goal)))) +
-      geom_col() +
-      coord_flip() + 
-      scale_fill_manual(values = cols) + 
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-      labs(
-           fill="SDG",
-           x = "Course",
-           y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold"))
-    
-    return(ge_plot)
-  })
-  
-  # title above the chart
-  output$top_ge_chart = renderText({
-    paste("Top 10 Classes that Map to ", input$ge_category)
-  })
-  
-  # trying to get Classes by SDGs table name
-  output$ge_name = renderText({
-    paste("All GE Classes Mapped to ", input$ge_category, sep="")
-  })
-  
-  output$ge_table <- DT::renderDataTable({
-      ge_data %>%
-        filter(full_name == input$ge_category) %>%
-        filter(goal %in% input$ge_sdgs) %>%
-        group_by(courseID, semester) %>%
-        mutate(total_weight = sum(weight)) %>%
-        arrange(desc(total_weight)) %>%
-        ungroup() %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID, Semester = semester, "All Goals" = all_goals, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "All Goals", "Course Description")
-  }, rownames=FALSE)
   
 }
 

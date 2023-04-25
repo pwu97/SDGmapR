@@ -138,6 +138,24 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
+    # tree / trees
+    if (tolower(x[j]) == "tree" || tolower(x[j]) == "trees"){
+      if (tolower(x[j-1]) == "phylogenetic"){
+        print(i)
+        x[j] = "domain"
+      }
+      if (tolower(x[j-1]) == "decision"){
+        print(i)
+        x[j] = "domain"
+      }
+    }
+    # brain architecture
+    if (tolower(x[j]) == "architecture"){
+      if (tolower(x[j-1]) == "brain"){
+        print(i)
+        x[j] = "domain"
+      }
+    }
   }
   usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
 }
@@ -186,7 +204,7 @@ for (i in 1:nrow(usc_courses)){
         print(i)
         x[j] = "domain"
       }
-      if (tolower(x[j+2]) == "personal" && tolower(x[j+2]) == "finance"){
+      if (tolower(x[j+2]) == "personal" && tolower(x[j+3]) == "finance"){
         print(i)
         x[j] = "domain"
       }
@@ -357,9 +375,45 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
+    # inclusion exclusion symmetric
+    if (tolower(x[j] == "inclusion")){
+      if (tolower(x[j+1]) == "exclusion" && tolower(x[j+2]) == "symmetric"){
+        x[j] = "domain"
+      }
+    }
+    # bias measurement error
+    if (tolower(x[j] == "bias")){
+      if (tolower(x[j+1]) == "measurement" && tolower(x[j+2]) == "error"){
+        x[j] = "domain"
+      }
+    }
   }
   usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
 }
+
+
+# trees graph and trees construction
+for (i in 1:nrow(usc_courses)){
+  desc = usc_courses$clean_course_desc[i]
+  x = unlist(strsplit(desc, " "))
+  if (length(x) < 3){
+    next
+  }
+  for (j in 1:(length(x)-2)){
+    if (tolower(x[j]) == "trees" | tolower(x[j]) == "tree"){
+      if (tolower(x[j+1]) == "graph"){
+        print(i)
+        x[j] = "domain"
+      }
+      if (tolower(x[j+1]) == "construction"){
+        print(i)
+        x[j] = "domain"
+      }
+    }
+  }
+  usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
+}
+
 
 
 

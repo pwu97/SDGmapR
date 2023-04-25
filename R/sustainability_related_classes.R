@@ -6,7 +6,6 @@ library(tidyverse)
 # data containing all course titles
 usc_courses = read.csv("usc_courses_cleaned.csv")
 # data containing what courses map to which goals
-# this is the filtered data
 master_data = read.csv("master_course_sdg_data.csv")
 
 
@@ -35,6 +34,8 @@ for (course in sustainability$courseID){
 }
 
 
+
+
 # now need to go through and check criteria and update the related column accordingly
 for (i in 1:nrow(sustainability)){
   # first check if it is null
@@ -42,6 +43,17 @@ for (i in 1:nrow(sustainability)){
     sustainability$related[i] = "Not Related"
     next
   }
+  # check if it has at least two keywords
+  course = sustainability$courseID[i]
+  num_keywords = 0
+  mini_df = master_data[master_data$courseID == course, "keyword"]
+  if (length(mini_df) > 1){
+    sustainability$related[i] = "SDG-Related"
+  }
+  if (length(mini_df) == 1){
+    sustainability$related[i] = "Not Related"
+  }
+  # now checking if sustainability-focused
   # grab the goals in each row
   goals = as.list(strsplit(sustainability$goals[i], ",")[[1]])
   # set these booleans to false for each row to start
@@ -59,12 +71,12 @@ for (i in 1:nrow(sustainability)){
   if (is_social_economic & is_environment){
     sustainability$related[i] = "Sustainability-Focused"
   }
-  if (is_social_economic & !is_environment){
-    sustainability$related[i] = "SDG-Related"
-  }
-  if (!is_social_economic & is_environment){
-    sustainability$related[i] = "SDG-Related"
-  }
+  # if (is_social_economic & !is_environment){
+  #   sustainability$related[i] = "SDG-Related"
+  # }
+  # if (!is_social_economic & is_environment){
+  #   sustainability$related[i] = "SDG-Related"
+  # }
 }
 
 # need to rename the columns
