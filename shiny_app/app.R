@@ -497,16 +497,7 @@ server <- function(input, output, session) {
   
   # wordcloud for users classes
   output$users_wordcloud <- renderPlot({
-    course_df = classes[classes$courseID %in% input$user_classes, ]
-    # just grab one semester where the class is offered
-    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-      sem = "SP23"
-    }
-    else{ # if no spring 23 just grab the last semester in df
-      sem = unique(course_df$semester)[length(unique(course_df$semester))]
-    }
-    # sem = unique(course_df$semester)[1]
-    df = course_df[course_df$semester == sem, ]
+    df = classes_by_sdgs[classes_by_sdgs$courseID %in% input$user_classes, ]
     
     sdg_class_keyword_colors <-  df %>%
       # filter(semester == input$usc_semester1) %>%
@@ -675,18 +666,10 @@ server <- function(input, output, session) {
   
   
   output$user_table <- DT::renderDataTable({
-    
-    course_df = sustainability_related[sustainability_related$courseID %in% input$user_classes, ]
-    # just grab one semester where the class is offered
-    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-      sem = "SP23"
-    }
-    else{ # if no spring 23 just grab the last semester in df
-      sem = unique(course_df$semester)[length(unique(course_df$semester))]
-    }
-    # sem = unique(course_df$semester)[1]
-    df = course_df[course_df$semester == sem, ]
-    
+    # use this dataframe so the course descriptions still show for unmapped classes
+    df = sustainability_related[sustainability_related$courseID %in% input$user_classes, ]
+    # need to only grab one instance
+
     df %>% filter(courseID %in% input$user_classes) %>%
       distinct(courseID, .keep_all = TRUE) %>%
       rename("Course ID" = courseID, "Course Description" = course_desc, "All Goals" = all_goals) %>%
