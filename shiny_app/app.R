@@ -75,11 +75,11 @@ ui <- dashboardPage( skin="black",
                        sidebarMenu(
                          menuItem("About", tabName = "1"),
                          menuItem("FAQ", tabName = "2"),
-                         menuItem("Map Your Classes", tabName = "3"),
-                         menuItem("Find SDGs by Classes", tabName = "4"),
-                         menuItem("Find Classes by SDGs", tabName = "5"),
+                         menuItem("Map Your Courses", tabName = "3"),
+                         menuItem("Find SDGs by Courses", tabName = "4"),
+                         menuItem("Find Courses by SDGs", tabName = "5"),
                          menuItem("Search by GE Requirements", tabName = "6"),
-                         menuItem("All Sustainability-Related Classes", tabName = "7")
+                         menuItem("All Sustainability-Related Courses", tabName = "7")
                          # menuItem("Sustainability Focused Programs", tabName="8")
                        )
                      ),
@@ -93,7 +93,7 @@ ui <- dashboardPage( skin="black",
                                                 h3("Welcome to the USC Sustainability Course Finder. Staff, faculty, and students at the 
                                                             University of Southern California and Carnegie Mellon University have collaborated on 
                                                             developing this dashboard to elevate awareness of sustainability in higher education. 
-                                                            It enables users to determine how USC classes relate to the 17 United Nations 
+                                                            It enables users to determine how USC courses relate to the 17 United Nations 
                                                             Sustainable Development Goals (SDGs). With this information, students can focus their 
                                                             studies on specific sustainability goals."),
                                                 br(),
@@ -150,11 +150,11 @@ ui <- dashboardPage( skin="black",
                                                 h2(strong("FAQ")),
                                                 h3(strong("How Do I Use this Dashboard?"), "You can choose your search function in 
                                  the main menu in the upper-left corner of this dashboard. 
-                                 Here you can either find classes by the 17 different SDGs 
-                                 (Find Classes by SDG) or see which SDGs map to a selected class 
-                                 (Find SDGs by Class). To see how many classes at USC are sustainability-focused 
-                                 or SDG-related, please click on the bottom menu bottom 
-                                 ‘All Sustainability-Related Classes”."),
+                                 Here you can either find courses by the 17 different SDGs 
+                                 (Find Courses by SDGs) or see which SDGs map to a selected course 
+                                 (Find SDGs by Courses). To see how many courses at USC are sustainability-focused 
+                                 or SDG-related, please click on the bottom menu option 
+                                 ‘All Sustainability-Related Courses”."),
                                                 
                                                 h3(strong("How was this dashboard created?"), "This dashboard was created with R Shiny, based on source code in R through a 
                                               collaboration of USC’s Office of Sustainability (Source Code Developers: PSIP Intern- Brian Tinsley and Data Analyst- Dr. 
@@ -174,13 +174,13 @@ ui <- dashboardPage( skin="black",
                                     please visit ", a("their website.", href= "https://sdgs.un.org/goals#icons", target="_blank")),
                                                 
                                                 h3(strong("Which USC courses are included in this dashboard?"), "All USC courses except for \"Directed Research,\"
-                                                   Master's Thesis,\" and \"Doctoral Dissertation\" classes. Although some classes do not map to the SDGs, they are still included
+                                                   Master's Thesis,\" and \"Doctoral Dissertation\" courses. Although some courses do not map to the SDGs, they are still included
                                                    in data analysis. "),
                                                 
                                                 h3(strong("How often is this dashboard updated?"), "Data is updated at least once a semester after registration 
                                                 is complete for the following semester, and more frequently upon feedback."),
                                                 
-                                                h3(strong("How are USC's classes mapped to the 17 SDGs?"), "Please visit our 
+                                                h3(strong("How are USC's courses mapped to the 17 SDGs?"), "Please visit our 
                                                    “Home” page to learn more."),
                                                 
                                                 h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please fill out our ", a("feedback form.", 
@@ -197,8 +197,8 @@ ui <- dashboardPage( skin="black",
                                       
                                       tabItem(tabName = "3",
                                               fluidPage(
-                                                h1("Map Your Classes"),
-                                                h3("Select your classes below and see how your curriculum relates to the 17 SDGs. Some classes
+                                                h1("Map Your Courses"),
+                                                h3("Select your courses below and see how your curriculum relates to the 17 SDGs. Some courses
                                                    do not map to the SDGs via our keywords so those courses' mapping will be blank."), 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
@@ -226,7 +226,7 @@ ui <- dashboardPage( skin="black",
                                                          plotOutput(outputId = "user_to_goals"), br()),
                                                   column(6, plotOutput(outputId = "user_classes_barplot"), img(src = "un_17sdgs.png", width="100%"), br())
                                                 ),
-                                                h2(strong("Your Classes")),
+                                                h2(strong("Your Courses")),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("user_table"))
                                                 )), br(), br(),
@@ -242,16 +242,16 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "4",
                                               # tabPanel("All", fluidPage(
                                               fluidPage(
-                                                h1("Find SDGs by Classes"),
+                                                h1("Find SDGs by Courses"),
                                                 h4(""),
                                                 h3("Select a USC course ID below to view the SDG mapping for 
-                          that particular class. If you cannot find a class you are looking for, then it did not map to any of the SDGs via our keyword list.
+                          that particular course. If you cannot find a course you are looking for, then it did not map to any of the SDGs via our keyword list.
                                                    To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 h4("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 div(style="font-size:24px;",selectizeInput(inputId = "usc_classes", 
-                                                                                           label = "Choose USC Class by Course ID", 
+                                                                                           label = "Choose USC Course by Course ID", 
                                                                                            choices = "",
                                                                                            width = "100%",
                                                                                            # choices = unique(classes$courseID),
@@ -288,8 +288,8 @@ ui <- dashboardPage( skin="black",
                                       
                                       tabItem(tabName = "5",
                                               fluidPage(
-                                                h1("Find Classes by SDGs"),
-                                                h3("Select USC departments and course levels, and then choose an SDGs to display the 10 most relevant USC classes that map to
+                                                h1("Find Courses by SDGs"),
+                                                h3("Select USC departments and course levels, and then choose an SDGs to display the 10 most relevant USC courses that map to
                                                   that goal. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
@@ -337,7 +337,7 @@ ui <- dashboardPage( skin="black",
                                                 h1("Search by GE Requirements"),
                                                 
                                                 # h3("All students at USC are required to fulfill their general education (GE) requirements."),
-                                                h3("Select a GE category below to see the sustainability related classes which satisfy that requirement. GE courses that
+                                                h3("Select a GE category below to see the sustainability related courses which satisfy that requirement. GE courses that
                                                    did not map to the SDGs via our keywords are not shown, but you can find them in the course catalogue ", a("here.", href="https://dornsife.usc.edu/2015ge/2015ge-requirements/")),
                                                 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
@@ -375,7 +375,7 @@ ui <- dashboardPage( skin="black",
                                       
                                       tabItem(tabName = "7",
                                               fluidPage(
-                                                h1("All Sustainably-Related Classes"),
+                                                h1("All Sustainably-Related Courses"),
                                                 h3("The below charts show the percent and number of USC courses that are ‘sustainability-focused’, ‘SDG-related’ or ‘not related’ to 
                                                 sustainability, as well as the number and percent of departments that offer sustainability-focused or SDG-related courses. Note that there are often many sections
                                                    for an offered course."),
@@ -649,7 +649,7 @@ server <- function(input, output, session) {
         geom_col() +
         coord_flip() +
         # geom_hline(yintercept = c(10, 15), color = c("#ffc33c", "#00bc9e")) +
-        labs(title = paste0("All SDGs Mapped to your Classes"),
+        labs(title = paste0("All SDGs Mapped to your Courses"),
              fill = "SDG",
              x = "SDG",
              y = "Total SDG Keyword Frequency") +
@@ -925,12 +925,12 @@ server <- function(input, output, session) {
   
   # trying to get Classes by SDGs table name
   output$sdg_name = renderText({
-    paste("All Classes Mapped to SDG", input$sdg_goal1, sep="")
+    paste("All Courses Mapped to SDG", input$sdg_goal1, sep="")
   })
   
   # title of graph
   output$top_classes = renderText({
-    paste0("Top 10 Classes that Map to SDG", input$sdg_goal1)
+    paste0("Top 10 Courses that Map to SDG", input$sdg_goal1)
   })
   
   #this part filters the departments by the semester chosen in input field
@@ -1014,7 +1014,7 @@ server <- function(input, output, session) {
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
         coord_flip() +
         scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(title = paste0("Top 10 Classes that Map to SDG", input$sdg_goal1),
+        labs(title = paste0("Top 10 Courses that Map to SDG", input$sdg_goal1),
              x = "Course",
              y = "Total SDG Keyword Frequency") +
         theme(text = element_text(size = 20, face="bold"))
@@ -1048,7 +1048,7 @@ server <- function(input, output, session) {
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
         coord_flip() +
         scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(title = paste0("Top 10 Classes that Map to SDG", input$sdg_goal1),
+        labs(title = paste0("Top 10 Courses that Map to SDG", input$sdg_goal1),
              x = "Course",
              y = "Total SDG Keyword Frequency") +
         theme(text = element_text(size = 20, face="bold"))
@@ -1082,7 +1082,7 @@ server <- function(input, output, session) {
         geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
         coord_flip() +
         scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(title = paste0("Top 10 Classes that Map to SDG", input$sdg_goal1),
+        labs(title = paste0("Top 10 Courses that Map to SDG", input$sdg_goal1),
              x = "Course",
              y = "Total SDG Keyword Frequency") +
         theme(text = element_text(size = 20, face="bold"))
@@ -1246,12 +1246,12 @@ server <- function(input, output, session) {
   
   # title above the chart
   output$top_ge_chart = renderText({
-    paste("Top 10 Classes that Map to ", input$ge_category)
+    paste("Top 10 Courses that Map to ", input$ge_category)
   })
   
   # trying to get Classes by SDGs table name
   output$ge_name = renderText({
-    paste("All GE Classes Mapped to ", input$ge_category, sep="")
+    paste("All GE Courses Mapped to ", input$ge_category, sep="")
   })
   
   output$ge_table <- DT::renderDataTable({
@@ -1418,8 +1418,8 @@ server <- function(input, output, session) {
     
     departments %>% 
       arrange(department) %>%
-      rename (Department = department, "Sustainability Classification" = sustainability, "Sustainability-Focused Classes" = focused_classes) %>%
-      select(Department, "Sustainability Classification", "Sustainability-Focused Classes")
+      rename (Department = department, "Sustainability Classification" = sustainability, "Sustainability-Focused Courses" = focused_classes) %>%
+      select(Department, "Sustainability Classification", "Sustainability-Focused Courses")
   }, rownames=FALSE)
   
   
