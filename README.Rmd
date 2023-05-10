@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # USC Sustainability Course Finder
 
-```{r, warning=FALSE,message=FALSE}
+```{r, warning=FALSE,message=FALSE,echo=FALSE}
 # load all packages
 library(tidyverse)
 ```
@@ -29,6 +29,10 @@ At USC, Brian Tinsley and Dr. Julie Hopper in the Office of Sustainability have 
 - [Keyword List](#keyword-list)
 - [Cleaning Course Data](#cleaning-course-data)
 - [Mapping Course Descriptions](#mapping-course-descriptions)
+- [Sustainability Related Courses](#sustainability-related-courses)
+- [General Education](#general-education)
+- [Creating Shiny App](#creating-shiny-app)
+- [Questions?](#questions)
 
 
 ## Installation
@@ -152,14 +156,56 @@ find_words = Vectorize(function(text, sdg, keywords="usc_keywords", count_repeat
 })
 ```
 
+
 Here is an example of how it works:
+
 
 ```{r}
 usc_keywords = read.csv("data/usc_keywords.csv")
+find_words("this maps to SDG 1 because the words poverty and charity and charity", 1)
+```
 
-find_words("this is environmental text that maps to goal 1 because the words poverty and charity and charity", 1)
+Now that the function to map text is created, we can use a loop to go through the entire course dataframe for each of the 17 sdgs and find the keywords. The following function performs the mapping and creates the "goal" and "keyword" columns. Note: this function can take a very long time to run (about 3-4 hours for the USC keywords and course dataframe).
 
+```{r, eval=FALSE}
+# read in the USC course data
+classes = read.csv("usc_courses_cleaned.csv")
+
+all_sdg_keywords <- data.frame() # new dataframe to hold everything
+for (goal_num in 1:17) {
+  print(goal_num) #useful for seeing how far you are in the code run
+  classes %>%
+    mutate(goal = goal_num, #run on clean_course_desc column w no punctuation and accuracy edits made
+           keyword = find_words(classes$clean_course_desc, goal_num, keywords = "usc_keywords")) %>%
+    unnest(keyword) -> cur_sdg_keywords
+  
+  all_sdg_keywords <- rbind(all_sdg_keywords, cur_sdg_keywords) 
+}
+```
+
+Once the mapping is done, it is a good idea to save the dataframe as a .Rda object so you don't need to rerun it every time.
+
+```{r, eval=FALSE}
+save(all_sdg_keywords, file="all_sdg_keywords.Rda")
+```
+
+Before writing the dataframe as a CSV, we also want to combine this output with the keyword dataframe to obtain the color and weight columns. Remember to add all relevant columns to the select() function. 
+
+```{r, eval=FALSE}
+#now join it with usc_keywords to get color and weight
+all_sdg_keywords %>%
+  left_join(usc_keywords, by = c("goal", "keyword")) %>%
+  select(courseID, course_title, section, semester, keyword, goal, weight, color, course_desc, clean_course_desc, department, N.Sections, year, course_level, total_enrolled, all_semesters) %>%
+  arrange(courseID) -> all_sdg_keywords
 ```
 
 
+
+## Sustainability Related Courses
+
+## General Education
+
+## Creating Shiny App
+
+## Questions?
 
