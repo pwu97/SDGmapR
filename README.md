@@ -1,5 +1,16 @@
 # USC Sustainability Course Finder
 
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.1     ✔ readr     2.1.4
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+    ## ✔ ggplot2   3.4.1     ✔ tibble    3.2.1
+    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+    ## ✔ purrr     1.0.1     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
 Peter Wu at Carnegie Mellon wrote the initial code that inspired this
 project, and his original R package can be found on
 [Github](https://github.com/pwu97/SDGmapR). At USC, Brian Tinsley and
@@ -10,9 +21,10 @@ Nations Sustainability Development Goals.
 
 ## Table of Contents
 
--   [Installation](#keyword-list)
 -   [Installation](#installation)
+-   [Keyword List](#keyword-list)
 -   [Cleaning Course Data](#cleaning-course-data)
+-   [Mapping Course Descriptions](#mapping-course-descriptions)
 
 ## Installation
 
@@ -130,3 +142,52 @@ for (i in 1:nrow(usc_courses)){
 To account for context dependencies either before a word or after a
 word, follow the model in the file, and ensure to convert words to
 lowercase and trim whitespace.
+
+## Mapping Course Descriptions
+
+Now, we are ready to map the clean course descriptions void of
+punctuation errors and major context dependencies to our keyword list
+and the SDGs. In the `R` directory, find the code to map course
+descriptions in `mapping_course_descriptions.R`. The following function
+`find_words` is the foundation for the mapping. Given some text, one of
+the 17 SDGs, and a keyword list, it returns a vector of all keywords in
+the text that map to the designated SDG (including repeats).
+
+``` r
+# goal of this function is to return a vector of all the keywords 
+# in a course description (including duplicates)
+find_words = Vectorize(function(text, sdg, keywords="usc_keywords", count_repeats=FALSE){
+  if (keywords=="usc_keywords"){
+    sdg_keywords = usc_keywords %>% filter (goal==sdg)
+  }
+  
+  patterns <- sdg_keywords$pattern
+  keywords <- sdg_keywords$keyword
+  
+  words <- c()
+  
+  for (i in 1:nrow(sdg_keywords)){
+    if (grepl(tolower(patterns[i]), tolower(text))){
+      # count number of times
+      sum = str_count(tolower(text), patterns[i])
+      for (j in 1:sum){
+        words = c(words, keywords[i])
+      }
+    }
+  }
+  return(words)
+})
+```
+
+Here is an example of how it works:
+
+``` r
+usc_keywords = read.csv("data/usc_keywords.csv")
+
+find_words("this is environmental text that maps to goal 1 because the words poverty and charity and charity", 1)
+```
+
+    ##      this is environmental text that maps to goal 1 because the words poverty and charity and charity
+    ## [1,] "charity"                                                                                       
+    ## [2,] "charity"                                                                                       
+    ## [3,] "poverty"

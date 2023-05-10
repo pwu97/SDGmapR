@@ -2,10 +2,8 @@
 
 usc_keywords = read.csv("usc_keywords.csv")
 
-# usc_keywords$weight = 1
-
 # goal of this function is to return a vector of all the keywords 
-# in a course description (incuding duplicates)
+# in a course description (including duplicates)
 find_words = Vectorize(function(text, sdg, keywords="usc_keywords", count_repeats=FALSE){
   if (keywords=="usc_keywords"){
     sdg_keywords = usc_keywords %>% filter (goal==sdg)
