@@ -200,8 +200,38 @@ all_sdg_keywords %>%
 ```
 
 
-
 ## Sustainability Related Courses
+
+With the mapping complete, we can refer to the R script `sustainability_related_classes.R` which analyzes the goals a class mapped to and labels it as "SDG-related", "sustainability-focused", or "not related".
+We first make a new dataframe of unique courseID's, and then create the columns "all_goals" and "sustainability_classification". 
+To obtain all mapped goals for each class, use the following code:
+
+```{r, eval=FALSE}
+index = 1
+for (course in sustainability$courseID){
+  # subset master data to just the rows for that class and grab the unique goals
+  mini_df = unique(master_data[master_data$courseID == course, "goal"])
+  # combine all the goals into a string to be added to the goals column in df
+  goals = paste(mini_df, collapse=",")
+  #update the goals column of df to be this string "goals"
+  sustainability$goals[index] = goals
+  index = index + 1
+}
+```
+
+We have tried multiple methods to determine sustainability classifications, and our current method is as follows:
+If a course's description does not map to any SDGs (no keywords in the master data) or only contains one keyword, it is "Not Related".
+If a course description contains two or more keywords, we categorize it as "SDG-Related".
+If a course maps to at least one social/economic SDG (SDGs 1-12, 16, 17) and one environmental goal (13, 14, 15), then it is labeled "Sustainability Focused".
+Code for achieving these labels are found in the R script.
+
+Lastly, we want to join this dataframe with the course data, so we run the following code:
+
+```{r, eval=FALSE}
+# "sustainability" is the dataframe we just made, usc_courses is the cleaned USC course data
+course_data = usc_courses %>% left_join(sustainability, by="courseID")
+write.csv(course_data, "usc_courses_full.csv", row.names = F)
+```
 
 ## General Education
 
