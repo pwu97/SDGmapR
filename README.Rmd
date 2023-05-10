@@ -1,10 +1,10 @@
 ---
 title: "README"
 output: 
-  html_document:
-    df_print: paged
-  # md_document:
-    # variant: markdown_github
+  # html_document:
+  #   df_print: paged
+  md_document:
+    variant: markdown_github
 ---
 
 ```{r setup, include=FALSE}
@@ -98,7 +98,7 @@ This file corrects context-dependency issues that lead to inaccurate mappings of
 
 The first thing we do is create a new column "clean_course_desc" which holds the course description of the class but **excluding punctuation.** By exluding punctuation (except for apostraphes), we ensure there are no problems mapping words that come before a comma or period or other punctuation. Code to achieve this is shown below:
 
-```{r}
+```{r eval=FALSE}
 # column to hold cleaned course description
 usc_courses["clean_course_desc"] = NA
 
