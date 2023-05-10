@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # USC Sustainability Course Finder
 
-```{r echo=FALSE}
+```{r, warning=FALSE,message=FALSE}
 # load all packages
 library(tidyverse)
 ```
