@@ -1,3 +1,6 @@
+README
+================
+
 # USC Sustainability Course Finder
 
 Peter Wu at Carnegie Mellon wrote the initial code that inspired this
@@ -10,14 +13,14 @@ Nations Sustainability Development Goals.
 
 ## Table of Contents
 
--   [Installation](#installation)
--   [Keyword List](#keyword-list)
--   [Cleaning Course Data](#cleaning-course-data)
--   [Mapping Course Descriptions](#mapping-course-descriptions)
--   [Sustainability Related Courses](#sustainability-related-courses)
--   [General Education](#general-education)
--   [Creating Shiny App](#creating-shiny-app)
--   [Questions?](#questions)
+- [Installation](#installation)
+- [Keyword List](#keyword-list)
+- [Cleaning Course Data](#cleaning-course-data)
+- [Mapping Course Descriptions](#mapping-course-descriptions)
+- [Sustainability Related Courses](#sustainability-related-courses)
+- [General Education](#general-education)
+- [Creating Shiny App](#creating-shiny-app)
+- [Questions?](#questions)
 
 ## Installation
 
@@ -29,23 +32,59 @@ repository.
 
 ## Keyword List
 
+The way in which we map course descriptions to the SDGs is through
+keyword lists which has keywords relevant for each SDG.
+
+| goal | keyword             | color    | weight |
+|-----:|:--------------------|:---------|-------:|
+|    1 | access to clothing  | \#E5243B |      1 |
+|    1 | access to housing   | \#E5243B |      1 |
+|    1 | access to resources | \#E5243B |      1 |
+|    1 | access to shelter   | \#E5243B |      1 |
+|    1 | affluence           | \#E5243B |      1 |
+|    1 | affluent            | \#E5243B |      1 |
+
+The table below lists publicly available SDG keywords that have been
+published online. Some of the lists have weights associated with every
+keyword, while some do not. Also note that some of these keyword lists
+do not have keywords for SDG SDG 17.
+
+| Source                                                                                                                                             | Dataset                | CSV                                                                                                                     |
+|:---------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:------------------------------------------------------------------------------------------------------------------------|
+| [USC Keywords (Work in Progress)](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) | `usc_keywords`         | [Link](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) |
+| [Core Elsevier (Work in Progress)](https://data.mendeley.com/datasets/87txkw7khs/1)                                                                | `elsevier_keywords`    | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier_keywords_cleaned.csv)                               |
+| [Improved Elsevier Top 100](https://data.mendeley.com/datasets/9sxdykm8s4/2)                                                                       | `elsevier100_keywords` | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier100_keywords_cleaned.csv)                            |
+| [SDSN](https://ap-unsdsn.org/regional-initiatives/universities-sdgs/)                                                                              | `sdsn_keywords`        | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdsn_keywords_cleaned.csv)                                   |
+| [CMU Top 250 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)                  | `cmu250_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu250_keywords_cleaned.csv)                                 |
+| [CMU Top 500 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)                  | `cmu500_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu500_keywords_cleaned.csv)                                 |
+| [CMU Top 1000 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)                 | `cmu1000_keywords`     | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu1000_keywords_cleaned.csv)                                |
+| [University of Auckland (Work in Progress)](https://www.sdgmapping.auckland.ac.nz/)                                                                | `auckland_keywords`    |                                                                                                                         |
+| [University of Toronto (Work in Progress)](https://data.utoronto.ca/sustainable-development-goals-sdg-report/sdg-report-appendix/)                 | `toronto_keywords`     |                                                                                                                         |
+
 ## Cleaning Course Data
 
 While I do not expect another school’s data to be of the same format as
 the raw files at USC, I am still including some details on how we
 cleaned the files in hopes that it may address some common problems
-others might have with their data. <!-- add link to a file? --> Course
-data was retrieved from the USC’s Office of Academic Records and
+others might have with their data.
+
+<!-- add link to a file? -->
+
+Course data was retrieved from the USC’s Office of Academic Records and
 Registrar, and the raw data files, as well as the R scripts to clean
 them, can be found in the `cleaning_raw_data` folder. These files had
 lots of problems with spacing and column names, and we addressed these
-issues in `cleaning_scattered_files.R`. <!-- show the dataframe -->
-<!-- show the code to clean it --> In the `clean_file` function, we loop
-from the bottom of the raw dataframe and combine empty rows with the row
-above to fix the empty line issue. We also trim spaces before and after
-to account for random spaces added at the end of some data entries. One
-problem to look out for when cleaning a dataframe is accounting for
-empty values (““) vs NA vs”NA” in data entries.
+issues in `cleaning_scattered_files.R`.
+
+<!-- show the dataframe -->
+<!-- show the code to clean it -->
+
+In the `clean_file` function, we loop from the bottom of the raw
+dataframe and combine empty rows with the row above to fix the empty
+line issue. We also trim spaces before and after to account for random
+spaces added at the end of some data entries. One problem to look out
+for when cleaning a dataframe is accounting for empty values (““) vs NA
+vs”NA” in data entries.
 
 ``` r
 # go through backwords and combine error rows with row above it
@@ -141,10 +180,12 @@ lowercase and trim whitespace.
 Now, we are ready to map the clean course descriptions void of
 punctuation errors and major context dependencies to our keyword list
 and the SDGs. In the `R` directory, find the code to map course
-descriptions in `mapping_course_descriptions.R`. The following function
-`find_words` is the foundation for the mapping. Given some text, one of
-the 17 SDGs, and a keyword list, it returns a vector of all keywords in
-the text that map to the designated SDG (including repeats).
+descriptions in `mapping_course_descriptions.R`.
+
+The following function `find_words` is the foundation for the mapping.
+Given some text, one of the 17 SDGs, and a keyword list, it returns a
+vector of all keywords in the text that map to the designated SDG
+(including repeats).
 
 ``` r
 # goal of this function is to return a vector of all the keywords 
@@ -248,13 +289,17 @@ for (course in sustainability$courseID){
 ```
 
 We have tried multiple methods to determine sustainability
-classifications, and our current method is as follows: If a course’s
-description does not map to any SDGs (no keywords in the master data) or
-only contains one keyword, it is “Not Related”. If a course description
-contains two or more keywords, we categorize it as “SDG-Related”. If a
-course maps to at least one social/economic SDG (SDGs 1-12, 16, 17) and
-one environmental goal (13, 14, 15), then it is labeled “Sustainability
-Focused”. Code for achieving these labels are found in the R script.
+classifications, and our current method is as follows:
+
+- If a course’s description does not map to any SDGs (no keywords in the
+  master data) or only contains one keyword, it is “NotRelated”.  
+- If a course description contains two or more keywords, we categorize
+  it as “SDG-Related”.  
+- If a course maps to at least one social/economic SDG (SDGs 1-12,
+  16, 17) and one environmental goal (13, 14, 15), then it is labeled
+  “Sustainability Focused”.
+
+Code for achieving these labels are found in the R script.
 
 Lastly, we want to join this dataframe with the course data, so we run
 the following code:
@@ -267,6 +312,32 @@ write.csv(course_data, "usc_courses_full.csv", row.names = F)
 
 ## General Education
 
+We were given completely a different set of data for USC’s general
+education requirements. Code for obtaining the GE categories and course
+titles is found in `general_education.R`. In this script, we join the GE
+data with the course / sustainability data and then go through and
+ensure that unmapped classes have “Not Related” as the sustainability
+classification. The resulting dataframe is used in the Shiny App for the
+general education page.
+
 ## Creating Shiny App
 
+When I was tasked with creating a shiny app, I was daunted but
+eventually learned through trial and error. Despite the scary sight of
+1400 lines of code, I can assure that anyone using this github
+repository can replicate the shiny app with little to no coding
+experience. To learn the basics, refer to [this
+tutorial.](https://rstudio.github.io/shinydashboard/)
+
+If you follow along with the code in the `app.R` file in the “shiny_app”
+directory, you will understand the structure and functionality of a
+shiny app.
+
 ## Questions?
+
+There have been many packages in R that have confused me, and I am very
+grateful for some developers that responded to my emails and helped me
+along the way.
+
+If you have any questions, comments, or concerns, please reach out to me
+via email: <btinsley@usc.edu>
