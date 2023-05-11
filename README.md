@@ -54,31 +54,36 @@ library(tidyverse)
 
 The [tidyverse package](https://github.com/tidyverse/tidyverse) is an
 incredibly powerful R package which helps transform and present data; it
-has been used very extensively in this project.
+has been used extensively in this project.
 
 ## Keyword List
 
 The way in which we map course descriptions to the SDGs is through
-keyword lists containing words relevant to each SDG. In prior versions
-of this package, we attempted to use various Python and R packages, such
-as [text2sdg](https://www.text2sdg.io/), to give weights to keywords
-based on their relevance to the SDG. We have since transitioned to
-creating our own keyword lists and using *frequencies* of keywords since
-the varying weights were often ambiguous. With this new method, each
-keyword has a weight of 1. The first few rows of the USC keyword table,
-which has over 4200 keywords, are shown below.
+keyword lists containing words relevant to each SDG. The table below
+lists publicly available SDG keywords that have been published online.
 
-In the USC keyword [CSV
-file](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv),
-notice that there are the goal, keyword, and sdg color columns, but also
-the `pattern` and `weight` columns. Note that if you were to make your
-own keyword list, you must have all of these columns. The pattern column
-is used when the mapping function matches words, and each has the format
-“\b(\d*)keyword(\d*)\b”. Also note that when you intend to print these
-patterns in R, you bust use an extra backslash (\\) because the slash is
-a special character in R.
+Some of the lists have weights associated with every keyword based on
+their relevance to the SDG, while some do not. Also note that some of
+these keyword lists do not have keywords for SDG 17. In prior versions
+of this project, we attempted to mimic CMU’s method and use various
+Python and R packages, such as [text2sdg](https://www.text2sdg.io/), to
+assign weights, but we have since switched methods and assigned each
+keyword a weight of 1.
 
-Lowercase and patterns important, make sure no duplicates!! Show code
+| Source                                                                                                                             | Dataset                | CSV                                                                                                                     |
+|:-----------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:------------------------------------------------------------------------------------------------------------------------|
+| [USC Keywords (Work in Progress)](https://www.president.usc.edu/sustainability-pwg/)                                               | `usc_keywords`         | [Link](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) |
+| [Core Elsevier (Work in Progress)](https://data.mendeley.com/datasets/87txkw7khs/1)                                                | `elsevier_keywords`    | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier_keywords_cleaned.csv)                               |
+| [Improved Elsevier Top 100](https://data.mendeley.com/datasets/9sxdykm8s4/2)                                                       | `elsevier100_keywords` | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier100_keywords_cleaned.csv)                            |
+| [SDSN](https://ap-unsdsn.org/regional-initiatives/universities-sdgs/)                                                              | `sdsn_keywords`        | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdsn_keywords_cleaned.csv)                                   |
+| [CMU Top 250 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)  | `cmu250_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu250_keywords_cleaned.csv)                                 |
+| [CMU Top 500 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)  | `cmu500_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu500_keywords_cleaned.csv)                                 |
+| [CMU Top 1000 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html) | `cmu1000_keywords`     | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu1000_keywords_cleaned.csv)                                |
+| [University of Auckland (Work in Progress)](https://www.sdgmapping.auckland.ac.nz/)                                                | `auckland_keywords`    |                                                                                                                         |
+| [University of Toronto (Work in Progress)](https://data.utoronto.ca/sustainable-development-goals-sdg-report/sdg-report-appendix/) | `toronto_keywords`     |                                                                                                                         |
+
+The first few rows of the USC keyword table, which has over 4200
+keywords, are shown below.
 
 | goal | keyword             | color    |
 |-----:|:--------------------|:---------|
@@ -93,22 +98,34 @@ The USC keyword list has been modified many times with the help of the
 Presidential Working Group (PWG) and is continually being improved to
 increase accuracy.
 
-The table below lists publicly available SDG keywords that have been
-published online. Some of the lists have weights associated with every
-keyword, while some do not. Also note that some of these keyword lists
-do not have keywords for SDG 17.
+Note that the [USC keyword
+list](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv)
+contains the goal, keyword, and sdg color columns, but also the
+`pattern` and `weight` columns. If you were to make your own keyword
+list, you must include all of these columns. The pattern column is used
+when the mapping function matches words. The format for this column is
+“\b(\d*)keyword(\d*)\b”. Also note that if you intend to print these
+patterns in R, you must use an extra backslash ( \\ ) because it is a
+special “escape” character.
 
-| Source                                                                                                                             | Dataset                | CSV                                                                                                                     |
-|:-----------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:------------------------------------------------------------------------------------------------------------------------|
-| [USC Keywords (Work in Progress)](https://www.president.usc.edu/sustainability-pwg/)                                               | `usc_keywords`         | [Link](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) |
-| [Core Elsevier (Work in Progress)](https://data.mendeley.com/datasets/87txkw7khs/1)                                                | `elsevier_keywords`    | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier_keywords_cleaned.csv)                               |
-| [Improved Elsevier Top 100](https://data.mendeley.com/datasets/9sxdykm8s4/2)                                                       | `elsevier100_keywords` | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier100_keywords_cleaned.csv)                            |
-| [SDSN](https://ap-unsdsn.org/regional-initiatives/universities-sdgs/)                                                              | `sdsn_keywords`        | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdsn_keywords_cleaned.csv)                                   |
-| [CMU Top 250 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)  | `cmu250_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu250_keywords_cleaned.csv)                                 |
-| [CMU Top 500 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)  | `cmu500_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu500_keywords_cleaned.csv)                                 |
-| [CMU Top 1000 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html) | `cmu1000_keywords`     | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu1000_keywords_cleaned.csv)                                |
-| [University of Auckland (Work in Progress)](https://www.sdgmapping.auckland.ac.nz/)                                                | `auckland_keywords`    |                                                                                                                         |
-| [University of Toronto (Work in Progress)](https://data.utoronto.ca/sustainable-development-goals-sdg-report/sdg-report-appendix/) | `toronto_keywords`     |                                                                                                                         |
+In the R directory, the file `cleaning_keywords.R` notice that the
+keyword and keyword pattern are converted to lowercase and that
+duplicates are removed. Removing duplicates is very important for
+ensuring some classes do not get mapped twice.
+
+``` r
+# only select the relevant columns (sometimes there are empty columns)
+keywords = keywords %>% select (goal, keyword, pattern, color)
+# assign every keyword a weight of 1
+keywords$weight = 1
+# make everything lower case
+keywords$keyword = tolower(keywords$keyword)
+keywords$pattern = tolower(keywords$pattern)
+# get rd of duplicates
+keywords = keywords[!duplicated(keywords), ]
+
+write.csv(keywords, "usc_keywords.csv", row.names=F)
+```
 
 ## Cleaning Course Data
 
