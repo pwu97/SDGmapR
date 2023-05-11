@@ -104,9 +104,9 @@ contains the goal, keyword, and sdg color columns, but also the
 `pattern` and `weight` columns. If you were to make your own keyword
 list, you must include all of these columns. The pattern column is used
 when the mapping function matches words. The format for this column is
-“\b(\d*)keyword(\d*)\b”. Also note that if you intend to print these
-patterns in R, you must use an extra backslash ( \\ ) because it is a
-special “escape” character.
+`"\\b(\\d*)keyword(\\d*)\\b"`. Also note that if you intend to print
+these patterns in R, you must use an extra backslash ( \\ ) because it
+is a special “escape” character.
 
 In the R directory, the file `cleaning_keywords.R` notice that the
 keyword and keyword pattern are converted to lowercase and that
@@ -152,6 +152,9 @@ spaces added at the end of some data entries. One problem to look out
 for when cleaning a dataframe is accounting for empty values (““) vs NA
 vs”NA” in data entries.
 
+Note that this function (and script) contain various other adjustments
+to the data which you can find in the file.
+
 ``` r
 # go through backwords and combine error rows with row above it
 for(i in seq(nrow(x), 2, -1)) { # Work on the table in bottom to top so we can merge the values
@@ -170,10 +173,9 @@ for(i in seq(nrow(x), 2, -1)) { # Work on the table in bottom to top so we can m
 
 Once the files are cleaned, we run a function (in the same R script) to
 clean each individual file and write it as CSV into a new folder, as
-well as obtain the “origin” column which is the year and semester of the
+well as obtain the “origin” column which is the year and term of the
 data. Once again, I do not expect anyone’s data to be in the same
-format, but this might help someone combine scattered CSV files of
-different formats.
+format, but this might help someone clean scattered CSV files.
 
 ``` r
 # make sure folder only contains CSVs you want to run the code on
@@ -195,6 +197,24 @@ for (i in 1:length(files)){
 }
 ```
 
+Once all the files have been cleaned and put into a new folder, we can
+combine them all into one dataframe with the following code:
+
+``` r
+dataframes = list.files("clean_data")
+master_df = data.frame()
+for (i in 1:length(dataframes)){
+  table = read.csv(paste0("clean_data/", dataframes[i]), header=TRUE) # load file
+  # master_df = rbind(master_df, table)
+  # number of columns is different in dataframes so use this function and fill empty with NA
+  master_df = data.table::rbindlist(list(master_df, table), fill=TRUE)
+}
+# just noticed theres a space at the end of the course_code, lets fix
+master_df$COURSE_CODE = trimws(master_df$COURSE_CODE, which = c("right"))
+
+write.csv(master_df, "combined_data.csv", row.names=FALSE)
+```
+
 In the next R file, `cleaning_2020-2023.R`, we read in the combined
 clean CSV and reformat it. We change column names, count the number of
 students and sections for each section, cut out research courses, and we
@@ -202,9 +222,9 @@ create the “semester,” “all_semesters,” and “course_level” columns. 
 see this code please see the R script.
 
 There is an R script in the same directory that shows you how to add a
-course to the dataframe `adding_course.R`. All you need to remember for
-adding a course in this way is that you include ALL COLUMNS when adding
-new entries – otherwise the data will be messy.
+course to the dataframe `adding_course.R`. It is important that you
+include ALL COLUMNS when adding new entries – otherwise the data will be
+messy.
 
 ## Cleaning Course Descriptions
 
@@ -254,8 +274,7 @@ vector of all keywords in the text that map to the designated SDG
 (including repeats).
 
 ``` r
-# goal of this function is to return a vector of all the keywords 
-# in a course description (including duplicates)
+# goal of this function is to return a vector of all the keywords in a course description (including duplicates)
 find_words = Vectorize(function(text, sdg, keywords="usc_keywords", count_repeats=FALSE){
   if (keywords=="usc_keywords"){
     sdg_keywords = usc_keywords %>% filter (goal==sdg)
@@ -294,8 +313,9 @@ find_words("this maps to SDG 1 because the words poverty and charity and charity
 Now that the function to map text is created, we can use a loop to go
 through the entire course dataframe for each of the 17 sdgs and find the
 keywords. The following function performs the mapping and creates the
-“goal” and “keyword” columns. Note: this function can take a very long
-time to run (about 3-4 hours for the USC keywords and course dataframe).
+`goal` and `keyword` columns. Note: this function can take a very long
+time to run (**about 3-4 hours** for the USC keywords and course
+dataframe).
 
 ``` r
 # read in the USC course data
@@ -321,7 +341,7 @@ save(all_sdg_keywords, file="all_sdg_keywords.Rda")
 ```
 
 Before writing the dataframe as a CSV, we also want to combine this
-output with the keyword dataframe to obtain the color and weight
+output with the keyword dataframe to obtain the `color` and `weight`
 columns. Remember to add all relevant columns to the select() function.
 
 ``` r
@@ -332,13 +352,24 @@ all_sdg_keywords %>%
   arrange(courseID) -> all_sdg_keywords
 ```
 
+Here is what the dataframe looks like:
+
+| courseID | course_title     | section | semester | keyword    | goal | weight | color    | course_desc                                                                                                                                                                                       | clean_course_desc                                                                                                                                                                             | department | N.Sections | year | course_level             | total_enrolled | all_semesters                        |
+|:---------|:-----------------|--------:|:---------|:-----------|-----:|-------:|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|-----------:|:-----|:-------------------------|---------------:|:-------------------------------------|
+| ACAD-174 | Innovators Forum |   10200 | F20      | industries |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             32 | F20, SP21, F21, SP22, F22, SP23, F23 |
+| ACAD-174 | Innovators Forum |   10200 | F20      | innovation |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             32 | F20, SP21, F21, SP22, F22, SP23, F23 |
+| ACAD-174 | Innovators Forum |   10200 | F20      | innovators |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             32 | F20, SP21, F21, SP22, F22, SP23, F23 |
+| ACAD-174 | Innovators Forum |   10200 | SP21     | industries |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             35 | F20, SP21, F21, SP22, F22, SP23, F23 |
+| ACAD-174 | Innovators Forum |   10200 | SP21     | innovation |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             35 | F20, SP21, F21, SP22, F22, SP23, F23 |
+| ACAD-174 | Innovators Forum |   10200 | SP21     | innovators |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             35 | F20, SP21, F21, SP22, F22, SP23, F23 |
+
 ## Sustainability Related Courses
 
 With the mapping complete, we can refer to the R script
 `sustainability_related_classes.R` which analyzes the goals a class
-mapped to and labels it as “SDG-related”, “sustainability-focused”, or
-“not related”. We first make a new dataframe of unique courseID’s, and
-then create the columns “all_goals” and “sustainability_classification”.
+mapped to and labels it as `SDG-Related`, `Sustainability-focused`, or
+not `Related`. We first make a new dataframe of unique `courseID`’s, and
+then create the columns `all_goals` and `sustainability_classification`.
 To obtain all mapped goals for each class, use the following code:
 
 ``` r
@@ -398,6 +429,18 @@ tutorial.](https://rstudio.github.io/shinydashboard/)
 If you follow along with the code in the `app.R` file in the “shiny_app”
 directory, you will understand the structure and functionality of a
 shiny app.
+
+One important lesson I learned when making various plots for the
+dashboard is that it is often helpful to create a new R script to
+generate a dataframe that is easier to work with for the purposes of
+that plot / function. In the `R` directory, the file
+`sustainability_related_classes.R` containts code to generate
+`classes_by_sdgs.csv` which is used for one of the barcharts in the
+dashboard. I also found it incredibly helpful to write code to generate
+plots in another file so you can quickly go through trial and error
+instead of opening the dashboard every time. Lastly, google and
+stackOverflow are your friends… Plenty of people out there are
+struggling with the same things you struggle with in R and Rshiny.
 
 ## Questions?
 

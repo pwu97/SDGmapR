@@ -99,11 +99,11 @@ kable(kw)
 
 The USC keyword list has been modified many times with the help of the Presidential Working Group (PWG) and is continually being improved to increase accuracy. 
 
-Note that the [USC keyword list](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) contains the goal, keyword, and sdg color columns, but also the `pattern` and `weight` columns. If you were to make your own keyword list, you must include all of these columns. The pattern column is used when the mapping function matches words. The format for this column is "\\b(\\d*)keyword(\\d*)\\b". Also note that if you intend to print these patterns in R, you must use an extra backslash ( \\ ) because it is a special "escape" character. 
+Note that the [USC keyword list](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) contains the goal, keyword, and sdg color columns, but also the `pattern` and `weight` columns. If you were to make your own keyword list, you must include all of these columns. The pattern column is used when the mapping function matches words. The format for this column is `"\\b(\\d*)keyword(\\d*)\\b"`. Also note that if you intend to print these patterns in R, you must use an extra backslash ( \\ ) because it is a special "escape" character. 
 
 In the R directory, the file `cleaning_keywords.R` notice that the keyword and keyword pattern are converted to lowercase and that duplicates are removed. Removing duplicates is very important for ensuring some classes do not get mapped twice.
 
-```{r}
+```{r, eval=F}
 # only select the relevant columns (sometimes there are empty columns)
 keywords = keywords %>% select (goal, keyword, pattern, color)
 # assign every keyword a weight of 1
@@ -130,6 +130,8 @@ These files had lots of problems with spacing and column names, and we addressed
 In the `clean_file` function, we loop from the bottom of the raw dataframe and combine empty rows with the row above to fix the empty line issue.
 We also trim spaces before and after to account for random spaces added at the end of some data entries. One problem to look out for when cleaning a dataframe is accounting for empty values ("") vs NA vs "NA" in data entries.
 
+Note that this function (and script) contain various other adjustments to the data which you can find in the file.
+
 ```{r eval=FALSE}
 # go through backwords and combine error rows with row above it
 for(i in seq(nrow(x), 2, -1)) { # Work on the table in bottom to top so we can merge the values
@@ -146,7 +148,7 @@ for(i in seq(nrow(x), 2, -1)) { # Work on the table in bottom to top so we can m
 }
 ```
 
-Once the files are cleaned, we run a function (in the same R script) to clean each individual file and write it as CSV into a new folder, as well as obtain the "origin" column which is the year and semester of the data. Once again, I do not expect anyone's data to be in the same format, but this might help someone combine scattered CSV files of different formats. 
+Once the files are cleaned, we run a function (in the same R script) to clean each individual file and write it as CSV into a new folder, as well as obtain the "origin" column which is the year and term of the data. Once again, I do not expect anyone's data to be in the same format, but this might help someone clean scattered CSV files.
 
 ```{r eval=FALSE}
 # make sure folder only contains CSVs you want to run the code on
@@ -168,11 +170,26 @@ for (i in 1:length(files)){
 }
 ```
 
+Once all the files have been cleaned and put into a new folder, we can combine them all into one dataframe with the following code:
+```{r, eval=FALSE}
+dataframes = list.files("clean_data")
+master_df = data.frame()
+for (i in 1:length(dataframes)){
+  table = read.csv(paste0("clean_data/", dataframes[i]), header=TRUE) # load file
+  # master_df = rbind(master_df, table)
+  # number of columns is different in dataframes so use this function and fill empty with NA
+  master_df = data.table::rbindlist(list(master_df, table), fill=TRUE)
+}
+# just noticed theres a space at the end of the course_code, lets fix
+master_df$COURSE_CODE = trimws(master_df$COURSE_CODE, which = c("right"))
+
+write.csv(master_df, "combined_data.csv", row.names=FALSE)
+```
+
 In the next R file, `cleaning_2020-2023.R`, we read in the combined clean CSV and reformat it.
 We change column names, count the number of students and sections for each section, cut out research courses, and we create the "semester," "all_semesters," and "course_level" columns. To see this code please see the R script. 
 
-There is an R script in the same directory that shows you how to add a course to the dataframe `adding_course.R`. All you need to remember for adding a course in this way is that you include ALL COLUMNS when adding new entries -- otherwise the data will be messy. 
-
+There is an R script in the same directory that shows you how to add a course to the dataframe `adding_course.R`. It is important that you include ALL COLUMNS when adding new entries -- otherwise the data will be messy. 
 
 ## Cleaning Course Descriptions
 
@@ -205,8 +222,7 @@ In the `R` directory, find the code to map course descriptions in `mapping_cours
 The following function `find_words` is the foundation for the mapping. Given some text, one of the 17 SDGs, and a keyword list, it returns a vector of all keywords in the text that map to the designated SDG (including repeats). 
 
 ```{r eval=TRUE}
-# goal of this function is to return a vector of all the keywords 
-# in a course description (including duplicates)
+# goal of this function is to return a vector of all the keywords in a course description (including duplicates)
 find_words = Vectorize(function(text, sdg, keywords="usc_keywords", count_repeats=FALSE){
   if (keywords=="usc_keywords"){
     sdg_keywords = usc_keywords %>% filter (goal==sdg)
@@ -238,7 +254,7 @@ usc_keywords = read.csv("data/usc_keywords.csv")
 find_words("this maps to SDG 1 because the words poverty and charity and charity", 1)
 ```
 
-Now that the function to map text is created, we can use a loop to go through the entire course dataframe for each of the 17 sdgs and find the keywords. The following function performs the mapping and creates the "goal" and "keyword" columns. Note: this function can take a very long time to run (about 3-4 hours for the USC keywords and course dataframe).
+Now that the function to map text is created, we can use a loop to go through the entire course dataframe for each of the 17 sdgs and find the keywords. The following function performs the mapping and creates the `goal` and `keyword` columns. Note: this function can take a very long time to run (**about 3-4 hours** for the USC keywords and course dataframe).
 
 ```{r, eval=FALSE}
 # read in the USC course data
@@ -256,13 +272,13 @@ for (goal_num in 1:17) {
 }
 ```
 
-Once the mapping is done, it is a good idea to save the dataframe as a .Rda object so you don't need to rerun it every time.
+Once the mapping is done, it is a good idea to save the dataframe as a .Rda object so you don't need to rerun it every time.  
 
 ```{r, eval=FALSE}
 save(all_sdg_keywords, file="all_sdg_keywords.Rda")
 ```
 
-Before writing the dataframe as a CSV, we also want to combine this output with the keyword dataframe to obtain the color and weight columns. Remember to add all relevant columns to the select() function. 
+Before writing the dataframe as a CSV, we also want to combine this output with the keyword dataframe to obtain the `color` and `weight` columns. Remember to add all relevant columns to the select() function. 
 
 ```{r, eval=FALSE}
 #now join it with usc_keywords to get color and weight
@@ -272,11 +288,18 @@ all_sdg_keywords %>%
   arrange(courseID) -> all_sdg_keywords
 ```
 
+Here is what the dataframe looks like:
+
+```{r, echo=F}
+master = read.csv("data/master_course_sdg_data.csv")
+ma = master %>% head()
+kable(ma)
+```
 
 ## Sustainability Related Courses
 
-With the mapping complete, we can refer to the R script `sustainability_related_classes.R` which analyzes the goals a class mapped to and labels it as "SDG-related", "sustainability-focused", or "not related".
-We first make a new dataframe of unique courseID's, and then create the columns "all_goals" and "sustainability_classification". 
+With the mapping complete, we can refer to the R script `sustainability_related_classes.R` which analyzes the goals a class mapped to and labels it as `SDG-Related`, `Sustainability-focused`, or not `Related`.
+We first make a new dataframe of unique `courseID`'s, and then create the columns `all_goals` and `sustainability_classification`. 
 To obtain all mapped goals for each class, use the following code:
 
 ```{r, eval=FALSE}
@@ -316,8 +339,9 @@ We were given completely a different set of data for USC's general education req
 
 When I was tasked with creating a shiny app, I was daunted but eventually learned through trial and error. Despite the scary sight of 1400 lines of code, I can assure that anyone using this github repository can replicate the shiny app with little to no coding experience. To learn the basics, refer to [this tutorial.](https://rstudio.github.io/shinydashboard/)   
 
-If you follow along with the code in the `app.R` file in the "shiny_app" directory, you will understand the structure and functionality of a shiny app. 
+If you follow along with the code in the `app.R` file in the "shiny_app" directory, you will understand the structure and functionality of a shiny app.  
 
+One important lesson I learned when making various plots for the dashboard is that it is often helpful to create a new R script to generate a dataframe that is easier to work with for the purposes of that plot / function. In the ` R ` directory, the file `sustainability_related_classes.R` containts code to generate `classes_by_sdgs.csv` which is used for one of the barcharts in the dashboard. I also found it incredibly helpful to write code to generate plots in another file so you can quickly go through trial and error instead of opening the dashboard every time. Lastly, google and stackOverflow are your friends... Plenty of people out there are struggling with the same things you struggle with in R and Rshiny. 
 
 ## Questions?
 
