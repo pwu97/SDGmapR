@@ -11,6 +11,13 @@ develop this package further and raise sustainability awareness in
 higher education by mapping USC course descriptions to the United
 Nations Sustainability Development Goals.
 
+Check out the <a
+href="https://usc-sustainability.shinyapps.io/Sustainability-Course-Finder/"
+target="_blank">Sustainability Course Finder</a> to see the the product
+of our work! Also find an article about our web app <a
+href="https://news.usc.edu/207748/new-usc-sustainability-course-finder/"
+target="_blank">here!</a>
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -33,21 +40,32 @@ repository.
 ## Keyword List
 
 The way in which we map course descriptions to the SDGs is through
-keyword lists which has keywords relevant for each SDG.
+keyword lists which has keywords relevant for each SDG. In prior
+versions of this package, we attempted to use various Python and R
+packages, such as [text2sdg](https://www.text2sdg.io/), to give weights
+to keywords based on their relevance to the goal. We have since
+transitioned to using *frequencies* of keywords since the varying
+weights were often ambiguous. With this new method, each keyword has a
+weight of 1. The first few rows of the USC keyword table, which has over
+4200 keywords, are shown below.
 
-| goal | keyword             | color    | weight |
-|-----:|:--------------------|:---------|-------:|
-|    1 | access to clothing  | \#E5243B |      1 |
-|    1 | access to housing   | \#E5243B |      1 |
-|    1 | access to resources | \#E5243B |      1 |
-|    1 | access to shelter   | \#E5243B |      1 |
-|    1 | affluence           | \#E5243B |      1 |
-|    1 | affluent            | \#E5243B |      1 |
+| goal | keyword             | color    |
+|-----:|:--------------------|:---------|
+|    1 | access to clothing  | \#E5243B |
+|    1 | access to housing   | \#E5243B |
+|    1 | access to resources | \#E5243B |
+|    1 | access to shelter   | \#E5243B |
+|    1 | affluence           | \#E5243B |
+|    1 | affluent            | \#E5243B |
+
+The USC keyword list has been modified many times with the help of the
+Presidential Working Group (PWG) and is continually being improved to
+increase accuracy.
 
 The table below lists publicly available SDG keywords that have been
 published online. Some of the lists have weights associated with every
 keyword, while some do not. Also note that some of these keyword lists
-do not have keywords for SDG SDG 17.
+do not have keywords for SDG 17.
 
 | Source                                                                                                                                             | Dataset                | CSV                                                                                                                     |
 |:---------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:------------------------------------------------------------------------------------------------------------------------|

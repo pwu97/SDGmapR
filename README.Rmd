@@ -15,11 +15,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, warning=FALSE,message=FALSE,echo=FALSE}
 # load all packages
 library(tidyverse)
+library(knitr)
 ```
 
 
 Peter Wu at Carnegie Mellon wrote the initial code that inspired this project, and his original R package can be found on [Github](https://github.com/pwu97/SDGmapR). 
-At USC, Brian Tinsley and Dr. Julie Hopper in the Office of Sustainability have been working to develop this package further and raise sustainability awareness in higher education by mapping USC course descriptions to the United Nations Sustainability Development Goals.
+At USC, Brian Tinsley and Dr. Julie Hopper in the Office of Sustainability have been working to develop this package further and raise sustainability awareness in higher education by mapping USC course descriptions to the United Nations Sustainability Development Goals.  
+
+Check out the [Sustainability Course Finder](https://usc-sustainability.shinyapps.io/Sustainability-Course-Finder/){target="_blank"} to see the the product of our work! Also find an article about our web app [here!](https://news.usc.edu/207748/new-usc-sustainability-course-finder/){target="_blank"}
 
 ## Table of Contents
 
@@ -45,7 +48,6 @@ The way in which we map course descriptions to the SDGs is through keyword lists
 
 
 ```{r, echo=F}
-library(knitr)
 keywords = read.csv("data/usc_keywords.csv")
 kw = keywords %>% select(goal, keyword, color) %>% (head)
 kable(kw)
@@ -57,7 +59,6 @@ The table below lists publicly available SDG keywords that have been published o
 of the lists have weights associated with every keyword, while some do not. Also note that some of these keyword lists do not have keywords for SDG 17.
 
 ```{r, echo=FALSE, example}
-library(knitr)
 sdg_table <- data.frame(
   "Source" = c("[USC Keywords (Work in Progress)](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv)",
                "[Core Elsevier (Work in Progress)](https://data.mendeley.com/datasets/87txkw7khs/1)", 
