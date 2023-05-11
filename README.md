@@ -5,11 +5,12 @@ README
 
 Peter Wu at Carnegie Mellon wrote the initial code that inspired this
 project, and his original R package can be found on
-[Github](https://github.com/pwu97/SDGmapR). At USC, Brian Tinsley and
-Dr. Julie Hopper in the Office of Sustainability have been working to
-develop this package further and raise sustainability awareness in
-higher education by mapping USC course descriptions to the United
-Nations Sustainability Development Goals.
+[Github](https://github.com/pwu97/SDGmapR). At USC, myself (Brian
+Tinsley) and Dr. Julie Hopper in the Office of Sustainability have been
+working to develop this package further and raise sustainability
+awareness in higher education by mapping USC course descriptions to the
+[United Nations Sustainability Development
+Goals.](https://sdgs.un.org/goals)
 
 Check out the <a
 href="https://usc-sustainability.shinyapps.io/Sustainability-Course-Finder/"
@@ -37,17 +38,47 @@ instructions.](https://docs.github.com/en/repositories/creating-and-managing-rep
 Once installed, you can open, view, and edit all files in this
 repository.
 
+To download `.csv` or `.R` files, open them on this github repository
+and right click the “raw” button and select “save link as” button and
+name the file with the correct extension.
+
+For those who are new to R, we often install and load external packages
+at the top of our R scripts like this:
+
+``` r
+# install the tidyverse package
+install.packages("tidyverse")
+# load the package into our library so we can access its functions
+library(tidyverse)
+```
+
+The [tidyverse package](https://github.com/tidyverse/tidyverse) is an
+incredibly powerful R package which helps transform and present data; it
+has been used very extensively in this project.
+
 ## Keyword List
 
 The way in which we map course descriptions to the SDGs is through
-keyword lists which has keywords relevant for each SDG. In prior
-versions of this package, we attempted to use various Python and R
-packages, such as [text2sdg](https://www.text2sdg.io/), to give weights
-to keywords based on their relevance to the goal. We have since
-transitioned to using *frequencies* of keywords since the varying
-weights were often ambiguous. With this new method, each keyword has a
-weight of 1. The first few rows of the USC keyword table, which has over
-4200 keywords, are shown below.
+keyword lists containing words relevant to each SDG. In prior versions
+of this package, we attempted to use various Python and R packages, such
+as [text2sdg](https://www.text2sdg.io/), to give weights to keywords
+based on their relevance to the SDG. We have since transitioned to
+creating our own keyword lists and using *frequencies* of keywords since
+the varying weights were often ambiguous. With this new method, each
+keyword has a weight of 1. The first few rows of the USC keyword table,
+which has over 4200 keywords, are shown below.
+
+In the USC keyword [CSV
+file](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv),
+notice that there are the goal, keyword, and sdg color columns, but also
+the `pattern` and `weight` columns. Note that if you were to make your
+own keyword list, you must have all of these columns. The pattern column
+is used when the mapping function matches words, and each has the format
+“\b(\d*)keyword(\d*)\b”. Also note that when you intend to print these
+patterns in R, you bust use an extra backslash (\\) because the slash is
+a special character in R.
+
+Lowercase and patterns important, make sure no duplicates!! Show code
 
 | goal | keyword             | color    |
 |-----:|:--------------------|:---------|
@@ -67,17 +98,17 @@ published online. Some of the lists have weights associated with every
 keyword, while some do not. Also note that some of these keyword lists
 do not have keywords for SDG 17.
 
-| Source                                                                                                                                             | Dataset                | CSV                                                                                                                     |
-|:---------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:------------------------------------------------------------------------------------------------------------------------|
-| [USC Keywords (Work in Progress)](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) | `usc_keywords`         | [Link](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) |
-| [Core Elsevier (Work in Progress)](https://data.mendeley.com/datasets/87txkw7khs/1)                                                                | `elsevier_keywords`    | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier_keywords_cleaned.csv)                               |
-| [Improved Elsevier Top 100](https://data.mendeley.com/datasets/9sxdykm8s4/2)                                                                       | `elsevier100_keywords` | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier100_keywords_cleaned.csv)                            |
-| [SDSN](https://ap-unsdsn.org/regional-initiatives/universities-sdgs/)                                                                              | `sdsn_keywords`        | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdsn_keywords_cleaned.csv)                                   |
-| [CMU Top 250 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)                  | `cmu250_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu250_keywords_cleaned.csv)                                 |
-| [CMU Top 500 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)                  | `cmu500_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu500_keywords_cleaned.csv)                                 |
-| [CMU Top 1000 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)                 | `cmu1000_keywords`     | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu1000_keywords_cleaned.csv)                                |
-| [University of Auckland (Work in Progress)](https://www.sdgmapping.auckland.ac.nz/)                                                                | `auckland_keywords`    |                                                                                                                         |
-| [University of Toronto (Work in Progress)](https://data.utoronto.ca/sustainable-development-goals-sdg-report/sdg-report-appendix/)                 | `toronto_keywords`     |                                                                                                                         |
+| Source                                                                                                                             | Dataset                | CSV                                                                                                                     |
+|:-----------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:------------------------------------------------------------------------------------------------------------------------|
+| [USC Keywords (Work in Progress)](https://www.president.usc.edu/sustainability-pwg/)                                               | `usc_keywords`         | [Link](https://github.com/USC-Office-of-Sustainability/SustainabilityCourseFinder/blob/main/shiny_app/usc_keywords.csv) |
+| [Core Elsevier (Work in Progress)](https://data.mendeley.com/datasets/87txkw7khs/1)                                                | `elsevier_keywords`    | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier_keywords_cleaned.csv)                               |
+| [Improved Elsevier Top 100](https://data.mendeley.com/datasets/9sxdykm8s4/2)                                                       | `elsevier100_keywords` | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/elsevier100_keywords_cleaned.csv)                            |
+| [SDSN](https://ap-unsdsn.org/regional-initiatives/universities-sdgs/)                                                              | `sdsn_keywords`        | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/sdsn_keywords_cleaned.csv)                                   |
+| [CMU Top 250 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)  | `cmu250_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu250_keywords_cleaned.csv)                                 |
+| [CMU Top 500 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html)  | `cmu500_keywords`      | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu500_keywords_cleaned.csv)                                 |
+| [CMU Top 1000 Words](https://www.cmu.edu/leadership/the-provost/provost-priorities/sustainability-initiative/sdg-definitions.html) | `cmu1000_keywords`     | [Link](https://github.com/pwu97/SDGmapR/blob/main/datasets/cmu1000_keywords_cleaned.csv)                                |
+| [University of Auckland (Work in Progress)](https://www.sdgmapping.auckland.ac.nz/)                                                | `auckland_keywords`    |                                                                                                                         |
+| [University of Toronto (Work in Progress)](https://data.utoronto.ca/sustainable-development-goals-sdg-report/sdg-report-appendix/) | `toronto_keywords`     |                                                                                                                         |
 
 ## Cleaning Course Data
 
