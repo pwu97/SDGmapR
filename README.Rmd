@@ -16,6 +16,14 @@ knitr::opts_chunk$set(echo = TRUE)
 # load all packages
 library(tidyverse)
 library(knitr)
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
 ```
 
 
