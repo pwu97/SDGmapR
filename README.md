@@ -28,6 +28,7 @@ target="_blank">here!</a>
 - [Sustainability Related Courses](#sustainability-related-courses)
 - [General Education](#general-education)
 - [Creating Shiny App](#creating-shiny-app)
+- [Creating a Readme / Github Repo](Creating-a-Readme-/-Github-Repo)
 - [Questions?](#questions)
 
 ## Installation
@@ -352,17 +353,6 @@ all_sdg_keywords %>%
   arrange(courseID) -> all_sdg_keywords
 ```
 
-Here is what the dataframe looks like:
-
-| courseID | course_title     | section | semester | keyword    | goal | weight | color    | course_desc                                                                                                                                                                                       | clean_course_desc                                                                                                                                                                             | department | N.Sections | year | course_level             | total_enrolled | all_semesters                        |
-|:---------|:-----------------|--------:|:---------|:-----------|-----:|-------:|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------|-----------:|:-----|:-------------------------|---------------:|:-------------------------------------|
-| ACAD-174 | Innovators Forum |   10200 | F20      | industries |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             32 | F20, SP21, F21, SP22, F22, SP23, F23 |
-| ACAD-174 | Innovators Forum |   10200 | F20      | innovation |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             32 | F20, SP21, F21, SP22, F22, SP23, F23 |
-| ACAD-174 | Innovators Forum |   10200 | F20      | innovators |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             32 | F20, SP21, F21, SP22, F22, SP23, F23 |
-| ACAD-174 | Innovators Forum |   10200 | SP21     | industries |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             35 | F20, SP21, F21, SP22, F22, SP23, F23 |
-| ACAD-174 | Innovators Forum |   10200 | SP21     | innovation |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             35 | F20, SP21, F21, SP22, F22, SP23, F23 |
-| ACAD-174 | Innovators Forum |   10200 | SP21     | innovators |    9 |      1 | \#FD6925 | Innovators Forum - Leaders in diverse disciplines, industries and the arts present and discuss problems facing society and critique real-world projects that challenge the concept of innovation. | Innovators Forum Leaders in diverse disciplines industries and the arts present and discuss problems facing society and critique real world projects that challenge the concept of innovation | ACAD       |          1 | AY21 | undergrad lower division |             35 | F20, SP21, F21, SP22, F22, SP23, F23 |
-
 ## Sustainability Related Courses
 
 With the mapping complete, we can refer to the R script
@@ -389,7 +379,7 @@ We have tried multiple methods to determine sustainability
 classifications, and our current method is as follows:
 
 - If a course’s description does not map to any SDGs (no keywords in the
-  master data) or only contains one keyword, it is “NotRelated”.  
+  master data) or only contains one keyword, it is “Not Related”.  
 - If a course description contains two or more keywords, we categorize
   it as “SDG-Related”.  
 - If a course maps to at least one social/economic SDG (SDGs 1-12,
@@ -424,7 +414,7 @@ eventually learned through trial and error. Despite the scary sight of
 1400 lines of code, I can assure that anyone using this github
 repository can replicate the shiny app with little to no coding
 experience. To learn the basics, refer to [this
-tutorial.](https://rstudio.github.io/shinydashboard/)
+tutorial](https://rstudio.github.io/shinydashboard/).
 
 If you follow along with the code in the `app.R` file in the “shiny_app”
 directory, you will understand the structure and functionality of a
@@ -438,9 +428,25 @@ that plot / function. In the `R` directory, the file
 `classes_by_sdgs.csv` which is used for one of the barcharts in the
 dashboard. I also found it incredibly helpful to write code to generate
 plots in another file so you can quickly go through trial and error
-instead of opening the dashboard every time. Lastly, google and
-stackOverflow are your friends… Plenty of people out there are
+instead of opening the dashboard every time. Lastly, **google and
+stackOverflow are your friends**… Plenty of people out there are
 struggling with the same things you struggle with in R and Rshiny.
+
+## Creating a Readme / Github Repo
+
+To make a github repository, follow [this
+tutorial](https://docs.github.com/en/get-started/quickstart/create-a-repo)
+and consider downloading the [GitHub Desktop
+App](https://desktop.github.com/).
+
+To create a Readme, familiarize yourself with
+[Markdown](https://www.markdownguide.org/getting-started) and [R
+Markdown](https://rmarkdown.rstudio.com/articles_intro.html). In `.Rmd`
+(R Markdown) files, you can specify the `output` of the document to be a
+`github_document` and when you “knit” the `.Rmd` file, it will
+automatically generate a `.md` (markdown) file in the directory which
+will be displayed on your github page! You can also refer to my
+README.Rmd file to see how I created this readme file.
 
 ## Questions?
 

@@ -32,6 +32,7 @@ Check out the [Sustainability Course Finder](https://usc-sustainability.shinyapp
 - [Sustainability Related Courses](#sustainability-related-courses)
 - [General Education](#general-education)
 - [Creating Shiny App](#creating-shiny-app)
+- [Creating a Readme / Github Repo](Creating-a-Readme-/-Github-Repo)
 - [Questions?](#questions)
 
 
@@ -288,14 +289,6 @@ all_sdg_keywords %>%
   arrange(courseID) -> all_sdg_keywords
 ```
 
-Here is what the dataframe looks like:
-
-```{r, echo=F}
-master = read.csv("data/master_course_sdg_data.csv")
-ma = master %>% head()
-kable(ma)
-```
-
 ## Sustainability Related Courses
 
 With the mapping complete, we can refer to the R script `sustainability_related_classes.R` which analyzes the goals a class mapped to and labels it as `SDG-Related`, `Sustainability-focused`, or not `Related`.
@@ -317,7 +310,7 @@ for (course in sustainability$courseID){
 
 We have tried multiple methods to determine sustainability classifications, and our current method is as follows:  
 
-* If a course's description does not map to any SDGs (no keywords in the master data) or only contains one keyword, it is "NotRelated".  
+* If a course's description does not map to any SDGs (no keywords in the master data) or only contains one keyword, it is "Not Related".  
 * If a course description contains two or more keywords, we categorize it as "SDG-Related".  
 * If a course maps to at least one social/economic SDG (SDGs 1-12, 16, 17) and one environmental goal (13, 14, 15), then it is labeled "Sustainability Focused".  
 
@@ -337,11 +330,19 @@ We were given completely a different set of data for USC's general education req
 
 ## Creating Shiny App
 
-When I was tasked with creating a shiny app, I was daunted but eventually learned through trial and error. Despite the scary sight of 1400 lines of code, I can assure that anyone using this github repository can replicate the shiny app with little to no coding experience. To learn the basics, refer to [this tutorial.](https://rstudio.github.io/shinydashboard/)   
+When I was tasked with creating a shiny app, I was daunted but eventually learned through trial and error. Despite the scary sight of 1400 lines of code, I can assure that anyone using this github repository can replicate the shiny app with little to no coding experience. To learn the basics, refer to [this tutorial](https://rstudio.github.io/shinydashboard/).  
 
 If you follow along with the code in the `app.R` file in the "shiny_app" directory, you will understand the structure and functionality of a shiny app.  
 
-One important lesson I learned when making various plots for the dashboard is that it is often helpful to create a new R script to generate a dataframe that is easier to work with for the purposes of that plot / function. In the ` R ` directory, the file `sustainability_related_classes.R` containts code to generate `classes_by_sdgs.csv` which is used for one of the barcharts in the dashboard. I also found it incredibly helpful to write code to generate plots in another file so you can quickly go through trial and error instead of opening the dashboard every time. Lastly, google and stackOverflow are your friends... Plenty of people out there are struggling with the same things you struggle with in R and Rshiny. 
+One important lesson I learned when making various plots for the dashboard is that it is often helpful to create a new R script to generate a dataframe that is easier to work with for the purposes of that plot / function. In the ` R ` directory, the file `sustainability_related_classes.R` containts code to generate `classes_by_sdgs.csv` which is used for one of the barcharts in the dashboard. I also found it incredibly helpful to write code to generate plots in another file so you can quickly go through trial and error instead of opening the dashboard every time. Lastly, **google and stackOverflow are your friends**... Plenty of people out there are struggling with the same things you struggle with in R and Rshiny. 
+
+
+## Creating a Readme / Github Repo
+
+To make a github repository, follow [this tutorial](https://docs.github.com/en/get-started/quickstart/create-a-repo) and consider downloading the [GitHub Desktop App](https://desktop.github.com/). 
+
+To create a Readme, familiarize yourself with [Markdown](https://www.markdownguide.org/getting-started) and [R Markdown](https://rmarkdown.rstudio.com/articles_intro.html). In `.Rmd` (R Markdown) files, you can specify the `output` of the document to be a `github_document` and when you "knit" the `.Rmd` file, it will automatically generate a `.md` (markdown) file in the directory which will be displayed on your github page! You can also refer to my README.Rmd file to see how I created this readme file.
+
 
 ## Questions?
 
