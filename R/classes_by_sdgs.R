@@ -23,6 +23,12 @@ for (i in 1:length(courses)){
   result = rbind(result, data)
 }
 
-write.csv(result, "classes_by_sdgs.csv", row.names=F)
+
+# need to get the sustainability classification too
+sustainability = read.csv("sustainability_related_courses.csv")
+final = result %>% left_join(sustainability, by="courseID")
+
+
+write.csv(final, "classes_by_sdgs.csv", row.names=F)
 
 

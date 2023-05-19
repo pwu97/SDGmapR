@@ -672,8 +672,8 @@ server <- function(input, output, session) {
 
     df %>% filter(courseID %in% input$user_classes) %>%
       distinct(courseID, .keep_all = TRUE) %>%
-      rename("Course ID" = courseID, "Course Description" = course_desc, "All Goals" = all_goals) %>%
-      select("Course ID", "All Goals", "Course Description") %>%
+      rename("Course ID" = courseID, "Course Description" = course_desc, "All Goals" = all_goals, "Sustainability Classification" = sustainability_classification) %>%
+      select("Course ID", "All Goals", "Sustainability Classification","Course Description") %>%
       unique(by=c("courseID"))
   }, rownames=FALSE)
   
@@ -1108,8 +1108,8 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Course Description", "Semesters Offered")
+        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
+        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
     }
     else if (input$course_level_input == "Undergrad lower division"){
       classes_by_sdgs %>%
@@ -1125,8 +1125,8 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Course Description")
+        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
+        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
     }
     else if (input$course_level_input == "Undergrad upper division"){
       classes_by_sdgs %>%
@@ -1142,8 +1142,8 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Course Description")
+        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
+        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
     }
     else if (input$course_level_input == "Graduate"){
       classes_by_sdgs %>%
@@ -1159,8 +1159,8 @@ server <- function(input, output, session) {
         mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
         arrange(desc(total_weight)) %>%
         distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Course Description")
+        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
+        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
     }
   }, rownames=FALSE)
   
@@ -1263,8 +1263,8 @@ server <- function(input, output, session) {
       arrange(desc(total_weight)) %>%
       ungroup() %>%
       distinct(courseID, .keep_all = TRUE) %>%
-      rename('Course ID' = courseID, Semester = semester, "All Goals" = all_goals, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-      select('Course ID', "Total SDG Keyword Frequency", "All Goals", "Course Description")
+      rename('Course ID' = courseID, Semester = semester, "All Goals" = all_goals, 'Total SDG Keyword Frequency'= total_weight, "Sustainability Classification" = sustainability_classification, "Course Description" = course_desc) %>%
+      select('Course ID', "Total SDG Keyword Frequency", "All Goals", "Sustainability Classification", "Course Description")
   }, rownames=FALSE)
   
   
