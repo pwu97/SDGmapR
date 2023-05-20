@@ -29,6 +29,7 @@ target="_blank">here!</a>
 - [General Education](#general-education)
 - [Creating Shiny App](#creating-shiny-app)
 - [Creating a Readme / Github Repo](Creating-a-Readme-/-Github-Repo)
+- [Updating Data / Shiny App](#updating-data-/-shiny-app)
 - [Questions?](#questions)
 
 ## Installation
@@ -122,7 +123,7 @@ keywords$weight = 1
 # make everything lower case
 keywords$keyword = tolower(keywords$keyword)
 keywords$pattern = tolower(keywords$pattern)
-# get rd of duplicates
+# get rid of duplicates
 keywords = keywords[!duplicated(keywords), ]
 
 write.csv(keywords, "usc_keywords.csv", row.names=F)
@@ -139,9 +140,10 @@ others might have with their data.
 
 Course data was retrieved from the USC’s Office of Academic Records and
 Registrar, and the raw data files, as well as the R scripts to clean
-them, can be found in the `cleaning_raw_data` folder. These files had
-lots of problems with spacing and column names, and we addressed these
-issues in `cleaning_scattered_files.R`.
+them, can be found in the `cleaning_raw_data` folder and inside the
+`raw_usc_data` folder. These files had lots of problems with spacing and
+column names, and we addressed these issues in
+`cleaning_scattered_files.R`.
 
 <!-- show the dataframe -->
 <!-- show the code to clean it -->
@@ -217,15 +219,37 @@ write.csv(master_df, "combined_data.csv", row.names=FALSE)
 ```
 
 In the next R file, `cleaning_2020-2023.R`, we read in the combined
-clean CSV and reformat it. We change column names, count the number of
-students and sections for each section, cut out research courses, and we
-create the “semester,” “all_semesters,” and “course_level” columns. To
-see this code please see the R script.
+clean CSV and reformat it. In this file, we change column names, count
+the number of students and sections for each section, cut out research
+courses, and we create the “semester,” “all_semesters,” and
+“course_level” columns. To see this code please see the R script. In
+this script, some of the cleaning is done in one function, `clean_data`,
+and some cleaning processes are done with helper functions like
+`get_semesters` and `get_class_levels`.
 
-There is an R script in the same directory that shows you how to add a
-course to the dataframe `adding_course.R`. It is important that you
-include ALL COLUMNS when adding new entries – otherwise the data will be
-messy.
+One important piece of this file is excluding certain courses, such as
+“Directed Research” or “Master’s Thesis” course titles. You can add any
+generic course descriptions you wish to exclude with the following code
+inside the cleaning function:
+
+``` r
+data_clean = raw_data[trimws(raw_data$COURSE_TITLE) !=  "Directed Research"
+                      & trimws(raw_data$COURSE_TITLE) !=  "Master's Thesis" 
+                      & trimws(raw_data$COURSE_TITLE) !=  "Doctoral Dissertation"
+                      & trimws(raw_data$COURSE_TITLE) !=  "Research"
+                      , ]
+```
+
+Note that when you make an update to data like such, you must go and
+rerun the next R scripts with the new data to update all of the data
+frames for the shiny app. Once we create the cleaned `usc_courses.csv`,
+we duplicate it and move it up one directory so that we can run more
+code on it.
+
+In the above directory, `cleaning_raw_data`, there is an R script that
+shows you how to add a course to the dataframe `adding_course.R`. It is
+important that you include ALL COLUMNS when adding new entries –
+otherwise the data will get messy.
 
 ## Cleaning Course Descriptions
 
@@ -261,6 +285,33 @@ for (i in 1:nrow(usc_courses)){
 To account for context dependencies either before a word or after a
 word, follow the model in the file, and ensure to convert words to
 lowercase and trim whitespace.
+
+Once we have the output from this cleaning, `usc_courses_cleaned.csv`,
+we duplicate it and move it to the `data` directory where we will be
+working from now on. Now, all of our R scripts will be from the `R`
+directory and our data will be in this data directory. To make sure that
+your output files are created in the correct folder, use the `setwd()`
+function like this:
+
+``` r
+# check current directory
+getwd()
+```
+
+    ## [1] "/Users/btinsley/Desktop/USC-SDGmap"
+
+``` r
+# change the working directory
+setwd("/Users/btinsley/Desktop/USC-SDGmap/data")
+# check out the files in the folder
+list.files()
+```
+
+    ##  [1] "all_sdg_keywords.Rda"                "CATALOG_CLASS_GECAT_20231.xlsx"     
+    ##  [3] "classes_by_sdgs.csv"                 "ge_data.csv"                        
+    ##  [5] "master_course_sdg_data.csv"          "sustainability_related_courses.csv" 
+    ##  [7] "usc_courses_cleaned.csv"             "usc_courses_full.csv"               
+    ##  [9] "usc_keywords.csv"                    "USC_PWG-E_2023Keywords_04_24_23.csv"
 
 ## Mapping Course Descriptions
 
@@ -447,6 +498,22 @@ Markdown](https://rmarkdown.rstudio.com/articles_intro.html). In `.Rmd`
 automatically generate a `.md` (markdown) file in the directory which
 will be displayed on your github page! You can also refer to my
 README.Rmd file to see how I created this readme file.
+
+## Updating Data / Shiny App
+
+When the keywords or course data is updated, the way I have been
+updating the shiny app is by rerunning all of the files in order with
+the new data. When doing so, remove the old files from the `Data` folder
+and the `Shiny_app` folder, but I recommend storing them in a backup
+folder elsewhere in the case that the new run of code doesn’t work.
+
+Which files you will have to rerun is determined by what data you are
+updating. If the raw course data is updated, you will need to start from
+the beginning and clean and combine all of the school data again.
+Similarly, if you are adding / fixing keyword mapping issues with
+context dependencies, you will need to clean the course data again. If
+you are only updating the keywords list, then you only need to rerun
+code starting at the mapping of course descriptions.
 
 ## Questions?
 

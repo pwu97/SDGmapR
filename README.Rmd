@@ -192,7 +192,7 @@ In the next R file, `cleaning_2020-2023.R`, we read in the combined clean CSV an
 
 One important piece of this file is excluding certain courses, such as "Directed Research" or "Master's Thesis" course titles. You can add any generic course descriptions you wish to exclude with the following code inside the cleaning function:
 
-```{r}
+```{r, eval=F}
 data_clean = raw_data[trimws(raw_data$COURSE_TITLE) !=  "Directed Research"
                       & trimws(raw_data$COURSE_TITLE) !=  "Master's Thesis" 
                       & trimws(raw_data$COURSE_TITLE) !=  "Doctoral Dissertation"
