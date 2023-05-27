@@ -1310,27 +1310,25 @@ server <- function(input, output, session) {
         notrelated = notrelated + 1
       }
     }
-    vals=c(notrelated, focused, inclusive)
-    labels=c(paste("Not Related (N=", notrelated, ")", sep = ""), paste("Sustainability-Focused (N=", focused, ")", sep=""), paste("SDG-Related (N=", inclusive, ")", sep=""))
-    pie_labels <- paste0(round(100 * vals/sum(vals), 1), "%")
-    pie = data.frame(labels, vals)
-    ggplot(pie, aes(x = "", y = vals, fill = labels)) +
-      geom_col(color = "black") +
-      coord_polar(theta = "y") +
-      # geom_label(aes(label = pie_labels),
-      #            fill="white", color = "black", size = 6.5, fontface="bold",
-      #            position = position_stack(vjust = 0.5),
-      #            show.legend = FALSE) +
-      geom_text(aes(label = pie_labels),
-                fill = "white", color = "white", size = 7.5, fontface="bold",
-                position = position_stack(vjust = 0.5),
-                show.legend = FALSE) +
-      scale_fill_manual(values = c("#767676", 
-                                            "#FFC72C", "#990000")) +
-                                              guides(fill = guide_legend(title = "Sustainability Classification")) + 
-      # guides(color = guide_legend(override.aes = list(size = 10))) + 
-      theme_void() + 
-      theme(legend.key.size = unit(1.5, 'cm'), legend.text = element_text(size=20), legend.title = element_text(size=25))
+    total_num = notrelated+inclusive+focused
+    pie_data <- data.frame(group = c("Not Related", "SDG-Related", "Sustainability-Focused"),
+                           value = c(notrelated,
+                                     inclusive,
+                                     focused),
+                           proportion = c(round(notrelated/total_num*100, 1),
+                                          round(inclusive/total_num*100, 1),
+                                          round(focused/total_num*100, 1)))
+    
+    # compute positions of labels
+    pie_data <- pie_data %>%
+      arrange(desc(group)) %>%
+      mutate(prop = value / sum(pie_data$value) * 100) %>%
+      mutate(ypos = cumsum(prop) - 0.5 * prop )
+    
+    pie(pie_data$value,
+        labels = paste0(pie_data$group,"\n (", pie_data$value, ", " , pie_data$proportion,"%)"),
+        col = c("#990000", "#FFC72C", "#767676"),
+        cex = 1.5, cex.main = 2, family = "sans")
   })
   
   # sustainability courses offered pie chart
@@ -1344,45 +1342,64 @@ server <- function(input, output, session) {
     else{
       pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "graduate")
     }
-    sum_notrelated = 0
-    sum_inclusive = 0
-    sum_focused = 0
+    notrelated = 0
+    inclusive = 0
+    focused = 0
     for (i in 1:nrow(pie_data)){
       if (pie_data$sustainability_classification[i] == "Not Related"){
-        sum_notrelated = sum_notrelated + pie_data$N.Sections[i]
+        notrelated = notrelated + pie_data$N.Sections[i]
         # sum_notrelated = sum_notrelated + 1
         next
       }
       if (pie_data$sustainability_classification[i] == "SDG-Related"){
-        sum_inclusive = sum_inclusive + pie_data$N.Sections[i]
+        inclusive = inclusive + pie_data$N.Sections[i]
         # sum_inclusive = sum_inclusive + 1
         next
       }
       if (pie_data$sustainability_classification[i] == "Sustainability-Focused"){ 
-        sum_focused = sum_focused + pie_data$N.Sections[i]
+        focused = focused + pie_data$N.Sections[i]
         # sum_focused = sum_focused + 1
         next
       }
     }
-    vals=c(sum_notrelated, sum_focused, sum_inclusive)
-    labels=c(paste("Not Related (N=", sum_notrelated, ")", sep = ""), paste("Sustainability-Focused (N=", sum_focused, ")", sep=""), paste("SDG-Related (N=", sum_inclusive, ")", sep=""))
-    pie_labels <- paste0(round(100 * vals/sum(vals), 1), "%")
-    pie = data.frame(labels, vals)
-    ggplot(pie, aes(x = "", y = vals, fill = labels)) +
-      geom_col(color = "black") +
-      coord_polar(theta = "y") +
-      # geom_text(aes(label = pie_labels), #changed
-      #           position = position_stack(vjust = 0.5)) +
-      geom_text(aes(label = pie_labels),
-                fill = "white", color = "white", size = 7.5, fontface="bold",
-                position = position_stack(vjust = 0.5),
-                show.legend = FALSE) +
-      scale_fill_manual(values = c("#767676", 
-                                            "#FFC72C", "#990000")) +
-                                              guides(fill = guide_legend(title = "Sustainability Classification")) + 
-      # guides(color = guide_legend(override.aes = list(size = 10))) + 
-      theme_void() + 
-      theme(legend.key.size = unit(1.5, 'cm'), legend.text = element_text(size=20), legend.title = element_text(size=25))
+    total_num = notrelated+inclusive+focused
+    pie_data <- data.frame(group = c("Not Related", "SDG-Related", "Sustainability-Focused"),
+                           value = c(notrelated,
+                                     inclusive,
+                                     focused),
+                           proportion = c(round(notrelated/total_num*100, 1),
+                                          round(inclusive/total_num*100, 1),
+                                          round(focused/total_num*100, 1)))
+    
+    # compute positions of labels
+    pie_data <- pie_data %>%
+      arrange(desc(group)) %>%
+      mutate(prop = value / sum(pie_data$value) * 100) %>%
+      mutate(ypos = cumsum(prop) - 0.5 * prop )
+    
+    pie(pie_data$value,
+        labels = paste0(pie_data$group,"\n (", pie_data$value, ", " , pie_data$proportion,"%)"),
+        col = c("#990000", "#FFC72C", "#767676"),
+        cex = 1.5, cex.main = 2, family = "sans")
+    # vals=c(sum_notrelated, sum_focused, sum_inclusive)
+    # labels=c(paste("Not Related (N=", sum_notrelated, ")", sep = ""), paste("Sustainability-Focused (N=", sum_focused, ")", sep=""), paste("SDG-Related (N=", sum_inclusive, ")", sep=""))
+    # pie_labels <- paste0(round(100 * vals/sum(vals), 1), "%")
+    # pie = data.frame(labels, vals)
+    # ggplot(pie, aes(x = "", y = vals, fill = labels)) +
+    #   geom_col(color = "black") +
+    #   coord_polar(theta = "y") +
+    #   # geom_text(aes(label = pie_labels), #changed
+    #   #           position = position_stack(vjust = 0.5)) +
+    #   geom_text(aes(label = pie_labels),
+    #             fill = "white", color = "white", size = 7.5, fontface="bold",
+    #             position = position_stack(vjust = 0.5),
+    #             show.legend = FALSE) +
+    #   scale_fill_manual(values = c("#767676", 
+    #                                         "#FFC72C", "#990000")) +
+    #                                           guides(fill = guide_legend(title = "Sustainability Classification")) + 
+    #   # guides(color = guide_legend(override.aes = list(size = 10))) + 
+    #   theme_void() + 
+    #   theme(legend.key.size = unit(1.5, 'cm'), legend.text = element_text(size=20), legend.title = element_text(size=25))
   })
   
   # sustainability departments table
