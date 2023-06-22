@@ -2,9 +2,31 @@
 
 library(tidyverse)
 library(stringr)
+library(stringi)
 
-usc_courses = read.csv("usc_courses_updated.csv")
+usc_courses = read.csv("cleaning_raw_data/usc_courses_updated.csv")
 # usc_courses = read.csv("usc_courses.csv")
+
+# fix typos in course description
+corrections <- rbind(
+  c("ofenvironmental", "of environmental"),
+  c("ProfessionalEducation", "Professional Education"),
+  c("EconomicContext", "Economic Context"),
+  c("builtenvironment", "built environment"),
+  c("medicaldevices", "medical devices"),
+  c("systemscollapse", "systems collapse"),
+  c("thepresent", "the present"),
+  c("onindustralization", "on industralization"),
+  c("buildingstructures", "building structures"),
+  c("structuralinvestigation", "structural investigation")
+)
+colnames(corrections) <- c("wrong", "right")
+
+usc_courses$course_desc <- stri_replace_all_regex(usc_courses$course_desc,
+                                                  pattern = corrections[,1],
+                                                  replacement = corrections[,2],
+                                                  vectorize = FALSE)
+
 
 # column to hold cleaned course description
 usc_courses["clean_course_desc"] = NA
@@ -29,10 +51,8 @@ words = c("business", "reporting", "immersive", "learning", "visualization", "vi
           "future", "inclusive", "institutional", 
           "liveable", "marketing","orgnanizational", "peoples", "policy", "politics",
           "regulatory", "social", "sonic", "strategic", "tax", "technology", "urban", 
-          "various","voting", "justice")
+          "various","voting", "justice", "digital")
 
-# words to remove before "power"
-# political, social, presidential, consistency, diversity, sex, motivation, film, n-th, functions
 
 
 ###
@@ -41,7 +61,7 @@ words = c("business", "reporting", "immersive", "learning", "visualization", "vi
 
 # change "environment" to "domain" if preceded by an exclude word
 # change "ecology" to "domain" if preceded by classroom
-# also going to change "power" to "domain" if preceded by some things
+# change "laws" to "domain" if preceded by thermodynamic, biological, physical, or conservation
 for (i in 1:nrow(usc_courses)){
   desc = usc_courses$clean_course_desc[i]
   x = unlist(strsplit(desc, " "))
@@ -64,65 +84,9 @@ for (i in 1:nrow(usc_courses)){
       }
     }
     
-    if (tolower(x[j]) == "power"){
-      if (tolower(x[j-1]) == "social"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "presidential"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "sex"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "political"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "th"){ #this is for N-th power derivatives
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "consistency"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "functions"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "film"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "motivation"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "diversity"){
-        print(i)
-        x[j] = "domain"
-      }
-    }
     # application security
     if (tolower(x[j]) == "security"){
       if (tolower(x[j-1]) == "application"){
-        print(i)
-        x[j] = "domain"
-      }
-    }
-    # to produce
-    if (tolower(x[j]) == "produce"){
-      if (tolower(x[j-1]) == "to"){
-        print(i)
-        x[j] = "domain"
-      }
-    }
-    # advanced chess
-    if (tolower(x[j]) == "advanced"){
-      if (tolower(x[j-1]) == "chess"){
         print(i)
         x[j] = "domain"
       }
@@ -138,21 +102,19 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
-    # tree / trees
-    if (tolower(x[j]) == "tree" || tolower(x[j]) == "trees"){
-      if (tolower(x[j-1]) == "phylogenetic"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j-1]) == "decision"){
-        print(i)
-        x[j] = "domain"
-      }
-    }
     # brain architecture
     if (tolower(x[j]) == "architecture"){
       if (tolower(x[j-1]) == "brain"){
         print(i)
+        x[j] = "domain"
+      }
+    }
+    # laws
+    if (tolower(x[j]) == "law" | tolower(x[j]) == "laws") {
+      if (tolower(x[j-1]) == "thermodynamic" |
+          tolower(x[j-1]) == "biological" |
+          tolower(x[j-1]) == "physical" |
+          tolower(x[j-1]) == "conservation") {
         x[j] = "domain"
       }
     }
@@ -168,6 +130,8 @@ for (i in 1:nrow(usc_courses)){
 
 # environment followed by "of an air force officer"
 # or "power" followed by a bunch of phrases
+# laws followed by of thermodynamics or of nature
+# trans followed by disciplinary
 for (i in 1:nrow(usc_courses)){
   desc = usc_courses$clean_course_desc[i]
   x = unlist(strsplit(desc, " "))
@@ -186,176 +150,6 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
-    # words following "power"
-    if (tolower(x[j]) == "power"){
-      if (tolower(x[j+2]) == "black" && tolower(x[j+3]) == "america"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+2]) == "historical" && tolower(x[j+3]) == "trauma"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "narrative"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "leadership"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+2]) == "personal" && tolower(x[j+3]) == "finance"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+3]) == "aging" && tolower(x[j+2]) == "society"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "tools" && tolower(x[j+3]) == "visual"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "and" && tolower(x[j+2]) == "responsibility"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "discovering"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+3]) == "federal" && tolower(x[j+4]) == "government"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "relations" && tolower(x[j+2]) == "among" & tolower(x[j+3]) == "men"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "and" && tolower(x[j+2]) == "authority"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+3]) == "federal" && tolower(x[j+4]) == "government"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "and" && tolower(x[j+2]) == "institutions"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "and" && tolower(x[j+2]) == "institutions"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "politics" && tolower(x[j+3]) == "influence"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "and" && tolower(x[j+2]) == "institutions"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "legitimate" && tolower(x[j+3]) == "effective"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+2]) == "resolve" && tolower(x[j+3]) == "conflicts"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+2]) == "occupation" && tolower(x[j+3]) == "throughout"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "confidence" && tolower(x[j+3]) == "identity"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "walking"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "distribution" && tolower(x[j+3]) == "american"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "government"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "governments"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+3]) == "united" && tolower(x[j+4]) == "states"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "resistance" && tolower(x[j+3]) == "political"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "explores" && tolower(x[j+2]) == "collective"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "in" && tolower(x[j+2]) == "iberian"){
-        print(i)
-        x[j] = "domain"
-      }
-    }
-    #plural power phrases
-    if (tolower(x[j]) == "powers"){
-      if (tolower(x[j+1]) == "and" && tolower(x[j+2]) == "responsibilities"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "governments"){
-        print(i)
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "of" && tolower(x[j+2]) == "government"){
-        print(i)
-        x[j] = "domain"
-      }
-    }
-    # words after advanced 
-    if (tolower(x[j]) == "advanced"){
-      if (tolower(x[j+1]) == "coverage"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "accounting"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "students"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "air" && tolower(x[j+2]) == "forcer"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "pronunciation"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "level"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "oral"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "academic"){
-        x[j] = "domain"
-      }
-      if (tolower(x[j+1]) == "strokes"){
-        x[j] = "domain"
-      }
-    }
-    # words after produce
-    if (tolower(x[j]) == "produce"){
-      if (tolower(x[j+1]) == "persuasive"){
-        x[j] = "domain"
-      }
-    }
     # green screen footage
     if (tolower(x[j]) == "green"){
       if (tolower(x[j+1]) == "screen" && tolower(x[j+2]) == "footage"){
@@ -366,12 +160,6 @@ for (i in 1:nrow(usc_courses)){
     # court positioning
     if (tolower(x[j]) == "court"){
       if (tolower(x[j+1]) == "positioning"){
-        x[j] = "domain"
-      }
-    }
-    # advanced understanding of the game of chess
-    if (tolower(x[j]) == "advanced"){
-      if (tolower(x[j+1]) == "understanding" && tolower(x[j+4]) == "game"){
         x[j] = "domain"
       }
     }
@@ -387,26 +175,27 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
-  }
-  usc_courses$clean_course_desc[i] = paste(x, collapse=" ")
-}
-
-
-# trees graph and trees construction
-for (i in 1:nrow(usc_courses)){
-  desc = usc_courses$clean_course_desc[i]
-  x = unlist(strsplit(desc, " "))
-  if (length(x) < 3){
-    next
-  }
-  for (j in 1:(length(x)-2)){
-    if (tolower(x[j]) == "trees" | tolower(x[j]) == "tree"){
-      if (tolower(x[j+1]) == "graph"){
-        print(i)
+    # laws
+    if (tolower(x[j]) == "law" | tolower(x[j]) == "laws") {
+      if (tolower(x[j+1]) == "of" & 
+          (tolower(x[j+2]) == "thermodynamics" | tolower(x[j+2]) == "nature")) {
+            x[j] = "domain"
+          }
+    }
+    # trans disciplinary
+    if (tolower(x[j]) == "trans") {
+      if (tolower(x[j+1]) == "disciplinary") {
         x[j] = "domain"
       }
-      if (tolower(x[j+1]) == "construction"){
-        print(i)
+    }
+    # zebra fish
+    if (tolower(x[j]) == "zebra") {
+      if (tolower(x[j+1]) == "fish") {
+        x[j] = "domain"
+      }
+    }
+    if (tolower(x[j]) == "co2") {
+      if (tolower(x[j+1]) == "laser" | tolower(x[j+1]) == "lasers") {
         x[j] = "domain"
       }
     }
@@ -558,35 +347,40 @@ for (i in 1:nrow(usc_courses)){
         x[j] = "domain"
       }
     }
-    
-    # fixing power phrases
-    if (tolower(x[j]) == "power"){
-      if (tolower(x[j-2]) == "culture"){
-        print(i)
+    # youth ecosystem
+    if (tolower(x[j]) == "ecosystem") {
+      if (tolower(x[j-1]) == "youth") {
         x[j] = "domain"
       }
     }
-    if (tolower(x[j]) == "power"){
-      if (tolower(x[j-1]) == "maintain" && tolower(x[j-3]) == "practices"){
-        print(i)
+    # prison pipeline
+    if (tolower(x[j]) == "pipeline") {
+      if (tolower(x[j-1]) == "prison") {
         x[j] = "domain"
       }
     }
-    if (tolower(x[j]) == "power"){
-      if (tolower(x[j-2]) == "leadership"){
-        print(i)
+    if (tolower(x[j]) == "organism") {
+      if (tolower(x[j-1]) == "total") {
         x[j] = "domain"
       }
     }
-    if (tolower(x[j]) == "power"){
-      if (tolower(x[j-1]) == "statistical"){
-        print(i)
+    if (tolower(x[j]) == "species") {
+      if (tolower(x[j-1]) == "reactive") {
         x[j] = "domain"
       }
     }
-    if (tolower(x[j]) == "power"){
-      if (tolower(x[j-2]) == "status" && tolower(x[j-3]) == "class"){
-        print(i)
+    if (tolower(x[j]) == "forest") {
+      if (tolower(x[j-1]) == "random") {
+        x[j] = "domain"
+      }
+    }
+    if (tolower(x[j]) == "ecosystem") {
+      if (tolower(x[j-1]) == "advertising") {
+        x[j] = "domain"
+      }
+    }
+    if (tolower(x[j]) == "forest") {
+      if (tolower(x[j-1]) == "decision") {
         x[j] = "domain"
       }
     }
