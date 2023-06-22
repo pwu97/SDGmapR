@@ -90,12 +90,18 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "1",
                                               fluidPage(
                                                 h1("About"),
-                                                h3("Welcome to the USC Sustainability Course Finder. Staff, faculty, and students at the 
-                                                            University of Southern California and Carnegie Mellon University have collaborated on 
-                                                            developing this dashboard to elevate awareness of sustainability in higher education. 
-                                                            It enables users to determine how USC courses relate to the 17 United Nations 
-                                                            Sustainable Development Goals (SDGs). With this information, students can focus their 
-                                                            studies on specific sustainability goals."),
+                                                h3("Welcome to the USC Sustainability Course Finder\u2014a collaborative project from the 
+                                                staff, faculty, and students of the University of Southern California and Carnegie 
+                                                Mellon University. This tool allows users to identify USC courses which relate to the 
+                                                17 United Nations Sustainable Development Goals (SDGs). With this information, students 
+                                                can focus their studies in particular sustainability goals, and faculty can identify 
+                                                ways to incorporate sustainability into their classes."),
+                                                h3("This dashboard is a work in progress and will be improved through feedback and 
+                                                   collaboration with faculty (", 
+                                                   a("access the feedback form here", 
+                                                   href = "https://forms.gle/keZXBY9uHa9DWsMg6", 
+                                                   target="_blank", .noWS = "outside"),
+                                                   "). To learn more about this tool visit the FAQ page."),
                                                 br(),
                                                 fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
                                                            href="https://sustainability.usc.edu/assignment-earth/", target="_blank")),
@@ -148,7 +154,7 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "2",
                                               fluidPage(
                                                 h2(strong("FAQ")),
-                                                h3(strong("How Do I Use this Dashboard?"), "You can choose your search function in 
+                                                h3(strong("How do I use this dashboard?"), "You can choose your search function in 
                                  the main menu in the upper-left corner of this dashboard. 
                                  Here you can either find courses by the 17 different SDGs 
                                  (Find Courses by SDGs) or see which SDGs map to a selected course 
@@ -182,6 +188,21 @@ ui <- dashboardPage( skin="black",
                                                 
                                                 h3(strong("How are USC's courses mapped to the 17 SDGs?"), "Please visit our 
                                                    “Home” page to learn more."),
+                                                
+                                                h3(strong("I’m a faculty member, how can I use or provide feedback on this dashboard?"),
+                                                   "It is our hope that this dashboard will be a useful tool for faculty who are looking 
+                                                   for ways to incorporate sustainability into their courses by identifying potential 
+                                                   connections between course topics and the UN SDGs. The dashboard is a work in progress 
+                                                   and faculty feedback is critical in refining its accuracy and utility. If you have 
+                                                   feedback or suggestions, please fill out", 
+                                                   a("this form", href = "https://forms.gle/keZXBY9uHa9DWsMg6", target="_blank"), 
+                                                   "or email us at oosdata@usc.edu."),
+                                                
+                                                h3(strong("I’d like to integrate sustainability into my courses. Where can I get help 
+                                                          with this?"),
+                                                   "If you’re interested in integrating sustainability into an existing course, contact 
+                                                   the Office of Sustainability’s Experiential Learning Manager, Dr. Chelsea Graham at 
+                                                   cmgraham@usc.edu."),
                                                 
                                                 h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please fill out our ", a("feedback form.", 
                                                           href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
@@ -401,6 +422,7 @@ ui <- dashboardPage( skin="black",
                                                 h2("Sustainability Related Departments"),
                                                 fluidRow(column(6, plotOutput("pie3"))),
                                                 h2(strong("Department Sustainability Classification Table")),
+                                                downloadButton("download_sustainability_table", "Download"),
                                                 fluidRow(column(12, DT::dataTableOutput("sustainability_table"))), 
                                                 br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
@@ -445,19 +467,34 @@ server <- function(input, output, session) {
   #####
   
   
-  output$visualize_sdg <- renderPlot({
+  output$visualize_sdg <- renderImage({
     sdg_goal_keyword_df <- classes %>%
       filter(goal %in% as.numeric(substr(input$sdg_goal3, 1, 2))) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      arrange(desc(weight))
-      # filter(!(keyword %in% exclude_words))
-    
-    sdg_goal_keyword_wordcloud <- wordcloud(sdg_goal_keyword_df$keyword, 
-                                            sdg_goal_keyword_df$weight,
-                                            max.words=20, rot.per = 0, colors = sdg_colors[as.numeric(substr(input$sdg_goal3, 1, 2))], scale=c(2,1))
-    
-    return(sdg_goal_keyword_wordcloud)
-  })
+      select(keyword) %>%
+      group_by(keyword) %>%
+      mutate(count = n()) %>%
+      distinct()
+    png("wordcloud.png")
+    wordcloud(words = sdg_goal_keyword_df$keyword, 
+              freq = sdg_goal_keyword_df$count,
+              min.freq = 1, max.words = 50, random.order = FALSE, rot.per = 0, 
+              scale = c(8,1),
+              colors = sdg_colors[as.numeric(substr(input$sdg_goal3, 1, 2))])
+    dev.off()
+    filename <- normalizePath(file.path("wordcloud.png"))
+    list(src = filename, height = "100%")
+    # sdg_goal_keyword_df <- classes %>%
+    #   filter(goal %in% as.numeric(substr(input$sdg_goal3, 1, 2))) %>%
+    #   distinct(keyword, .keep_all = TRUE) %>%
+    #   arrange(desc(weight))
+    #   # filter(!(keyword %in% exclude_words))
+    # 
+    # sdg_goal_keyword_wordcloud <- wordcloud(sdg_goal_keyword_df$keyword, 
+    #                                         sdg_goal_keyword_df$weight,
+    #                                         max.words=20, rot.per = 0, colors = sdg_colors[as.numeric(substr(input$sdg_goal3, 1, 2))], scale=c(2,1))
+    # 
+    # return(sdg_goal_keyword_wordcloud)
+  }, deleteFile = TRUE)
   
   #sdg keywords table
   output$keywords_table <- DT::renderDataTable({
@@ -466,7 +503,8 @@ server <- function(input, output, session) {
       filter(goal == as.numeric(substr(input$sdg_goal3, 1, 2))) %>%
       rename(Keyword = keyword,
              SDG = goal) %>%
-      select(Keyword)
+      select(Keyword) %>%
+      distinct()
   }, rownames=FALSE)
   
   
@@ -1439,7 +1477,12 @@ server <- function(input, output, session) {
       select(Department, "Sustainability Classification", "Sustainability-Focused Courses")
   }, rownames=FALSE)
   
-  
+  output$download_sustainability_table <- downloadHandler(
+    filename = function() {"sustainability_data.csv"},
+    content = function(fname) {
+      write.csv(sustainability_related, fname, row.names = FALSE)
+    }
+  )
 }
 
 # Run the application 
