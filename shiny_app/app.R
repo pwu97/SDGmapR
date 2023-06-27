@@ -130,10 +130,10 @@ ui <- dashboardPage( skin="black",
                                                 h2("Select an SDG below to see its most relevant keywords."),
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
-                                                div(style="font-size:24px;",
-                                                    selectizeInput(inputId = "sdg_goal3", label = "Choose SDG", choices = goals
-                                                    )),
-                                                tags$head(tags$style(HTML(".selectize-input {height: 45px; width: 450px; font-size: 24px;}"))),
+                                                selectizeInput(inputId = "sdg_goal3", 
+                                                               label = "Choose SDG", 
+                                                               choices = goals
+                                                               ),
                                                 fluidRow(bootstrapPage(
                                                   column(6, plotOutput(outputId = "visualize_sdg"),br()),
                                                   column(6, img(src = "un_17sdgs.png", width = "100%"))
@@ -226,20 +226,20 @@ ui <- dashboardPage( skin="black",
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 # h3("Enter Your USC Courses"),
                                                 h4("Type in the course ID using the same format as this example: “ENST-150”"),
-                                                div(style="font-size:24px;", selectizeInput(
+                                                selectizeInput(
                                                   inputId = "user_classes",
                                                   label = "Enter Your USC Courses by Course ID",
                                                   choices = "",
                                                   # choices = unique(sustainability_related$courseID), #changed this from master data
                                                   selected = NULL,
                                                   multiple = TRUE,
-                                                  width = "100%",
+                                                  # width = "100%",
                                                   options = list(
-                                                    'plugins' = list('remove_button'),
+                                                    'plugins' = list('remove_button'), # add remove button to each item
                                                     'create' = TRUE,
-                                                    'persist' = TRUE
+                                                    'persist' = TRUE # keep created choices
                                                   )
-                                                )),
+                                                ),
                                                 h3("SDG Mapping Data for:"),
                                                 h4(textOutput("personal_classes")),
                                                 br(),
@@ -272,12 +272,12 @@ ui <- dashboardPage( skin="black",
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 h4("Type in the course ID using the same format as this example: “ENST-150”"),
-                                                div(style="font-size:24px;",selectizeInput(inputId = "usc_classes", 
-                                                                                           label = "Choose USC Course by Course ID", 
-                                                                                           choices = "",
-                                                                                           width = "100%",
-                                                                                           # choices = unique(classes$courseID),
-                                                                                           options = list(maxOptions = 10000))),
+                                                selectizeInput(inputId = "usc_classes", 
+                                                               label = "Choose USC Course by Course ID", 
+                                                               choices = "",
+                                                               # width = "100%",
+                                                               # choices = unique(classes$courseID),
+                                                               options = list(maxOptions = 10000)),
                                                 h3(textOutput("semesters_offered")),
                                                 
                                                 h5("*special topics courses (course levels 499 and 599) often change, but the course data comes from the
@@ -332,10 +332,10 @@ ui <- dashboardPage( skin="black",
                                                                                         options = list(height = 20))),
                                                                                         # choicesOpt = list(
                                                                                         # style = rep(("font-size:24px; line-height: 1.5;"),2)))),
-                                                div(style="font-size:24px;", selectizeInput(inputId = "sdg_goal1", 
-                                                                                            label = "Choose SDG", 
-                                                                                            choices = goals
-                                                )),
+                                                selectizeInput(inputId = "sdg_goal1", 
+                                                               label = "Choose SDG", 
+                                                               choices = goals
+                                                               ),
                                                 br(),
                                                 h2(strong(textOutput("top_classes"))),
                                                 fluidRow(bootstrapPage(
@@ -364,12 +364,10 @@ ui <- dashboardPage( skin="black",
                                                 
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
-                                                div(style="font-size:24px;",selectInput(inputId = "ge_category",
-                                                                                        label = "Choose GE Category",
-                                                                                        selected = "A - The Arts",
-                                                                                        choices = ge_names)),
-                                                tags$head(tags$style(HTML(".selectize-input {height: 50px; width: 500px;}"))),
-                                                
+                                                selectInput(inputId = "ge_category",
+                                                            label = "Choose GE Category",
+                                                            selected = "A - The Arts",
+                                                            choices = ge_names),
                                                 div(style="font-size:24px;", pickerInput(inputId = "ge_sdgs", 
                                                                                          label = "Choose SDGs", 
                                                                                          choices = seq(17),
@@ -407,10 +405,10 @@ ui <- dashboardPage( skin="black",
                                                 h5("*This app is a work in progress, and we are continually improving accuracy. 
                                                              If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
                                                 h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY23 = SU22, F22, SP23)"),
-                                                div(style="font-size:24px;",selectInput(inputId = "usc_year",
-                                                                                        label = "Choose USC Academic Year",
-                                                                                        selected = "AY23",
-                                                                                        choices = unique(sustainability_related$year))),
+                                                selectInput(inputId = "usc_year",
+                                                            label = "Choose USC Academic Year",
+                                                            selected = "AY23",
+                                                            choices = unique(sustainability_related$year)),
                                                 div(style="font-size:24px;", pickerInput(inputId = "course_level_pie",
                                                                                          label = "Restrict course level?",
                                                                                          choices = c("All", "Undergraduate", "Graduate"),
