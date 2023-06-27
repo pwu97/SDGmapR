@@ -79,7 +79,8 @@ ui <- dashboardPage( skin="black",
                          menuItem("Find SDGs by Courses", tabName = "4"),
                          menuItem("Find Courses by SDGs", tabName = "5"),
                          menuItem("Search by GE Requirements", tabName = "6"),
-                         menuItem("All Sustainability-Related Courses", tabName = "7")
+                         menuItem("All Sustainability-Related Courses", tabName = "7"),
+                         menuItem("Download Data", tabName = "downloaddata")
                          # menuItem("Sustainability Focused Programs", tabName="8")
                        )
                      ),
@@ -416,13 +417,15 @@ ui <- dashboardPage( skin="black",
                                                                                          options = list(height = 20))), br(),
                                                 # choicesOpt = list(
                                                 # style = rep(("font-size:24px; line-height: 1.5;"),2)))),
-                                                h2("Sustainability Related Courses Offered"),
-                                                fluidRow(column(6, plotOutput("pie4"))),
+                                                
+                                                fluidRow(column(6, 
+                                                                h2("Sustainability Related Courses Offered"),
+                                                                plotOutput("pie4")),
+                                                         column(6, 
+                                                                h2("Sustainability Related Departments"),
+                                                                plotOutput("pie3"))),
                                                 # textOutput("pie4_numbers")
-                                                h2("Sustainability Related Departments"),
-                                                fluidRow(column(6, plotOutput("pie3"))),
                                                 h2(strong("Department Sustainability Classification Table")),
-                                                downloadButton("download_sustainability_table", "Download"),
                                                 fluidRow(column(12, DT::dataTableOutput("sustainability_table"))), 
                                                 br(), br(),
                                                 h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
@@ -431,8 +434,14 @@ ui <- dashboardPage( skin="black",
                                                    a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
                                                    Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
                                               ), # end fluid page
-                                      ) # end tabitem 7
-                                      
+                                      ), # end tabitem 7
+                                      tabItem(tabName="downloaddata",
+                                              fluidPage(
+                                                h1("Download Data"),
+                                                downloadButton("download_data_table", "Download"),
+                                                fluidRow(column(12, DT::dataTableOutput("view_data_table")))
+                                              )
+                                              ) # end tabitem
 
                                       # tabItem(tabName="8",
                                       #         fluidPage(
@@ -1477,12 +1486,20 @@ server <- function(input, output, session) {
       select(Department, "Sustainability Classification", "Sustainability-Focused Courses")
   }, rownames=FALSE)
   
-  output$download_sustainability_table <- downloadHandler(
+  # download data page
+  output$download_data_table <- downloadHandler(
     filename = function() {"sustainability_data.csv"},
     content = function(fname) {
       write.csv(sustainability_related, fname, row.names = FALSE)
     }
   )
+  output$view_data_table <- DT::renderDataTable({
+    sustainability_related
+  }, rownames=FALSE,
+  options = list(
+    scrollX = TRUE,
+    autoWidth = TRUE
+  ))
 }
 
 # Run the application 
