@@ -542,9 +542,9 @@ server <- function(input, output, session) {
   
   # wordcloud for users classes
   output$users_wordcloud <- renderImage({
-    print(input$user_classes)
     df = recent_courses %>%
       filter(courseID %in% input$user_classes) %>%
+      filter(!is.na(keyword)) %>%
       mutate(count = str_count(text, keyword)) %>% # maybe put this as a column
       select(keyword, color, count)
     png("wordcloud.png")
@@ -565,131 +565,54 @@ server <- function(input, output, session) {
   
   # output for users classes
   output$user_classes_barplot <- renderPlot({
-    create_bar = function(class_data){
+    df <- recent_courses %>%
+      filter(courseID %in% input$user_classes) %>%
+      filter(!is.na(keyword)) %>%
+      mutate(count = str_count(text, keyword)) %>% # maybe put this as a column
+      select(keyword, goal, color, count)
+    plot_colors <- df %>%
+      arrange(goal) %>%
+      select(color) %>%
+      distinct() %>%
+      pull()
+    df %>%
+      ggplot(aes(x = keyword, y = count, fill = factor(as.numeric(goal)))) +
+      geom_col() +
+      coord_flip() +
+      labs(title = paste0("All SDG Keywords"),
+           fill = "SDG",
+           x = "SDG Keyword",
+           y = "Total SDG Keyword Frequency") +
+      theme(text = element_text(size = 20, face="bold")) +
+      scale_fill_manual(values = plot_colors) + 
+      scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1))))) # integer breaks
       
-      sdg_class_keyword_colors <-  classes %>%
-        filter(courseID %in% input$user_classes) %>%
-        arrange(goal) %>% #arranged in order again because multiple classes screwed it up
-        select(color) %>%
-        unique() %>%
-        pull()
-      
-      sdg_class_name <-  classes %>%
-        filter(courseID %in% input$user_classes) %>%
-        select(courseID) %>% 
-        unique() %>%
-        pull()
-      
-      if (length(sdg_class_keyword_colors) == 0) {return(ggplot())}
-      
-      courses = unique(class_data$courseID)
-      goals = unique(class_data$goal)
-      df = data.frame()
-      weights = numeric(length(goals))
-      for (course in courses){
-        course_df = class_data[class_data$courseID == course, ]
-        # just grab one semester where the class is offered
-        if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-          sem = "SP23"
-        }
-        else{ # if no spring 23 just grab the last semester in df
-          sem = unique(course_df$semester)[length(unique(course_df$semester))]
-        }
-        # sem = unique(course_df$semester)[1]
-        # subet data to only that semester
-        course_df = course_df[course_df$semester == sem, ]
-        df = rbind(df, course_df)
-      }
-      
-      result <- df %>%
-        filter(courseID %in% input$user_classes) %>%
-        # distinct(goal, keyword, .keep_all = TRUE) %>%
-        arrange(desc(weight)) %>%
-        ggplot(aes(x = reorder(keyword, weight), y = weight, fill = factor(as.numeric(goal)))) +
-        geom_col() +
-        coord_flip() +
-        labs(title = paste0("All SDG Keywords"),
-             fill = "SDG",
-             x = "SDG Keyword",
-             y = "Total SDG Keyword Frequency") +
-        theme(text = element_text(size = 20, face="bold")) +
-        scale_fill_manual(values = sdg_class_keyword_colors) + 
-        scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
-      
-      return(result)
-    }
-    classes = classes %>% filter(courseID %in% input$user_classes) %>% select(semester, courseID, keyword, goal, weight, color)
-    create_bar(classes)
   })
   
   
   # user to goals barplot
   output$user_to_goals <- renderPlot({
-    create_bar = function(class_data){
-      
-      sdg_class_keyword_colors <- classes %>%
-        filter(courseID %in% input$user_classes) %>%
-        group_by(goal) %>%
-        # mutate(sum_weight = sum(weight)) %>%
-        # arrange(desc(sum_weight)) %>%
-        ungroup() %>%
-        distinct(goal, .keep_all = TRUE) %>%
-        arrange(goal) %>%
-        select(color) %>%
-        unique() %>%
-        pull()
-      
-      if (length(sdg_class_keyword_colors) == 0) {return(ggplot())}
-      
-      courses = unique(class_data$courseID)
-      goals = unique(class_data$goal)
-      df = data.frame()
-      weights = numeric(length(goals))
-      for (course in courses){
-        course_df = class_data[class_data$courseID == course, ]
-        # just grab one semester where the class is offered
-        if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-          sem = "SP23"
-        }
-        else{ # if no spring 23 just grab the last semester in df
-          sem = unique(course_df$semester)[length(unique(course_df$semester))]
-        }
-        # sem = unique(course_df$semester)[1]
-        # subet data to only that semester
-        course_df = course_df[course_df$semester == sem, ]
-        df = rbind(df, course_df)
-      }
-      # print(df)
-      # extract just one semester of the data to make things easier
-      # sem = unique(class_data$semester)[1]
-      for (i in 1:length(goals)){
-        g = goals[i]
-        mini_df = df[df$goal == g, ]
-        weights[i] = sum(mini_df$weight)
-      }
-      result = data.frame(goal = goals, sum_weight = weights)
-      result = result %>% arrange(desc(sum_weight))
-      
-      goal_cols = goals[c(goals)]
-      # print(result)
-      
-      barplot = result %>% ggplot(aes(x = reorder(goal, sum_weight), y = sum_weight, fill = factor(as.numeric(goal)))) +
-        geom_col() +
-        coord_flip() +
-        # geom_hline(yintercept = c(10, 15), color = c("#ffc33c", "#00bc9e")) +
-        labs(title = paste0("All SDGs Mapped to your Courses"),
-             fill = "SDG",
-             x = "SDG",
-             y = "Total SDG Keyword Frequency") +
-        theme(text = element_text(size = 20, face="bold")) +
-        guides(alpha = FALSE) +
-        scale_fill_manual(values = sdg_class_keyword_colors) +
-        scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
-      
-      return(barplot)
-    }
-    classes = classes %>% filter(courseID %in% input$user_classes) %>% select(semester, courseID, keyword, goal, weight, color)
-    create_bar(classes)
+    df <- recent_courses %>%
+      filter(courseID %in% input$user_classes) %>%
+      filter(!is.na(keyword)) %>%
+      mutate(count = str_count(text, keyword)) %>% # maybe put this as a column
+      select(keyword, goal, color, count)
+    plot_colors <- df %>%
+      arrange(goal) %>%
+      select(color) %>%
+      distinct() %>%
+      pull()
+    df %>%
+      ggplot(aes(x = factor(as.numeric(goal)), y = count, fill = factor(as.numeric(goal)))) +
+      geom_col() +
+      coord_flip() +
+      labs(title = paste0("All SDGs Mapped to your Courses"),
+           fill = "SDG",
+           x = "SDG",
+           y = "Total SDG Keyword Frequency") +
+      theme(text = element_text(size = 20, face="bold")) +
+      scale_fill_manual(values = plot_colors) +
+      scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1))))) # integer breaks
   })
   
   
