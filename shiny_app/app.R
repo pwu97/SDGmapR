@@ -91,24 +91,32 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "1",
                                               fluidPage(
                                                 h1("About"),
-                                                h3("Welcome to the USC Sustainability Course Finder\u2014a collaborative project from the 
+                                                fluidRow(
+                                                  column(6,
+                                                         h3("Welcome to the USC Sustainability Course Finder\u2014a collaborative project from the 
                                                 staff, faculty, and students of the University of Southern California and Carnegie 
                                                 Mellon University. This tool allows users to identify USC courses which relate to the 
                                                 17 United Nations Sustainable Development Goals (SDGs). With this information, students 
                                                 can focus their studies in particular sustainability goals, and faculty can identify 
                                                 ways to incorporate sustainability into their classes."),
-                                                h3("This dashboard is a work in progress and will be improved through feedback and 
+                                                         h3("This dashboard is a work in progress and will be improved through feedback and 
                                                    collaboration with faculty (", 
-                                                   a("access the feedback form here", 
-                                                   href = "https://forms.gle/keZXBY9uHa9DWsMg6", 
-                                                   target="_blank", .noWS = "outside"),
-                                                   "). To learn more about this tool visit the FAQ page."),
-                                                br(),
-                                                fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
-                                                           href="https://sustainability.usc.edu/assignment-earth/", target="_blank")),
-                                                h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
+                                                            a("access the feedback form here", 
+                                                              href = "https://forms.gle/keZXBY9uHa9DWsMg6", 
+                                                              target="_blank", .noWS = "outside"),
+                                                            "). To learn more about this tool visit the FAQ page.")
+                                                         ),
+                                                  column(6,
+                                                         fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
+                                                                    href="https://sustainability.usc.edu/assignment-earth/", target="_blank")),
+                                                         h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
                                                          commitment to addressing the impacts of climate change and creating a more just, equitable, and 
-                                                         sustainable future. It’s a big assignment. ", strong("We’re all in!")), br(),
+                                                         sustainable future. It’s a big assignment. ", strong("We’re all in!"))
+                                                         )
+                                                ),
+                                                
+                                                # br(),
+                                                # br(),
                                                 
                                                 h1("Mapping the 17 SDGs"),
                                                 h3("The SDGs were adopted by all United Nations Member States in 2015, providing a shared blueprint for peace and prosperity 
