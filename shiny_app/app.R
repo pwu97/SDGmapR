@@ -87,8 +87,12 @@ ui <- dashboardPage( skin="black",
                        )
                      ),
                      
-                     dashboardBody( tags$head(tags$link(rel="stylesheet", type="text/css", href="custom.css"),
-                                              tags$style(HTML(".main-sidebar { font-size: 20px; }"))), #link up css stylesheet
+                     dashboardBody( 
+                       tags$head(
+                         tags$link(rel="stylesheet", type="text/css", href="custom.css"), # link css stylesheet
+                         tags$link(rel="stylesheet", # link icon library
+                           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
+                         tags$style(HTML(".main-sidebar { font-size: 20px; }"))), #link up css stylesheet
                                     tabItems(
                                       tabItem(tabName = "1",
                                               fluidPage(
@@ -151,13 +155,7 @@ ui <- dashboardPage( skin="black",
                                                 h2(strong("SDG Keywords Table")),
                                                 fluidRow(bootstrapPage(
                                                   column(4, DT::dataTableOutput("keywords_table"))
-                                                )), br(), br(),
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
-                                                
+                                                ))
                                               ) #end fluid page
                                       ), # end tabitem 1
                                       
@@ -216,13 +214,7 @@ ui <- dashboardPage( skin="black",
                                                    cmgraham@usc.edu."),
                                                 
                                                 h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please fill out our ", a("feedback form.", 
-                                                          href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
-                                                br(), br(),
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
+                                                          href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank"))
                                               ) #end fluidpage
                                       ), #end tabitem 2
                                       
@@ -261,12 +253,7 @@ ui <- dashboardPage( skin="black",
                                                 h2(strong("Your Courses")),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("user_table"))
-                                                )), br(), br(),
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
+                                                ))
                                               )#end fluid page
                                       ),# end tabitem 3
                                       
@@ -308,12 +295,7 @@ ui <- dashboardPage( skin="black",
                                                 h2(strong("Keyword Table")),
                                                 fluidRow(bootstrapPage(
                                                   column(4, DT::dataTableOutput("classes_table"))
-                                                )), br(), br(),
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
+                                                ))
                                                 ) # end fluidpage
                                       ),#end tabitem 4
                                       
@@ -355,12 +337,7 @@ ui <- dashboardPage( skin="black",
                                                 h2(strong(textOutput("sdg_name"))),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("top_classes_sdg_table"))
-                                                )), br(), br(),
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
+                                                ))
                                               ) #end fluidpage
                                       ), #end tabitem5
                                       
@@ -392,13 +369,7 @@ ui <- dashboardPage( skin="black",
                                                 h1(strong(textOutput("ge_name"))),
                                                 fluidRow(bootstrapPage(
                                                   column(12, DT::dataTableOutput("ge_table"))
-                                                )), br(), br(),
-                                                
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
+                                                ))
                                               ) #end fluid page
                                       ), #end tabitem 6
                                       
@@ -434,13 +405,7 @@ ui <- dashboardPage( skin="black",
                                                                 plotOutput("pie3"))),
                                                 # textOutput("pie4_numbers")
                                                 h2(strong("Department Sustainability Classification Table")),
-                                                fluidRow(column(12, DT::dataTableOutput("sustainability_table"))), 
-                                                br(), br(),
-                                                h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                                   "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                                   "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating", 
-                                                   a("here.", href="https://sustainability.usc.edu/give-now/", target="_blank"),"More questions or suggestions in regard to this tool? 
-                                                   Please fill our our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target = "_blank")),
+                                                fluidRow(column(12, DT::dataTableOutput("sustainability_table")))
                                               ), # end fluid page
                                       ), # end tabitem 7
                                       tabItem(tabName="downloaddata",
@@ -472,19 +437,33 @@ ui <- dashboardPage( skin="black",
                                                 fluidRow(column(12, DT::dataTableOutput("view_data_table")))
                                               )
                                               ) # end tabitem
-
-                                      # tabItem(tabName="8",
-                                      #         fluidPage(
-                                      #           h1("Sustainability-Focused Programs"),
-                                      #           h3("Stay connected by visiting our home page at ", a("https://sustainability.usc.edu", href="https://sustainability.usc.edu", target="_blank"), 
-                                      #              "or by following the Office of Sustainability on social media via", a("instagram", href="https://www.instagram.com/green.usc/?hl=en", target="_blank"), 
-                                      #              "or", a("twitter.", href="https://twitter.com/GreenUSC", target="_blank"), "You can also support the Office of Sustainability by donating here. More questions or suggestions in 
-                                      #                       regard to this tool? Please contact: ", a("oosdata@usc.edu.", href="mailto:oosdata@usc.edu"))
-                                      #         ), #end fluid page
-                                      # ) #end tabitem 8
-                                      
-                                      
-                                )#end tabitems
+                                ),#end tabitems
+                                tags$footer(
+                                  fluidPage(
+                                    h3("Stay connected by visiting our", 
+                                       a("home page", href="https://sustainability.usc.edu",
+                                         target = "_blank"), 
+                                       "or by following the Office of Sustainability on social media via", 
+                                       a("", href="https://www.instagram.com/green.usc/", class="fa fa-instagram",
+                                         target = "_blank"),
+                                       a("Instagram", href="https://www.instagram.com/green.usc/",
+                                         target = "_blank"), "or", 
+                                       a("", href="https://twitter.com/GreenUSC", class="fa fa-twitter",
+                                         target = "_blank"),
+                                       a("Twitter", href="https://twitter.com/GreenUSC", .noWS = "after",
+                                         target = "_blank"), 
+                                       ". You can also support the Office of Sustainability by donating", 
+                                       a("here", 
+                                         href="https://green.usc.edu/get-involved/give-to-the-office-of-sustainability/",
+                                         .noWS = "after",
+                                         target = "_blank"), 
+                                       ". More questions or suggestions in regard to this tool? Please fill out our",
+                                       a("feedback form",
+                                         href="https://forms.gle/P6QJDSJaaRusZLZh6", .noWS = "after",
+                                         target = "_blank"),
+                                       "."
+                                    ),
+                                  ))
                      )#end dashboard body
 ) #end UI
 ############ EDIT COMMA OUT HERE #####
