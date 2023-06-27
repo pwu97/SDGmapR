@@ -498,17 +498,6 @@ server <- function(input, output, session) {
     dev.off()
     filename <- normalizePath(file.path("wordcloud.png"))
     list(src = filename, height = "100%")
-    # sdg_goal_keyword_df <- classes %>%
-    #   filter(goal %in% as.numeric(substr(input$sdg_goal3, 1, 2))) %>%
-    #   distinct(keyword, .keep_all = TRUE) %>%
-    #   arrange(desc(weight))
-    #   # filter(!(keyword %in% exclude_words))
-    # 
-    # sdg_goal_keyword_wordcloud <- wordcloud(sdg_goal_keyword_df$keyword, 
-    #                                         sdg_goal_keyword_df$weight,
-    #                                         max.words=20, rot.per = 0, colors = sdg_colors[as.numeric(substr(input$sdg_goal3, 1, 2))], scale=c(2,1))
-    # 
-    # return(sdg_goal_keyword_wordcloud)
   }, deleteFile = TRUE)
   
   #sdg keywords table
@@ -549,44 +538,27 @@ server <- function(input, output, session) {
   })
   
   # wordcloud for users classes
-  output$users_wordcloud <- renderPlot({
-    df = classes_by_sdgs[classes_by_sdgs$courseID %in% input$user_classes, ]
-    
-    sdg_class_keyword_colors <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
+  output$users_wordcloud <- renderImage({
+    print(input$user_classes)
+    df = recent_courses %>%
       filter(courseID %in% input$user_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      select(color) %>%
-      pull()
-    
-    sdg_class_keyword_weights <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$user_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      mutate(weight = 100 * weight) %>%
-      select(weight) %>%
-      pull()
-    
-    sdg_class_keywords <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$user_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      select(keyword) %>%
-      pull()
-    
-    if (length(sdg_class_keywords) == 0) {
-      return(ggplot())
+      mutate(count = str_count(text, keyword)) %>% # maybe put this as a column
+      select(keyword, color, count)
+    png("wordcloud.png")
+    if (nrow(df) == 0) {
+      ggplot()
+    } else {
+      wordcloud(words = df$keyword, 
+                freq = df$count,
+                min.freq = 1, max.words = 50, random.order = FALSE, rot.per = 0, 
+                scale = c(8,1),
+                colors = df$color,
+                ordered.colors = TRUE)
     }
-    # data = data.frame(sdg_class_keywords, sdg_class_keyword_weights)
-    # wordcloud2(data, color = sdg_class_keyword_colors,
-    #            ordered.colors = TRUE)
-    sdg_class_keyword_wordcloud <- wordcloud(sdg_class_keywords,
-                                             sdg_class_keyword_weights,
-                                             colors = sdg_class_keyword_colors,
-                                             ordered.colors = TRUE, scale=c(3,1))
-    
-    return(sdg_class_keyword_wordcloud)
-  })
+    dev.off()
+    filename <- normalizePath(file.path("wordcloud.png"))
+    list(src = filename, height = "100%")
+  }, deleteFile = TRUE)
   
   # output for users classes
   output$user_classes_barplot <- renderPlot({
