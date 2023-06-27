@@ -58,6 +58,8 @@ key = data.frame(value = values, name = names)
 key$full_name = paste(key$value, key$name, sep=" - ")
 ge_names = key$full_name
 
+school_choices = sort(unique(sustainability_related$school))
+
 
 # profvis({
 # s = shinyApp(
@@ -444,6 +446,28 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName="downloaddata",
                                               fluidPage(
                                                 h1("Download Data"),
+                                                # filter by school, filter by dept ,filter by SDG and filter by sustainability-focused
+                                                pickerInput("school_dl", "Choose School",  
+                                                            choices = school_choices, 
+                                                            selected = school_choices,
+                                                            multiple = TRUE,
+                                                            options = list(`actions-box` = TRUE)),
+                                                pickerInput("dept_dl", "Choose Department",  
+                                                            choices = sort(unique(sustainability_related$department)),
+                                                            selected = sort(unique(sustainability_related$department)),
+                                                            multiple = TRUE, 
+                                                            options = list(`actions-box` = TRUE)),
+                                                pickerInput("sdg_dl", "Choose SDG",  choices = sdg_choices, selected = sdg_choices,
+                                                            multiple = TRUE, 
+                                                            options = list(`actions-box` = TRUE)),
+                                                # pickerInput("sustainability_dl", "Choose Sustainability Category",  
+                                                #             choices = sort(unique(sustainability_related$sustainability_classification)),
+                                                #             selected = sort(unique(sustainability_related$sustainability_classification)),
+                                                #             multiple = TRUE, 
+                                                #             options = list(`actions-box` = TRUE)),
+                                                checkboxGroupInput("sustainability_dl", "Choose Sustainability Category",  
+                                                                   choices = sort(unique(sustainability_related$sustainability_classification)),
+                                                                   selected = sort(unique(sustainability_related$sustainability_classification))),
                                                 downloadButton("download_data_table", "Download"),
                                                 fluidRow(column(12, DT::dataTableOutput("view_data_table")))
                                               )
@@ -1466,17 +1490,34 @@ server <- function(input, output, session) {
   
   # download data page
   output$download_data_table <- downloadHandler(
-    filename = function() {"sustainability_data.csv"},
+    filename = function() {"usc_sustainability_course_data.csv"},
     content = function(fname) {
-      write.csv(sustainability_related, fname, row.names = FALSE)
+      classes %>%
+        filter(school %in% input$school_dl,
+               department %in% input$dept_dl,
+               sustainability_classification %in% input$sustainability_dl,
+               goal %in% as.numeric(input$sdg_dl)) %>%
+        ungroup() %>%
+        select(school, department, courseID, course_title, course_desc, semester, all_goals, sustainability_classification, N.Sections, total_enrolled, all_semesters, course_level, year) %>%
+        distinct() -> download_data_output
+      write.csv(download_data_output, fname, row.names = FALSE)
     }
   )
   output$view_data_table <- DT::renderDataTable({
-    sustainability_related
+    classes %>%
+      filter(school %in% input$school_dl,
+             department %in% input$dept_dl,
+             sustainability_classification %in% input$sustainability_dl,
+             goal %in% as.numeric(input$sdg_dl)) %>%
+      ungroup() %>%
+      select(school, department, courseID, course_title, course_desc, semester, all_goals, sustainability_classification, N.Sections, total_enrolled, all_semesters, course_level, year) %>%
+      distinct()
   }, rownames=FALSE,
   options = list(
     scrollX = TRUE,
-    autoWidth = TRUE
+    autoWidth = TRUE,
+    columnDefs = list(list(width = '100px', targets = c(0,3)),
+                      list(width = '250px', targets = c(4)))
   ))
 }
 
