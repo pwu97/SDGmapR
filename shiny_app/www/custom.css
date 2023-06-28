@@ -38,6 +38,11 @@
   width: max-content;
 }
 
+.shiny-input-container:not(.shiny-input-container-inline) {
+  width: 70vw;
+  max-width: max-content;
+}
+
 .default-font {
   font-size: 24px;
 }
