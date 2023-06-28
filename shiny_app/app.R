@@ -141,8 +141,7 @@ ui <- dashboardPage( skin="black",
                                                 # h3("In the near future, this list will be updated to a USC and CMU combined list with the input of
                                                 #              the PWG. To see the words in a CSV file format, please see the ",a("USC-SDGmap package.", href="https://github.com/USC-Office-of-Sustainability/USC-SDG-Curriculum", target="_blank")),
                                                 h2("Select an SDG below to see its most relevant keywords."),
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
+                                                uiOutput("disclaimer1"),
                                                 selectizeInput(inputId = "sdg_goal3", 
                                                                label = "Choose SDG", 
                                                                choices = goals
@@ -223,8 +222,7 @@ ui <- dashboardPage( skin="black",
                                                 h1("Map Your Courses"),
                                                 h3("Select your courses below and see how your curriculum relates to the 17 SDGs. Some courses
                                                    do not map to the SDGs via our keywords so those courses' mapping will be blank."), 
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
+                                                uiOutput("disclaimer2"),
                                                 # h3("Enter Your USC Courses"),
                                                 h4("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 selectizeInput(
@@ -265,8 +263,7 @@ ui <- dashboardPage( skin="black",
                                                 h3("Select a USC course ID below to view the SDG mapping for 
                           that particular course. If you cannot find a course you are looking for, then it did not map to any of the SDGs via our keyword list.
                                                    To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
+                                                uiOutput("disclaimer3"),
                                                 h4("Type in the course ID using the same format as this example: “ENST-150”"),
                                                 selectizeInput(inputId = "usc_classes", 
                                                                label = "Choose USC Course by Course ID", 
@@ -304,8 +301,7 @@ ui <- dashboardPage( skin="black",
                                                 h1("Find Courses by SDGs"),
                                                 h3("Select USC departments and course levels, and then choose an SDGs to display the 10 most relevant USC courses that map to
                                                   that goal. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
+                                                uiOutput("disclaimer4"),
                                                 # div(style="font-size:24px;", selectInput(inputId = "usc_semester3",
                                                 #                                          label = "Choose USC Semester",
                                                 #                                          selected = "SP23",
@@ -348,8 +344,7 @@ ui <- dashboardPage( skin="black",
                                                 h3("Select a GE category below to see the sustainability related courses which satisfy that requirement. GE courses that
                                                    did not map to the SDGs via our keywords are not shown, but you can find them in the course catalogue ", a("here.", href="https://dornsife.usc.edu/2015ge/2015ge-requirements/")),
                                                 
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
+                                                uiOutput("disclaimer5"),
                                                 selectInput(inputId = "ge_category",
                                                             label = "Choose GE Category",
                                                             selected = "A - The Arts",
@@ -382,8 +377,7 @@ ui <- dashboardPage( skin="black",
                                                 h3("For a course to count as SDG-related, it has to include at least two SDG keywords. For a course to count as sustainability-focused, 
                                                    it has to map to a combination of SDGs that includes at least one environmental focused SDG (13, 14, 15) and at least one economic or social 
                                                    focused SDG (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)."),
-                                                h5("*This app is a work in progress, and we are continually improving accuracy. 
-                                                             If you have feedback, please fill out our ", a("feedback form.", href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank")),
+                                                uiOutput("disclaimer6"),
                                                 h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY23 = SU22, F22, SP23)"),
                                                 selectInput(inputId = "usc_year",
                                                             label = "Choose USC Academic Year",
@@ -410,6 +404,7 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName="downloaddata",
                                               fluidPage(
                                                 h1("Download Data"),
+                                                uiOutput("disclaimer7"),
                                                 # filter by school, filter by dept ,filter by SDG and filter by sustainability-focused
                                                 pickerInput("school_dl", "Choose School",  
                                                             choices = sort(unique(sustainability_related$school)), 
@@ -475,6 +470,19 @@ server <- function(input, output, session) {
   updateSelectizeInput(session, 'usc_classes', choices = unique(classes$courseID), selected = "ENST-150", server = TRUE)
   # map classes in ascending order
   updateSelectizeInput(session, 'user_classes', choices = unique(sustainability_related$courseID) %>% sort(), server = TRUE)
+  
+  
+  # disclaimer
+  output$disclaimer1 <- output$disclaimer2 <- output$disclaimer3 <- output$disclaimer4 <- output$disclaimer5 <- output$disclaimer6 <- output$disclaimer7 <- renderUI({
+    tagList(
+      h5("*This app is a work in progress, and we are continually improving accuracy.
+         If you have feedback, please fill out our ", 
+         a("feedback form", 
+           href="https://forms.gle/5THrD6SkTvbdgj8XA", .noWS = "after",
+           target="_blank"),
+         ".")
+    )
+  })
   
   
   #####
