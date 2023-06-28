@@ -23,6 +23,7 @@ library(ggplot2)
 library(ggrepel)
 # install.packages("shinyWidgets")
 library(shinyWidgets)
+library(stringr)
 
 classes = read.csv("master_course_sdg_data.csv")
 
@@ -31,12 +32,14 @@ keywords = read.csv("usc_keywords.csv")
 sdg_colors <- c('#e5243b', '#DDA63A', '#4C9F38', '#C5192D', '#FF3A21', '#26BDE2', 
                 '#FCC30B', '#A21942', '#FD6925', '#DD1367', '#FD9D24', '#BF8B2E',
                 '#3F7E44', '#0A97D9', '#56C02B', '#00689D', '#19486A')
-                
+
 goals <- c("1 - No poverty", "2 - Zero hunger", "3 - Good health and well-being", "4 - Quality education", "5 - Gender equality",
            "6 - Clean water and sanitation", "7 - Affordable and clean energy", "8 - Decent work and economic growth", "9 - Industry, innovation, and infrastructure", 
            "10 - Reduced inequalities", "11 - Sustainable cities and communities", "12 - Responsible consumption and production", "13 - Climate action",
            "14 - Life below water", "15 - Life on land", "16 - Peace, justice, and strong institutions", "17 - Partnership for the goals")
-
+# sdg choices with None option
+sdg_choices <- c(1:17, NA)
+names(sdg_choices) <- c(goals, "None")
 num_top_classes <- 10
 
 # data for pie chart
@@ -46,7 +49,7 @@ sustainability_related = read.csv("usc_courses_full.csv")
 ge_data = read.csv("ge_data.csv")
 
 # data for find classes by sdgs
-classes_by_sdgs = read.csv("classes_by_sdgs.csv")
+recent_courses = read.csv("recent_courses.csv")
 
 # for the ordering of GE's in dropdown
 values = c("A", "B", "C",
@@ -57,8 +60,6 @@ names = c("The Arts", "Humanistic Inquiry", "Social Analysis", "Life Sciences", 
 key = data.frame(value = values, name = names)
 key$full_name = paste(key$value, key$name, sep=" - ")
 ge_names = key$full_name
-
-school_choices = sort(unique(sustainability_related$school))
 
 
 # profvis({
@@ -83,7 +84,6 @@ ui <- dashboardPage( skin="black",
                          menuItem("Search by GE Requirements", tabName = "6"),
                          menuItem("All Sustainability-Related Courses", tabName = "7"),
                          menuItem("Download Data", tabName = "downloaddata")
-                         # menuItem("Sustainability Focused Programs", tabName="8")
                        )
                      ),
                      
@@ -91,34 +91,33 @@ ui <- dashboardPage( skin="black",
                        tags$head(
                          tags$link(rel="stylesheet", type="text/css", href="custom.css"), # link css stylesheet
                          tags$link(rel="stylesheet", # link icon library
-                           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"),
-                         tags$style(HTML(".main-sidebar { font-size: 20px; }"))), #link up css stylesheet
+                           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")),
                                     tabItems(
                                       tabItem(tabName = "1",
                                               fluidPage(
                                                 h1("About"),
-                                                fluidRow(
-                                                  column(6,
-                                                         h3("Welcome to the USC Sustainability Course Finder\u2014a collaborative project from the 
+                                                h3("Welcome to the USC Sustainability Course Finder\u2014a collaborative project from the 
                                                 staff, faculty, and students of the University of Southern California and Carnegie 
                                                 Mellon University. This tool allows users to identify USC courses which relate to the 
                                                 17 United Nations Sustainable Development Goals (SDGs). With this information, students 
                                                 can focus their studies in particular sustainability goals, and faculty can identify 
                                                 ways to incorporate sustainability into their classes."),
-                                                         h3("This dashboard is a work in progress and will be improved through feedback and 
+                                                h3("This dashboard is a work in progress and will be improved through feedback and 
                                                    collaboration with faculty (", 
-                                                            a("access the feedback form here", 
-                                                              href = "https://forms.gle/keZXBY9uHa9DWsMg6", 
-                                                              target="_blank", .noWS = "outside"),
-                                                            "). To learn more about this tool visit the FAQ page.")
-                                                         ),
+                                                   a("access the feedback form here", 
+                                                     href = "https://forms.gle/keZXBY9uHa9DWsMg6", 
+                                                     target="_blank", .noWS = "outside"),
+                                                   "). To learn more about this tool visit the FAQ page."),
+                                                fluidRow(
                                                   column(6,
-                                                         fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
-                                                                    href="https://sustainability.usc.edu/assignment-earth/", target="_blank")),
                                                          h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
                                                          commitment to addressing the impacts of climate change and creating a more just, equitable, and 
                                                          sustainable future. It’s a big assignment. ", strong("We’re all in!"))
-                                                         )
+                                                         ),
+                                                  column(6,
+                                                         fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
+                                                                    href="https://sustainability.usc.edu/assignment-earth/", target="_blank"))
+                                                  )
                                                 ),
                                                 
                                                 # br(),
@@ -413,8 +412,8 @@ ui <- dashboardPage( skin="black",
                                                 h1("Download Data"),
                                                 # filter by school, filter by dept ,filter by SDG and filter by sustainability-focused
                                                 pickerInput("school_dl", "Choose School",  
-                                                            choices = school_choices, 
-                                                            selected = school_choices,
+                                                            choices = sort(unique(sustainability_related$school)), 
+                                                            selected = sort(unique(sustainability_related$school)),
                                                             multiple = TRUE,
                                                             options = list(`actions-box` = TRUE)),
                                                 pickerInput("dept_dl", "Choose Department",  
@@ -488,10 +487,8 @@ server <- function(input, output, session) {
   output$visualize_sdg <- renderImage({
     sdg_goal_keyword_df <- classes %>%
       filter(goal %in% as.numeric(substr(input$sdg_goal3, 1, 2))) %>%
-      select(keyword) %>%
       group_by(keyword) %>%
-      mutate(count = n()) %>%
-      distinct()
+      summarize(count = sum(freq))
     png("wordcloud.png")
     wordcloud(words = sdg_goal_keyword_df$keyword, 
               freq = sdg_goal_keyword_df$count,
@@ -545,14 +542,13 @@ server <- function(input, output, session) {
     df = recent_courses %>%
       filter(courseID %in% input$user_classes) %>%
       filter(!is.na(keyword)) %>%
-      mutate(count = str_count(text, keyword)) %>% # maybe put this as a column
-      select(keyword, color, count)
+      select(keyword, color, freq)
     png("wordcloud.png")
     if (nrow(df) == 0) {
       ggplot()
     } else {
       wordcloud(words = df$keyword, 
-                freq = df$count,
+                freq = df$freq,
                 min.freq = 1, max.words = 50, random.order = FALSE, rot.per = 0, 
                 scale = c(8,1),
                 colors = df$color,
@@ -568,15 +564,16 @@ server <- function(input, output, session) {
     df <- recent_courses %>%
       filter(courseID %in% input$user_classes) %>%
       filter(!is.na(keyword)) %>%
-      mutate(count = str_count(text, keyword)) %>% # maybe put this as a column
-      select(keyword, goal, color, count)
+      select(keyword, goal, color, freq) %>%
+      arrange(desc(freq)) %>%
+      distinct(keyword, .keep_all = TRUE)
     plot_colors <- df %>%
       arrange(goal) %>%
       select(color) %>%
       distinct() %>%
       pull()
     df %>%
-      ggplot(aes(x = keyword, y = count, fill = factor(as.numeric(goal)))) +
+      ggplot(aes(x = keyword, y = freq, fill = factor(as.numeric(goal)))) +
       geom_col() +
       coord_flip() +
       labs(title = paste0("All SDG Keywords"),
@@ -595,15 +592,14 @@ server <- function(input, output, session) {
     df <- recent_courses %>%
       filter(courseID %in% input$user_classes) %>%
       filter(!is.na(keyword)) %>%
-      mutate(count = str_count(text, keyword)) %>% # maybe put this as a column
-      select(keyword, goal, color, count)
+      select(keyword, goal, color, freq)
     plot_colors <- df %>%
       arrange(goal) %>%
       select(color) %>%
       distinct() %>%
       pull()
     df %>%
-      ggplot(aes(x = factor(as.numeric(goal)), y = count, fill = factor(as.numeric(goal)))) +
+      ggplot(aes(x = factor(as.numeric(goal)), y = freq, fill = factor(as.numeric(goal)))) +
       geom_col() +
       coord_flip() +
       labs(title = paste0("All SDGs Mapped to your Courses"),
@@ -618,14 +614,15 @@ server <- function(input, output, session) {
   
   output$user_table <- DT::renderDataTable({
     # use this dataframe so the course descriptions still show for unmapped classes
-    df = sustainability_related[sustainability_related$courseID %in% input$user_classes, ]
+    # df = sustainability_related[sustainability_related$courseID %in% input$user_classes, ]
     # need to only grab one instance
 
-    df %>% filter(courseID %in% input$user_classes) %>%
-      distinct(courseID, .keep_all = TRUE) %>%
+    recent_courses %>% 
+      filter(courseID %in% input$user_classes) %>%
+      # distinct(courseID, .keep_all = TRUE) %>%
       rename("Course ID" = courseID, "Course Description" = course_desc, "All Goals" = all_goals, "Sustainability Classification" = sustainability_classification) %>%
       select("Course ID", "All Goals", "Sustainability Classification","Course Description") %>%
-      unique(by=c("courseID"))
+      distinct()
   }, rownames=FALSE)
   
   
@@ -641,38 +638,22 @@ server <- function(input, output, session) {
   
   #this returns a dataframe with the descriptions of all the classes the user selected
   output$course_desc <- renderText({
-    course_df = classes[classes$courseID == input$usc_classes, ]
-    # just grab one semester where the class is offered
-    # cant figure out how to get the most recent semester so checking if sp23 available
-    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-      sem = "SP23"
-    }
-    else{ # if no spring 23 just grab the last semester in df
-      sem = unique(course_df$semester)[length(unique(course_df$semester))]
-    }
-    # sem = unique(course_df$semester)[1]
-    df = course_df[course_df$semester == sem, ]
-    usc_course_desc <- df %>%
-      # filter(semester == input$usc_semester1) %>%
+    recent_courses %>%
       filter(courseID == input$usc_classes) %>% #changed from section
-      distinct(section, .keep_all = TRUE) %>%
       select(course_desc) %>%
+      distinct() %>%
       pull()
     
-    return(paste(usc_course_desc))
   })
   
   # writes out the semesters offered
   output$semesters_offered <- renderText({
-    sems <- classes %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID == input$usc_classes) %>% #changed from section
-      select(semester) %>% unique() %>% pull()
-    
-    result = paste(sems, collapse=", ")
-    final = paste("Semesters offered: ", result)
-    
-    return(final)
+    sems <- recent_courses %>%
+      filter(courseID == input$usc_classes) %>%
+      select(all_semesters) %>% 
+      distinct() %>% 
+      pull()
+    paste("Semesters offered: ", sems)
   })
   
   #this part filters the classes by the semester chosen in input field
@@ -688,179 +669,88 @@ server <- function(input, output, session) {
   
   # barplot for sdgs
   output$classes_to_goals <- renderPlot({
-    course_df = classes[classes$courseID == input$usc_classes, ]
-    # just grab one semester where the class is offered
-    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-      sem = "SP23"
-    }
-    else{ # if no spring 23 just grab the last semester in df
-      sem = unique(course_df$semester)[length(unique(course_df$semester))]
-    }
-    # sem = unique(course_df$semester)[1]
-    df = course_df[course_df$semester == sem, ]
-    sdg_class_keyword_colors <- df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      group_by(goal) %>%
-      mutate(sum_weight = sum(weight)) %>%
-      arrange(desc(sum_weight)) %>%
-      ungroup() %>%
-      distinct(goal, .keep_all = TRUE) %>%
+    df <- recent_courses %>%
+      filter(courseID == input$usc_classes)
+    plot_colors <- df %>%
       arrange(goal) %>%
       select(color) %>%
-      unique() %>%
-      pull()
-    # print(sdg_class_keyword_colors)
-    
-    if (length(sdg_class_keyword_colors) == 0) {return(ggplot())}
-    
-    sdg_class_name <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      select(courseID) %>%
-      unique() %>%
-      pull()
-    # print(sdg_class_name)
-    
-    sdg_class_goal_barplot <- df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
+      distinct() %>%
+      pull
+    df %>%
       group_by(goal) %>%
-      mutate(sum_weight = sum(weight)) %>%
-      arrange(desc(sum_weight)) %>%
+      mutate(sum_freq = sum(freq)) %>%
       ungroup() %>%
-      distinct(goal, .keep_all = TRUE) %>%
-      ggplot(aes(x = reorder(goal, sum_weight), y = sum_weight, fill = factor(as.numeric(goal)))) +
+      distinct() %>%
+      ggplot(aes(x = factor(goal), y = sum_freq, fill = factor(as.numeric(goal)))) +
       geom_col() +
       coord_flip() +
-      # geom_hline(yintercept = c(10, 15), color = c("#ffc33c", "#00bc9e")) +
-      labs(title = paste0("All SDGs Mapped to ", sdg_class_name),
+      labs(title = paste0("All SDGs Mapped to ", input$usc_classes),
            fill = "SDG",
            x = "SDG",
            y = "Total SDG Keyword Frequency") +
-      guides(alpha = FALSE) +
       theme(text = element_text(size = 18, face= "bold")) +
-      scale_fill_manual(values = sdg_class_keyword_colors) +
+      scale_fill_manual(values = plot_colors) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
-    
-    return(sdg_class_goal_barplot)
   })
   
   
   # keyword to sdg barplot
   output$classes_to_keywords <- renderPlot({
-    course_df = classes[classes$courseID == input$usc_classes, ]
-    # just grab one semester where the class is offered
-    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-      sem = "SP23"
-    }
-    else{ # if no spring 23 just grab the last semester in df
-      sem = unique(course_df$semester)[length(unique(course_df$semester))]
-    }
-    # sem = unique(course_df$semester)[1]
-    df = course_df[course_df$semester == sem, ]
-    
-    sdg_class_keyword_colors <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
+    df <- recent_courses %>%
+      filter(courseID == input$usc_classes)
+    plot_colors <- df %>%
+      arrange(goal) %>%
       select(color) %>%
-      unique() %>%
+      distinct() %>%
       pull()
-    
-    sdg_class_name <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      select(course_title) %>% #changes here
-      unique() %>%
-      pull()
-    
-    sdg_class_keyword_barplot <- df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      arrange(desc(weight)) %>%
-      ggplot(aes(x = reorder(keyword, weight), y = weight, fill = factor(as.numeric(goal)))) +
+    df %>%
+      ggplot(aes(x = keyword, y = freq, fill = factor(as.numeric(goal)))) +
       geom_col() +
       coord_flip() +
       labs(title = paste0(input$usc_classes, " SDG Keywords"),
            fill = "SDG",
            x = "SDG Keyword",
            y = "Total SDG Keyword Frequency") +
-      scale_fill_manual(values = sdg_class_keyword_colors) +
+      scale_fill_manual(values = plot_colors) +
       theme(text = element_text(size = 18, face= "bold")) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
-    
-    return(sdg_class_keyword_barplot)
   })
 
   
   # class to wordcloud
-  output$classes_to_wordcloud <- renderPlot({
-    course_df = classes[classes$courseID == input$usc_classes, ]
-    # just grab one semester where the class is offered
-    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-      sem = "SP23"
+  output$classes_to_wordcloud <- renderImage({
+    df = recent_courses %>%
+      filter(courseID == input$usc_classes) %>%
+      filter(!is.na(keyword)) %>%
+      select(keyword, color, freq) %>%
+      arrange(desc(freq)) %>%
+      distinct(keyword, .keep_all = TRUE)
+    png("wordcloud.png")
+    if (nrow(df) == 0) {
+      ggplot()
+    } else {
+      wordcloud(words = df$keyword, 
+                freq = df$freq,
+                min.freq = 1, max.words = 50, random.order = FALSE, rot.per = 0, 
+                scale = c(3,1),
+                colors = df$color,
+                ordered.colors = TRUE)
     }
-    else{ # if no spring 23 just grab the last semester in df
-      sem = unique(course_df$semester)[length(unique(course_df$semester))]
-    }
-    # sem = unique(course_df$semester)[1]
-    df = course_df[course_df$semester == sem, ]
-    
-    sdg_class_keyword_colors <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      select(color) %>%
-      pull()
-    
-    sdg_class_keyword_weights <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      mutate(weight = 100 * weight) %>%
-      select(weight) %>%
-      pull()
-    
-    sdg_class_keywords <-  df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      distinct(keyword, .keep_all = TRUE) %>%
-      select(keyword) %>%
-      pull()
-    
-    if (length(sdg_class_keywords) == 0) {
-      return(ggplot())
-    }
-    # data = data.frame(sdg_class_keywords, sdg_class_keyword_weights)
-    # wordcloud2(data, color = sdg_class_keyword_colors,
-    #            ordered.colors = TRUE)
-    sdg_class_keyword_wordcloud <- wordcloud(sdg_class_keywords,
-                                             sdg_class_keyword_weights,
-                                             colors = sdg_class_keyword_colors,
-                                             ordered.colors = TRUE, scale=c(3,1))
-    
-    return(sdg_class_keyword_wordcloud)
-  })
+    dev.off()
+    filename <- normalizePath(file.path("wordcloud.png"))
+    list(src = filename, height = "100%")
+  }, deleteFile = TRUE)
   
   
   # data table at bottom
   output$classes_table = DT::renderDataTable({
-    course_df = classes[classes$courseID == input$usc_classes, ]
-    # just grab one semester where the class is offered
-    if ("SP23" %in% unique(course_df$semester)){ #if sp23 is there just use that
-      sem = "SP23"
-    }
-    else{ # if no spring 23 just grab the last semester in df
-      sem = unique(course_df$semester)[length(unique(course_df$semester))]
-    }
-    # sem = unique(course_df$semester)[1]
-    df = course_df[course_df$semester == sem, ]
-    
-    df %>%
-      # filter(semester == input$usc_semester1) %>%
-      filter(courseID %in% input$usc_classes) %>%
-      rename(SDG = goal , Keyword = keyword) %>%
-      select(Keyword, SDG)
+    recent_courses %>%
+      filter(courseID == input$usc_classes) %>%
+      group_by(keyword) %>%
+      summarize(SDGs = paste(sort(unique(goal)), collapse = ", ")) %>%
+      rename(Keyword = keyword) %>%
+      select(Keyword, SDGs) %>%
+      arrange(Keyword)
   }, rownames=FALSE)
   
   
@@ -904,217 +794,50 @@ server <- function(input, output, session) {
   # graduate
   
   output$goals_to_classes <- renderPlot({
-    if (input$course_level_input == "All"){
-      goals_to_classes_barplot <- classes_by_sdgs %>%
-        # filter(semester == input$usc_semester3) %>%
-        filter(department %in% input$department_input) %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        # filter(course_level == "graduate") %>%
-        # {if (input$course_level_input == "Graduate") filter(course_level == "graduate")} %>%
-        # left_join(classes %>% select(section, courseID), by = "section") %>% 
-        # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
-        group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        ungroup() %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes)
-        if (nrow(goals_to_classes_barplot) == 0){
-          return(0)
-        }
-        goals_to_classes_barplot = goals_to_classes_barplot %>%
-        ggplot(aes(x = courseID1, y = total_weight)) +
-        # as.numeric(substr(input$sdg_goal1, 1, 2))
-        geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
-        coord_flip() +
-        scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(
-             x = "Course",
-             y = "Total SDG Keyword Frequency") +
-        theme(text = element_text(size = 20, face="bold"))
-      
-      # ggsave(plot = goals_to_classes_barplot, filename = paste0("sdg_", input$sdg_goal1, "_top_classes.pdf"),
-      #        device = "pdf")
-      return(goals_to_classes_barplot)
-      
+    df <- recent_courses %>%
+      filter(department %in% input$department_input,
+             goal %in% as.numeric(substr(input$sdg_goal1, 1, 2)))
+    if (input$course_level_input != "All") {
+      df <- df %>%
+        filter(course_level == tolower(input$course_level_input))
     }
-    else if (input$course_level_input == "Graduate"){
-      goals_to_classes_barplot <- classes_by_sdgs %>%
-        # filter(semester == input$usc_semester3) %>%
-        filter(department %in% input$department_input) %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        filter(course_level == "graduate") %>%
-        # {if (input$course_level_input == "Graduate") filter(course_level == "graduate")} %>%
-        # left_join(classes %>% select(section, courseID), by = "section") %>%
-        # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
-        group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        ungroup() %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes)
-        if (nrow(goals_to_classes_barplot) == 0){
-          return(0)
-        }
-        goals_to_classes_barplot = goals_to_classes_barplot %>% 
-        ggplot(aes(x = courseID1, y = total_weight)) +
-        geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
-        coord_flip() +
-        scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(title = paste0("Top 10 Courses that Map to SDG", input$sdg_goal1),
-             x = "Course",
-             y = "Total SDG Keyword Frequency") +
-        theme(text = element_text(size = 20, face="bold"))
-
-      # ggsave(plot = goals_to_classes_barplot, filename = paste0("sdg_", input$sdg_goal1, "_top_classes.pdf"),
-      #        device = "pdf")
-      return(goals_to_classes_barplot)
-    }
-    else if(input$course_level_input == "Undergrad upper division"){
-      goals_to_classes_barplot <- classes_by_sdgs %>%
-        # filter(semester == input$usc_semester3) %>%
-        filter(department %in% input$department_input) %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(course_level == "undergrad upper division") %>%
-        # {if (input$course_level_input == "Graduate") filter(course_level == "graduate")} %>%
-        # left_join(classes %>% select(section, courseID), by = "section") %>%
-        # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
-        group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        ungroup() %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes)
-        if (nrow(goals_to_classes_barplot) == 0){
-          return(0)
-        }
-        goals_to_classes_barplot = goals_to_classes_barplot %>%
-        ggplot(aes(x = courseID1, y = total_weight)) +
-        geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
-        coord_flip() +
-        scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(title = paste0("Top 10 Courses that Map to SDG", input$sdg_goal1),
-             x = "Course",
-             y = "Total SDG Keyword Frequency") +
-        theme(text = element_text(size = 20, face="bold"))
-      
-      # ggsave(plot = goals_to_classes_barplot, filename = paste0("sdg_", input$sdg_goal1, "_top_classes.pdf"),
-      #        device = "pdf")
-      return(goals_to_classes_barplot)
-    }
-    else if(input$course_level_input == "Undergrad lower division"){
-      goals_to_classes_barplot <- classes_by_sdgs %>%
-        # filter(semester == input$usc_semester3) %>%
-        filter(department %in% input$department_input) %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(course_level == "undergrad lower division") %>%
-        # {if (input$course_level_input == "Graduate") filter(course_level == "graduate")} %>%
-        # left_join(classes %>% select(section, courseID), by = "section") %>%
-        # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
-        group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        ungroup() %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        head(num_top_classes)
-        if (nrow(goals_to_classes_barplot) == 0){
-          return(0)
-        }
-        goals_to_classes_barplot = goals_to_classes_barplot %>%
-        ggplot(aes(x = courseID1, y = total_weight)) +
-        geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
-        coord_flip() +
-        scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
-        labs(title = paste0("Top 10 Courses that Map to SDG", input$sdg_goal1),
-             x = "Course",
-             y = "Total SDG Keyword Frequency") +
-        theme(text = element_text(size = 20, face="bold"))
-      
-      # ggsave(plot = goals_to_classes_barplot, filename = paste0("sdg_", input$sdg_goal1, "_top_classes.pdf"),
-      #        device = "pdf")
-      return(goals_to_classes_barplot)
-    }
+    df %>%
+      group_by(courseID) %>%
+      mutate(total_freq = sum(freq)) %>%
+      ungroup() %>%
+      select(courseID, total_freq) %>%
+      distinct() %>%
+      arrange(desc(total_freq)) %>%
+      head(num_top_classes) %>%
+      ggplot(aes(x = reorder(courseID, total_freq), y = total_freq)) +
+      geom_col(fill = sdg_colors[as.numeric(substr(input$sdg_goal1, 1, 2))], alpha = 1) +
+      coord_flip() +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
+      labs(
+        x = "Course",
+        y = "Total SDG Keyword Frequency") +
+      theme(text = element_text(size = 20, face="bold")) +
+      scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
   })
   
   # table for sdgs to classes
   output$top_classes_sdg_table <- DT::renderDataTable({
-    if (input$course_level_input == "All"){
-      classes_by_sdgs %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(department %in% input$department_input) %>%
-        # filter(semester == input$usc_semester3) %>%
-        # left_join(classes %>% select(section, courseID), by = "section") %>% 
-        # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
-        group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
+    df <- recent_courses %>%
+      filter(department %in% input$department_input,
+             goal %in% as.numeric(substr(input$sdg_goal1, 1, 2)))
+    if (input$course_level_input != "All") {
+      df <- df %>%
+        filter(course_level == tolower(input$course_level_input))
     }
-    else if (input$course_level_input == "Undergrad lower division"){
-      classes_by_sdgs %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        filter(department %in% input$department_input) %>%
-        # filter(semester == input$usc_semester3) %>%
-        filter(course_level == "undergrad lower division") %>%
-        # left_join(classes %>% select(section, courseID), by = "section") %>% 
-        # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
-        group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
-    }
-    else if (input$course_level_input == "Undergrad upper division"){
-      classes_by_sdgs %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        filter(department %in% input$department_input) %>%
-        # filter(semester == input$usc_semester3) %>%
-        filter(course_level == "undergrad upper division") %>%
-      # left_join(classes %>% select(section, courseID), by = "section") %>% 
-      # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
+    df %>%
       group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
-    }
-    else if (input$course_level_input == "Graduate"){
-      classes_by_sdgs %>%
-        # filter(goal %in% input$sdg_goal1) %>%
-        filter(goal %in% as.numeric(substr(input$sdg_goal1, 1, 2))) %>%
-        filter(department %in% input$department_input) %>%
-        # filter(semester == input$usc_semester3) %>%
-        filter(course_level == "graduate") %>%
-      # left_join(classes %>% select(section, courseID), by = "section") %>% 
-      # mutate(full_courseID = paste0(courseID, " (", section, ")")) %>%
-      group_by(courseID) %>%
-        mutate(total_weight = sum(weight)) %>%
-        mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-        arrange(desc(total_weight)) %>%
-        distinct(courseID, .keep_all = TRUE) %>%
-        rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
-        select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
-    }
+      mutate(total_freq = sum(freq)) %>%
+      ungroup() %>%
+      distinct(courseID, .keep_all = TRUE) %>%
+      arrange(desc(total_freq)) %>%
+      rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_freq, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
+      select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
   }, rownames=FALSE)
-  
   # options = list(
   #     autoWidth = TRUE)
   #     # columnDefs = list(list(width = '200px', targets = "_all"))
@@ -1138,61 +861,37 @@ server <- function(input, output, session) {
   # stacked bar chart for GEs
   output$ge_bar <- renderPlot({
     # get the top 10 classes and total weights
-    courses = ge_data %>%
-      filter(full_name == input$ge_category) %>%
-      filter(goal %in% input$ge_sdgs) %>%
-      group_by(courseID, semester) %>%
-      mutate(total_weight = sum(weight)) %>%
-      arrange(desc(total_weight)) %>%
-      ungroup() %>%
-      mutate(courseID1 = fct_reorder(courseID, total_weight)) %>%
-      distinct(courseID, .keep_all = TRUE) %>%
+    df <- ge_data %>%
+      filter(full_name == input_ge_category) %>%
+      filter(goal %in% input_ge_sdgs) %>%
+      group_by(courseID, course_title) %>%
+      mutate(total_freq = sum(freq)) %>%
+      ungroup()
+    top_10_courses <- df %>%
+      select(courseID, total_freq) %>%
+      distinct() %>%
+      arrange(desc(total_freq)) %>%
       head(num_top_classes) %>%
-      # rename('Course ID' = courseID, Semester = semester, "Course Title" = course_title.x, 'Total SDG Keyword Frequency'= total_weight, "Course Description" = course_desc) %>%
-      select(courseID, total_weight)
-    if (nrow(courses) == 0){
-      return(0)
-    }
-    ids = courses$courseID
-    #create empty dataframe 
-    x = data.frame()
-    for (i in 1:length(ids)){
-      # grab only data for category and sdgs
-      d = ge_data[ge_data$full_name == input$ge_category, ]
-      d = d[d$goal %in% input$ge_sdgs, ]
-      # grab only one semester
-      little_df = d[d$courseID == ids[i], ]
-      if ("SP23" %in% unique(little_df$semester)){ #if sp23 is there just use that
-        sem = "SP23"
-      }
-      else{ # if no spring 23 just grab the last semester in df
-        sem = unique(little_df$semester)[length(unique(little_df$semester))]
-      }
-      # sem = unique(little_df$semester)[1]
-      df = little_df[little_df$semester == sem, ]
-      df = df %>% select(courseID, keyword, weight, goal, color)
-      x = rbind(x, df)
-      # colors = df %>% select(color) %>% unique() %>% pull()
-    }
-    x = x %>% left_join(courses, by="courseID") %>% mutate(courseID1 = fct_reorder(courseID, total_weight))
-    # grab the colors
-    cols = x %>%
-      arrange(goal) %>%
-      select(color) %>% 
-      unique() %>% 
+      select(courseID) %>%
       pull()
-    ge_plot = x %>% ggplot(aes(x = courseID1, y = weight, fill=factor(as.numeric(goal)))) +
+    plot_colors <- df %>%
+      filter(courseID %in% top_10_courses) %>%
+      arrange(goal) %>%
+      select(color) %>%
+      distinct() %>%
+      pull()
+    df %>%
+      filter(courseID %in% top_10_courses) %>%
+      ggplot(aes(x = reorder(courseID, total_freq), y = freq, fill = factor(as.numeric(goal)))) +
       geom_col() +
       coord_flip() + 
-      scale_fill_manual(values = cols) + 
+      scale_fill_manual(values = plot_colors) + 
       scale_x_discrete(labels = function(x) str_wrap(x, width = 30)) +
       labs(
         fill="SDG",
         x = "Course",
         y = "Total SDG Keyword Frequency") +
       theme(text = element_text(size = 20, face="bold"))
-    
-    return(ge_plot)
   })
   
   # title above the chart
@@ -1209,13 +908,13 @@ server <- function(input, output, session) {
     ge_data %>%
       filter(full_name == input$ge_category) %>%
       filter(goal %in% input$ge_sdgs) %>%
-      group_by(courseID, semester) %>%
-      mutate(total_weight = sum(weight)) %>%
-      arrange(desc(total_weight)) %>%
+      group_by(courseID, course_title) %>%
+      mutate(total_freq = sum(freq)) %>%
+      arrange(desc(total_freq)) %>%
       ungroup() %>%
-      distinct(courseID, .keep_all = TRUE) %>%
-      rename('Course ID' = courseID, Semester = semester, "All Goals" = all_goals, 'Total SDG Keyword Frequency'= total_weight, "Sustainability Classification" = sustainability_classification, "Course Description" = course_desc) %>%
-      select('Course ID', "Total SDG Keyword Frequency", "All Goals", "Sustainability Classification", "Course Description")
+      rename('Course ID' = courseID, Semester = semester, "All Goals" = all_goals, 'Total SDG Keyword Frequency'= total_freq, "Sustainability Classification" = sustainability_classification, "Course Description" = course_desc) %>%
+      select('Course ID', "Total SDG Keyword Frequency", "All Goals", "Sustainability Classification", "Course Description") %>%
+      distinct()
   }, rownames=FALSE)
   
   
@@ -1230,45 +929,28 @@ server <- function(input, output, session) {
   
   # sustainability related departments pie chart
   output$pie3 <- renderPlot({
-    if (input$course_level_pie == "All"){
-      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
+    df <- sustainability_related %>% 
+      filter(year == input$usc_year) 
+    if (input$course_level_pie == "Undergraduate"){
+      df <- df %>% 
+        filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
     }
-    else if (input$course_level_pie == "Undergraduate"){
-      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
+    else if(input$course_level_pie == "Graduate") {
+      df <- df %>% 
+        filter(course_level == "graduate")
     }
-    else{
-      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "graduate")
-    }
-    department = unique(pie_data$department)
-    departments = data.frame(department)
-    # split courses into df by department and see if theres focused course or not
-    # total = length(departments$department)
-    notrelated = 0
-    inclusive = 0
-    focused = 0
-    for (i in 1:nrow(departments)){
-      mini_df = pie_data[pie_data$department == departments$department[i], ]
-      department_classifications = unique(mini_df$sustainability_classification)
-      if ("Sustainability-Focused" %in% department_classifications){
-        focused = focused + 1
-        next
-      }
-      else if ("SDG-Related" %in% department_classifications){
-        inclusive = inclusive + 1
-        next
-      }
-      else{
-        notrelated = notrelated + 1
-      }
-    }
-    total_num = notrelated+inclusive+focused
-    pie_data <- data.frame(group = c("Not Related", "SDG-Related", "Sustainability-Focused"),
-                           value = c(notrelated,
-                                     inclusive,
-                                     focused),
-                           proportion = c(round(notrelated/total_num*100, 1),
-                                          round(inclusive/total_num*100, 1),
-                                          round(focused/total_num*100, 1)))
+    df <- df %>%
+      group_by(department) %>%
+      summarize(all_sustainability_classifications = paste(unique(sustainability_classification), collapse = ";")) %>%
+      mutate(one_sustainability_classification = case_when(grepl("Focused", all_sustainability_classifications)~"Sustainability Focused",
+                                                           grepl("SDG", all_sustainability_classifications)~"SDG Related",
+                                                           grepl("Not", all_sustainability_classifications)~"Not Related")) %>%
+      group_by(one_sustainability_classification) %>%
+      count()
+    total_num = sum(df$n)
+    pie_data <- data.frame(group = df$one_sustainability_classification,
+                           value = df$n,
+                           proportion = round(df$n/total_num*100,1))
     
     # compute positions of labels
     pie_data <- pie_data %>%
@@ -1277,50 +959,31 @@ server <- function(input, output, session) {
       mutate(ypos = cumsum(prop) - 0.5 * prop )
     
     pie(pie_data$value,
-        labels = paste0(pie_data$group,"\n (", pie_data$value, ", " , pie_data$proportion,"%)"),
+        labels = paste0(str_wrap(pie_data$group, 20),"\n (", pie_data$value, ", " , pie_data$proportion,"%)"),
         col = c("#990000", "#FFC72C", "#767676"),
         cex = 1.5, cex.main = 2, family = "sans")
   })
   
   # sustainability courses offered pie chart
   output$pie4 <- renderPlot({
-    if (input$course_level_pie == "All"){
-      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) 
+    df <- sustainability_related %>% 
+      filter(year == input$usc_year)
+    if (input$course_level_pie == "Undergraduate"){
+      df <- df %>% 
+        filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
     }
-    else if (input$course_level_pie == "Undergraduate"){
-      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
+    else if (input$course_level_pie == "Graduate") {
+      df <- df %>% 
+        filter(course_level == "graduate")
     }
-    else{
-      pie_data <- sustainability_related %>% filter(year %in% input$usc_year) %>% filter(course_level == "graduate")
-    }
-    notrelated = 0
-    inclusive = 0
-    focused = 0
-    for (i in 1:nrow(pie_data)){
-      if (pie_data$sustainability_classification[i] == "Not Related"){
-        notrelated = notrelated + pie_data$N.Sections[i]
-        # sum_notrelated = sum_notrelated + 1
-        next
-      }
-      if (pie_data$sustainability_classification[i] == "SDG-Related"){
-        inclusive = inclusive + pie_data$N.Sections[i]
-        # sum_inclusive = sum_inclusive + 1
-        next
-      }
-      if (pie_data$sustainability_classification[i] == "Sustainability-Focused"){ 
-        focused = focused + pie_data$N.Sections[i]
-        # sum_focused = sum_focused + 1
-        next
-      }
-    }
-    total_num = notrelated+inclusive+focused
-    pie_data <- data.frame(group = c("Not Related", "SDG-Related", "Sustainability-Focused"),
-                           value = c(notrelated,
-                                     inclusive,
-                                     focused),
-                           proportion = c(round(notrelated/total_num*100, 1),
-                                          round(inclusive/total_num*100, 1),
-                                          round(focused/total_num*100, 1)))
+    df <- df %>%
+      group_by(sustainability_classification) %>%
+      summarize(by_section = sum(N.Sections), by_course = n())
+    df$sustainability_classification <- gsub("-", " ", df$sustainability_classification)
+    total_num <- sum(df$by_section)
+    pie_data <- data.frame(group = df$sustainability_classification,
+                           value = df$by_section,
+                           proportion = round(df$by_section/total_num*100, 1))
     
     # compute positions of labels
     pie_data <- pie_data %>%
@@ -1329,65 +992,38 @@ server <- function(input, output, session) {
       mutate(ypos = cumsum(prop) - 0.5 * prop )
     
     pie(pie_data$value,
-        labels = paste0(pie_data$group,"\n (", pie_data$value, ", " , pie_data$proportion,"%)"),
+        labels = paste0(str_wrap(pie_data$group, 20),"\n (", pie_data$value, ", " , pie_data$proportion,"%)"),
         col = c("#990000", "#FFC72C", "#767676"),
         cex = 1.5, cex.main = 2, family = "sans")
-    # vals=c(sum_notrelated, sum_focused, sum_inclusive)
-    # labels=c(paste("Not Related (N=", sum_notrelated, ")", sep = ""), paste("Sustainability-Focused (N=", sum_focused, ")", sep=""), paste("SDG-Related (N=", sum_inclusive, ")", sep=""))
-    # pie_labels <- paste0(round(100 * vals/sum(vals), 1), "%")
-    # pie = data.frame(labels, vals)
-    # ggplot(pie, aes(x = "", y = vals, fill = labels)) +
-    #   geom_col(color = "black") +
-    #   coord_polar(theta = "y") +
-    #   # geom_text(aes(label = pie_labels), #changed
-    #   #           position = position_stack(vjust = 0.5)) +
-    #   geom_text(aes(label = pie_labels),
-    #             fill = "white", color = "white", size = 7.5, fontface="bold",
-    #             position = position_stack(vjust = 0.5),
-    #             show.legend = FALSE) +
-    #   scale_fill_manual(values = c("#767676", 
-    #                                         "#FFC72C", "#990000")) +
-    #                                           guides(fill = guide_legend(title = "Sustainability Classification")) + 
-    #   # guides(color = guide_legend(override.aes = list(size = 10))) + 
-    #   theme_void() + 
-    #   theme(legend.key.size = unit(1.5, 'cm'), legend.text = element_text(size=20), legend.title = element_text(size=25))
   })
   
   # sustainability departments table
   output$sustainability_table <- DT::renderDataTable({
-    pie_data <- sustainability_related %>% filter(year %in% input$usc_year)
-    department = unique(pie_data$department) # theres 44 departments
-    departments = data.frame(department)
-    departments["sustainability"] = NA
-    departments["focused_classes"] = NA
-    for (i in 1:nrow(departments)){
-      # grab the course data for this department
-      mini_df = pie_data[pie_data$department == departments$department[i], ] # just noticed that some departments are NA
-      # remove the classes with no department listed
-      mini_df = mini_df[!is.na(mini_df$department),]
-      department_classifications = unique(mini_df$sustainability_classification)
-      if ("Sustainability-Focused" %in% department_classifications){
-        departments[i, "sustainability"] = "Sustainability-Focused"
-        # now grab the classes
-        classes_df = mini_df[mini_df$sustainability_classification == "Sustainability-Focused", ]
-        courses = unique(classes_df$courseID)
-        departments[i, "focused_classes"] = paste(courses, collapse = ", ")
-        next
-      }
-      else if ("SDG-Related" %in% department_classifications){
-        departments[i, "sustainability"] = "SDG-Related"
-        next
-      }
-      else{
-        departments[i, "sustainability"] = "Not Related"
-        next
-      }
+    df <- sustainability_related %>% 
+      filter(year == input$usc_year) 
+    if (input$course_level_pie == "Undergraduate"){
+      df <- df %>% 
+        filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
     }
-    
-    departments %>% 
+    else if(input$course_level_pie == "Graduate") {
+      df <- df %>% 
+        filter(course_level == "graduate")
+    }
+    course_sustainability_classification <- df %>%
+      group_by(department) %>%
+      summarize(all_sustainability_classifications = paste(unique(sustainability_classification), collapse = ";")) %>%
+      mutate(one_sustainability_classification = case_when(grepl("Focused", all_sustainability_classifications)~"Sustainability Focused",
+                                                           grepl("SDG", all_sustainability_classifications)~"SDG Related",
+                                                           grepl("Not", all_sustainability_classifications)~"Not Related"))
+    sustainability_focused_courses <- df %>%
+      filter(sustainability_classification == "Sustainability-Focused") %>%
+      group_by(department) %>%
+      summarize(courses = paste(courseID, collapse = ", "))
+    department_output <- merge(course_sustainability_classification, 
+                               sustainability_focused_courses, all.x = TRUE) %>%
       arrange(department) %>%
-      rename (Department = department, "Sustainability Classification" = sustainability, "Sustainability-Focused Courses" = focused_classes) %>%
-      select(Department, "Sustainability Classification", "Sustainability-Focused Courses")
+      select(department, one_sustainability_classification, courses) %>%
+      rename(Department = department, "Sustainability Classification" = one_sustainability_classification, "Sustainability-Focused Courses" = courses)
   }, rownames=FALSE)
   
   # download data page
@@ -1401,6 +1037,7 @@ server <- function(input, output, session) {
                goal %in% as.numeric(input$sdg_dl)) %>%
         ungroup() %>%
         select(school, department, courseID, course_title, course_desc, semester, all_goals, sustainability_classification, N.Sections, total_enrolled, all_semesters, course_level, year) %>%
+        rename(School = school, Department = department, "Course ID" = courseID, "Course Title" = course_title, "Course Description" = course_desc, Semester = semester, "All Goals" = all_goals, "Sustainability Classification" = sustainability_classification, "Number of Sections" = N.Sections, "Total Enrolled" = total_enrolled, "All Semesters" = all_semesters, "Course Level" = course_level, Year = year) %>%
         distinct() -> download_data_output
       write.csv(download_data_output, fname, row.names = FALSE)
     }
@@ -1413,6 +1050,7 @@ server <- function(input, output, session) {
              goal %in% as.numeric(input$sdg_dl)) %>%
       ungroup() %>%
       select(school, department, courseID, course_title, course_desc, semester, all_goals, sustainability_classification, N.Sections, total_enrolled, all_semesters, course_level, year) %>%
+      rename(School = school, Department = department, "Course ID" = courseID, "Course Title" = course_title, "Course Description" = course_desc, Semester = semester, "All Goals" = all_goals, "Sustainability Classification" = sustainability_classification, "Number of Sections" = N.Sections, "Total Enrolled" = total_enrolled, "All Semesters" = all_semesters, "Course Level" = course_level, Year = year) %>%
       distinct()
   }, rownames=FALSE,
   options = list(
