@@ -29,6 +29,12 @@
         background-color: #fff;
 }
 
+#asgmtearth {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .selectize-input {
   height: max-content;
   width: 70vw;

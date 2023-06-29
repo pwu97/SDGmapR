@@ -110,7 +110,7 @@ ui <- dashboardPage( skin="black",
                                                    "). To learn more about this tool visit the FAQ page."),
                                                 fluidRow(id = "asgmtearth",
                                                   column(6,
-                                                         fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
+                                                         fluidRow(a(img(src="Education.png", width = "100%"), 
                                                                     href="https://sustainability.usc.edu/assignment-earth/", target="_blank"))
                                                   ),
                                                   column(6,
