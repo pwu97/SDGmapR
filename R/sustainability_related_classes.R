@@ -16,9 +16,11 @@ sustainability = data.frame(courseID)
 sustainability = sustainability %>% add_column(goals = NA)
 # create column to store sustainability-relatedness
 sustainability = sustainability %>% add_column(related = NA)
+# create column to store keywords
+sustainability = sustainability %>% add_column(keywords = NA)
 # criteria lists
-social_economic_goals = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)
-environment_goals = c(13, 14, 15)
+social_economic_goals = c(1, 2, 3, 4, 5, 8, 9, 10, 11, 16, 17)
+environment_goals = c(6, 7, 12, 13, 14, 15)
 
 
 # go through and get all the related goals for each class
@@ -30,6 +32,14 @@ for (course in sustainability$courseID){
   goals = paste(mini_df, collapse=",")
   #update the goals column of df to be this string "goals"
   sustainability$goals[index] = goals
+  
+  # subset master data to just the rows for that class and grab the unique keywords
+  mini_df = unique(master_data[master_data$courseID == course, "keyword"])
+  # combine all keywords into a string to be added to the keywords column in df
+  keywords = paste(mini_df, collapse = ",")
+  # update the keywords colun of df to be this string "keywords"
+  sustainability$keywords[index] = keywords
+  
   index = index + 1
 }
 
@@ -83,6 +93,7 @@ for (i in 1:nrow(sustainability)){
 # names(sustainability)[names(sustainability) == 'courseID'] <- "course_title"
 names(sustainability)[names(sustainability) == 'related'] <- "sustainability_classification"
 names(sustainability)[names(sustainability) == 'goals'] <- "all_goals"
+names(sustainability)[names(sustainability) == 'keywords'] <- "all_keywords"
 
 # check the counts of how many there are of each
 # sum(sustainability$sustainability_classification == "Focused")

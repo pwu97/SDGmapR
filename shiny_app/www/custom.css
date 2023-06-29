@@ -21,6 +21,41 @@
 	background-color: #990000;
 }
 
+.main-sidebar { 
+  font-size: 20px; 
+}
+
 .content-wrapper {
         background-color: #fff;
+}
+
+.selectize-input {
+  height: max-content;
+  width: 70vw;
+  font-size: 24px;
+}
+
+.control-label {
+  max-width: 70vw;
+  font-size: 24px;
+  font-weight: bold;
+  width: max-content;
+}
+
+.shiny-input-container:not(.shiny-input-container-inline) {
+  width: 70vw;
+  max-width: max-content;
+}
+
+.default-font {
+  font-size: 24px;
+}
+
+.content a {
+  color: #900;
+  text-decoration: underline;
+}
+
+.content a:hover, a:visited:hover, a:focus {
+  color: #01548f;
 }
