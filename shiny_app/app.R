@@ -608,7 +608,8 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG Keyword",
            y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_fill_manual(values = plot_colors) + 
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1))))) # integer breaks
       
@@ -634,7 +635,8 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG",
            y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_fill_manual(values = plot_colors) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1))))) # integer breaks
   })
@@ -720,7 +722,8 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG",
            y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 18, face= "bold")) +
+      theme(text = element_text(size = 18, face= "bold"),
+            axis.text = element_text(color = "black")) +
       scale_fill_manual(values = plot_colors) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
   })
@@ -748,7 +751,8 @@ server <- function(input, output, session) {
            x = "SDG Keyword",
            y = "Total SDG Keyword Frequency") +
       scale_fill_manual(values = plot_colors) +
-      theme(text = element_text(size = 18, face= "bold")) +
+      theme(text = element_text(size = 18, face= "bold"),
+            axis.text = element_text(color = "black")) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
   })
 
@@ -869,7 +873,8 @@ server <- function(input, output, session) {
       labs(
         x = "Course",
         y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
   })
   
@@ -960,7 +965,8 @@ server <- function(input, output, session) {
         fill="SDG",
         x = "Course",
         y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
     
   })
@@ -1214,6 +1220,7 @@ server <- function(input, output, session) {
         x = "Department",
         y = "Percent") +
       theme(text = element_text(size = 18, face="bold"),
+            axis.text = element_text(color = "black"),
             legend.position="bottom",
             strip.background = element_blank(),
             strip.text.x = element_blank()) +
