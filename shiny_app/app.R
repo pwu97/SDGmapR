@@ -25,6 +25,7 @@ library(ggrepel)
 library(shinyWidgets)
 
 classes = read.csv("master_course_sdg_data.csv")
+classes$sustainability_classification <- factor(classes$sustainability_classification, levels = c("Sustainability-Focused", "SDG-Related", "Not Related"))
 
 keywords = read.csv("usc_keywords.csv")
 
@@ -1360,6 +1361,7 @@ server <- function(input, output, session) {
              sustainability_classification %in% input$sustainability_dl,
              goal %in% as.numeric(input$sdg_dl)) %>%
       ungroup() %>%
+      arrange(sustainability_classification) %>%
       select(school, department, courseID, course_title, course_desc, semester, all_goals, sustainability_classification, N.Sections, total_enrolled, all_semesters, course_level, year) %>%
       rename(School = school, Department = department, "Course ID" = courseID, "Course Title" = course_title, "Course Description" = course_desc, Semester = semester, "All Goals" = all_goals, "Sustainability Classification" = sustainability_classification, "Number of Sections" = N.Sections, "Total Enrolled" = total_enrolled, "All Semesters" = all_semesters, "Course Level" = course_level, Year = year) %>%
       distinct()
