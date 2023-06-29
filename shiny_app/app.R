@@ -25,6 +25,7 @@ library(ggrepel)
 library(shinyWidgets)
 
 classes = read.csv("master_course_sdg_data.csv")
+classes$sustainability_classification <- factor(classes$sustainability_classification, levels = c("Sustainability-Focused", "SDG-Related", "Not Related"))
 
 keywords = read.csv("usc_keywords.csv")
 
@@ -108,16 +109,17 @@ ui <- dashboardPage( skin="black",
                                                      href = feedback_form_link, 
                                                      target="_blank", .noWS = "outside"),
                                                    "). To learn more about this tool visit the FAQ page."),
-                                                fluidRow(
+                                                fluidRow(id = "asgmtearth",
+                                                  column(6,
+                                                         fluidRow(a(img(src="Education.png", width = "100%"), 
+                                                                    href="https://sustainability.usc.edu/assignment-earth/", target="_blank"))
+                                                  ),
                                                   column(6,
                                                          h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
                                                          commitment to addressing the impacts of climate change and creating a more just, equitable, and 
                                                          sustainable future. It’s a big assignment. ", strong("We’re all in!"))
-                                                         ),
-                                                  column(6,
-                                                         fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
-                                                                    href="https://sustainability.usc.edu/assignment-earth/", target="_blank"))
-                                                  )
+                                                         )
+                                                  
                                                 ),
                                                 
                                                 # br(),
@@ -309,9 +311,9 @@ ui <- dashboardPage( skin="black",
                                                 # tags$style("course_level_input {background-color:grey; color:red;}"),
                                                 pickerInput(inputId = "department_input", 
                                                             label = "Choose Departments", 
-                                                            choices = unique(classes_by_sdgs$department) %>% sort(),
+                                                            choices = unique(recent_courses$department) %>% sort(),
                                                             # choices = NULL,
-                                                            selected = unique(classes_by_sdgs$department) %>% sort(),
+                                                            selected = unique(recent_courses$department) %>% sort(),
                                                             options = list(maxOptions = 10000, `actions-box` = TRUE), multiple = T),
                                                 pickerInput(inputId = "course_level_input",
                                                             label = "Restrict course level?",
@@ -410,11 +412,13 @@ ui <- dashboardPage( skin="black",
                                                 # textOutput("pie4_numbers")
                                                 # h2(strong("Department Sustainability Classification Table")),
                                                 # fluidRow(column(12, DT::dataTableOutput("sustainability_table")))
-                                                pickerInput("usc_school", "Choose School",  
-                                                            choices = sort(unique(sustainability_related$school)), 
-                                                            selected = sort(unique(sustainability_related$school))[1]),
-                                                h2(textOutput("department_barchart_title")),
-                                                fluidRow(column(12, plotOutput("department_barchart")))
+                                                # pickerInput("usc_school", "Choose School",  
+                                                #             choices = sort(unique(sustainability_related$school)), 
+                                                #             selected = sort(unique(sustainability_related$school))[1]),
+                                                # h2(textOutput("department_barchart_title")),
+                                                # fluidRow(column(12, plotOutput("department_barchart")))
+                                                h2(textOutput("school_barchart_title")),
+                                                fluidRow(column(12, plotOutput("school_barchart")))
                                               ), # end fluid page
                                       ), # end tabitem 7
                                       tabItem(tabName="downloaddata",
@@ -425,12 +429,12 @@ ui <- dashboardPage( skin="black",
                                                 uiOutput("disclaimer7"),
                                                 pickerInput("school_dl", "Choose Schools",  
                                                             choices = sort(unique(sustainability_related$school)), 
-                                                            selected = sort(unique(sustainability_related$school)),
+                                                            selected = sort(unique(sustainability_related$school))[1],
                                                             multiple = TRUE,
                                                             options = list(`actions-box` = TRUE)),
                                                 pickerInput("dept_dl", "Choose Departments",  
-                                                            choices = sort(unique(sustainability_related$department)),
-                                                            selected = sort(unique(sustainability_related$department)),
+                                                            choices = NULL,
+                                                            selected = NULL,
                                                             multiple = TRUE, 
                                                             options = list(`actions-box` = TRUE)),
                                                 pickerInput("sdg_dl", "Choose SDGs",  choices = sdg_choices, selected = sdg_choices,
@@ -605,7 +609,8 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG Keyword",
            y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_fill_manual(values = plot_colors) + 
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1))))) # integer breaks
       
@@ -631,7 +636,8 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG",
            y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_fill_manual(values = plot_colors) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1))))) # integer breaks
   })
@@ -717,7 +723,8 @@ server <- function(input, output, session) {
            fill = "SDG",
            x = "SDG",
            y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 18, face= "bold")) +
+      theme(text = element_text(size = 18, face= "bold"),
+            axis.text = element_text(color = "black")) +
       scale_fill_manual(values = plot_colors) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
   })
@@ -745,7 +752,8 @@ server <- function(input, output, session) {
            x = "SDG Keyword",
            y = "Total SDG Keyword Frequency") +
       scale_fill_manual(values = plot_colors) +
-      theme(text = element_text(size = 18, face= "bold")) +
+      theme(text = element_text(size = 18, face= "bold"),
+            axis.text = element_text(color = "black")) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
   })
 
@@ -866,7 +874,8 @@ server <- function(input, output, session) {
       labs(
         x = "Course",
         y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
   })
   
@@ -957,7 +966,8 @@ server <- function(input, output, session) {
         fill="SDG",
         x = "Course",
         y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold")) +
+      theme(text = element_text(size = 20, face="bold"),
+            axis.text = element_text(color = "black")) +
       scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
     
   })
@@ -1211,6 +1221,7 @@ server <- function(input, output, session) {
         x = "Department",
         y = "Percent") +
       theme(text = element_text(size = 18, face="bold"),
+            axis.text = element_text(color = "black"),
             legend.position="bottom",
             strip.background = element_blank(),
             strip.text.x = element_blank()) +
@@ -1224,7 +1235,87 @@ server <- function(input, output, session) {
     } else {
       actual_plot
     }
-      
+    
+  })
+  
+  # title above the chart
+  output$school_barchart_title = renderText({
+    paste(input$course_level_pie, "courses by School in", input$usc_year)
+  })
+  
+  output$school_barchart <- renderPlot({
+    df <- sustainability_related %>% 
+      filter(year == input$usc_year)
+    if (input$course_level_pie == "Undergraduate"){
+      df <- df %>% 
+        filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
+    }
+    else if(input$course_level_pie == "Graduate") {
+      df <- df %>% 
+        filter(course_level == "graduate")
+    }
+    plot_colors <- c("Sustainability-Focused" = "#990000", 
+                     "SDG-Related" = "#FFC72C", 
+                     "Not Related" = "#767676")
+    plot_data <- df %>%
+      group_by(school, sustainability_classification) %>%
+      count() 
+    
+    middle_school <- unique(plot_data$school)[length(unique(plot_data$school))/2]
+    
+    plot_data$group <- 1
+    if (length(unique(plot_data$school)) > 20) {
+      plot_data <- plot_data %>%
+        group_by(school) %>%
+        mutate(group = ifelse(school <= middle_school,
+                              1,
+                              2)) %>%
+        ungroup()
+    }
+    plot_data <- plot_data %>%
+      mutate(SCHOOL = recode(school,
+                             "Andrew and Erna Viterbi School of Engineering" = "Viterbi School of Engineering",
+                             "Annenberg School for Communication and Journalism" = "Annenberg School for Communication & Journalism",
+                             "Barbara J. and Roger W. Rossier School of Education" = "Rossier School of Education",
+                             "Bovard College" = "Bovard College",
+                             "Dana and David Dornsife College of Letters, Arts and Sciences" = "Dornsife College of Letters, Arts & Sciences",
+                             "Elaine and Kenneth Leventhal School of Accounting" = "Leventhal School of Accounting",
+                             "Glorya Kaufman School of Dance" = "Kaufman School of Dance",
+                             "Gordon S. Marshall School of Business" = "Marshall School of Business",
+                             "Gould School of Law" = "Gould School of Law",
+                             "Hebrew Union College" = "Hebrew Union College",
+                             "Independent Health Professions" = "Independent Health Professions",
+                             "Jimmy Iovine and Andre Young Academy" = "Iovine & Young Academy",
+                             "Keck School of Medicine" = "Keck School of Medicine",
+                             "Leonard Davis School of Gerontology" = "Davis School of Gerontology",
+                             "Ostrow School of Dentistry" = "Ostrow School of Dentistry",
+                             "Registrar's Office and Graduate School" = "Registrar's Office & Graduate School",
+                             "Roski School of Art and Design" = "Roski School of Art & Design",
+                             "School of Architecture" = "School of Architecture",
+                             "School of Cinematic Arts" = "School of Cinematic Arts",
+                             "School of Dramatic Arts" = "School of Dramatic Arts",
+                             "School of Pharmacy" = "School of Pharmacy",
+                             "Sol Price School of Public Policy" = "Price School of Public Policy",
+                             "Suzanne Dworak-Peck School of Social Work" = "Dworak-Peck School of Social Work",
+                             "Thornton School of Music" = "Thornton School of Music")) %>%
+      arrange(SCHOOL)
+    plot_data %>%
+      ggplot(aes(x = SCHOOL, y = n, fill = sustainability_classification)) +
+      geom_bar(position = "fill", stat = "identity") +
+      # facet_wrap(~ group, scales = "free", nrow = length(unique(plot_data$group))) +
+      scale_fill_manual(values=plot_colors) +
+      scale_y_continuous(labels = scales::percent) +
+      labs(
+        fill="Sustainability Classification",
+        x = "School",
+        y = "Percent") +
+      theme(text = element_text(size = 18, face="bold"),
+            legend.position="bottom",
+            axis.text = element_text(face = "plain", color = 'black')) +
+      # guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
+      coord_flip() +
+      scale_x_discrete(labels = scales::label_wrap(50))
+    
   })
   
   
@@ -1233,6 +1324,21 @@ server <- function(input, output, session) {
   ###
   
   # download data page
+  observeEvent(input$school_dl,
+               {
+                 depts <- sustainability_related %>%
+                   filter(school %in% input$school_dl) %>%
+                   select(department) %>%
+                   distinct() %>%
+                   arrange(department)
+                 depts_selected <- depts %>%
+                   filter(department %in% input$dept_dl)
+                 updatePickerInput(session,
+                                   "dept_dl",
+                                   choices = depts$department,
+                                   selected = depts_selected
+                                   )
+               })
   output$download_data_table <- downloadHandler(
     filename = function() {"usc_sustainability_course_data.csv"},
     content = function(fname) {
@@ -1255,6 +1361,7 @@ server <- function(input, output, session) {
              sustainability_classification %in% input$sustainability_dl,
              goal %in% as.numeric(input$sdg_dl)) %>%
       ungroup() %>%
+      arrange(sustainability_classification) %>%
       select(school, department, courseID, course_title, course_desc, semester, all_goals, sustainability_classification, N.Sections, total_enrolled, all_semesters, course_level, year) %>%
       rename(School = school, Department = department, "Course ID" = courseID, "Course Title" = course_title, "Course Description" = course_desc, Semester = semester, "All Goals" = all_goals, "Sustainability Classification" = sustainability_classification, "Number of Sections" = N.Sections, "Total Enrolled" = total_enrolled, "All Semesters" = all_semesters, "Course Level" = course_level, Year = year) %>%
       distinct()
