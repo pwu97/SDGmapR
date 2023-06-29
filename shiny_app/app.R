@@ -1283,7 +1283,7 @@ server <- function(input, output, session) {
                              "Glorya Kaufman School of Dance" = "Kaufman School of Dance",
                              "Gordon S. Marshall School of Business" = "Marshall School of Business",
                              "Gould School of Law" = "Gould School of Law",
-                             "Hebrew Union College" = "Louchheim School for Judaic Studies",
+                             "Hebrew Union College" = "Hebrew Union College",
                              "Independent Health Professions" = "Independent Health Professions",
                              "Jimmy Iovine and Andre Young Academy" = "Iovine & Young Academy",
                              "Keck School of Medicine" = "Keck School of Medicine",
