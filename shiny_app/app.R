@@ -108,16 +108,17 @@ ui <- dashboardPage( skin="black",
                                                      href = feedback_form_link, 
                                                      target="_blank", .noWS = "outside"),
                                                    "). To learn more about this tool visit the FAQ page."),
-                                                fluidRow(
+                                                fluidRow(id = "asgmtearth",
+                                                  column(6,
+                                                         fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
+                                                                    href="https://sustainability.usc.edu/assignment-earth/", target="_blank"))
+                                                  ),
                                                   column(6,
                                                          h3(strong("Assignment: Earth"), "is USC’s Sustainability Framework for a greener campus and planet. It articulates our 
                                                          commitment to addressing the impacts of climate change and creating a more just, equitable, and 
                                                          sustainable future. It’s a big assignment. ", strong("We’re all in!"))
-                                                         ),
-                                                  column(6,
-                                                         fluidRow(a(img(src="Education.png", height="550", style="display: block; margin-left: auto; margin-right: auto;"), 
-                                                                    href="https://sustainability.usc.edu/assignment-earth/", target="_blank"))
-                                                  )
+                                                         )
+                                                  
                                                 ),
                                                 
                                                 # br(),
