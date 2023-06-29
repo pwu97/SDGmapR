@@ -23,7 +23,6 @@ library(ggplot2)
 library(ggrepel)
 # install.packages("shinyWidgets")
 library(shinyWidgets)
-library(stringr)
 
 classes = read.csv("master_course_sdg_data.csv")
 
@@ -153,7 +152,7 @@ ui <- dashboardPage( skin="black",
                                                 )),
                                                 h2(strong("SDG Keywords Table")),
                                                 fluidRow(bootstrapPage(
-                                                  column(4, DT::dataTableOutput("keywords_table"))
+                                                  column(6, DT::dataTableOutput("keywords_table"))
                                                 ))
                                               ) #end fluid page
                                       ), # end tabitem 1
@@ -291,7 +290,7 @@ ui <- dashboardPage( skin="black",
                                                 )),
                                                 h2(strong("Keyword Table")),
                                                 fluidRow(bootstrapPage(
-                                                  column(4, DT::dataTableOutput("classes_table"))
+                                                  column(6, DT::dataTableOutput("classes_table"))
                                                 ))
                                                 ) # end fluidpage
                                       ),#end tabitem 4
@@ -300,7 +299,7 @@ ui <- dashboardPage( skin="black",
                                       tabItem(tabName = "5",
                                               fluidPage(
                                                 h1("Find Courses by SDGs"),
-                                                h3("Select USC departments and course levels, and then choose an SDGs to display the 10 most relevant USC courses that map to
+                                                h3("Select USC departments and course levels, and then choose an SDG to display the 10 most relevant USC courses that map to
                                                   that goal. To check out the USC course catalogue, click ", a("here.", href="https://catalogue.usc.edu/", target="_blank")),
                                                 uiOutput("disclaimer4"),
                                                 # div(style="font-size:24px;", selectInput(inputId = "usc_semester3",
@@ -309,7 +308,7 @@ ui <- dashboardPage( skin="black",
                                                 #                                          choices = unique(classes$semester))),
                                                 # tags$style("course_level_input {background-color:grey; color:red;}"),
                                                 pickerInput(inputId = "department_input", 
-                                                            label = "Choose Department", 
+                                                            label = "Choose Departments", 
                                                             choices = unique(classes_by_sdgs$department) %>% sort(),
                                                             # choices = NULL,
                                                             selected = unique(classes_by_sdgs$department) %>% sort(),
@@ -371,13 +370,13 @@ ui <- dashboardPage( skin="black",
                                       
                                       tabItem(tabName = "7",
                                               fluidPage(
-                                                h1("All Sustainably-Related Courses"),
+                                                h1("All Sustainability-Related Courses"),
                                                 h3("The below charts show the percent and number of USC courses that are ‘sustainability-focused’, ‘SDG-related’ or ‘not related’ to 
                                                 sustainability, as well as the number and percent of departments that offer sustainability-focused or SDG-related courses. Note that there are often many sections
                                                    for an offered course."),
                                                 h3("For a course to count as SDG-related, it has to include at least two SDG keywords. For a course to count as sustainability-focused, 
-                                                   it has to map to a combination of SDGs that includes at least one environmental focused SDG (13, 14, 15) and at least one economic or social 
-                                                   focused SDG (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17)."),
+                                                   it has to map to a combination of SDGs that includes at least one environmental focused SDG (6, 7, 12, 13, 14, 15) and at least one economic or social 
+                                                   focused SDG (1, 2, 3, 4, 5, 8, 9, 10, 11, 16, 17)."),
                                                 uiOutput("disclaimer6"),
                                                 h4("Academic year determined by the year of the Spring semester and includes Summer and Fall terms of the previous calendar year. (AY23 = SU22, F22, SP23)"),
                                                 selectInput(inputId = "usc_year",
@@ -552,7 +551,9 @@ server <- function(input, output, session) {
     df = recent_courses %>%
       filter(courseID %in% input$user_classes) %>%
       filter(!is.na(keyword)) %>%
-      select(keyword, color, freq)
+      select(keyword, color, freq) %>%
+      arrange(desc(freq)) %>%
+      distinct(keyword, .keep_all = TRUE)
     png("wordcloud.png")
     if (nrow(df) == 0) {
       ggplot()
@@ -560,7 +561,7 @@ server <- function(input, output, session) {
       wordcloud(words = df$keyword, 
                 freq = df$freq,
                 min.freq = 1, max.words = 50, random.order = FALSE, rot.per = 0, 
-                scale = c(8,1),
+                scale = c(3,1),
                 colors = df$color,
                 ordered.colors = TRUE)
     }
@@ -574,9 +575,7 @@ server <- function(input, output, session) {
     df <- recent_courses %>%
       filter(courseID %in% input$user_classes) %>%
       filter(!is.na(keyword)) %>%
-      select(keyword, goal, color, freq) %>%
-      arrange(desc(freq)) %>%
-      distinct(keyword, .keep_all = TRUE)
+      select(keyword, goal, color, freq)
     plot_colors <- df %>%
       arrange(goal) %>%
       select(color) %>%
@@ -684,8 +683,12 @@ server <- function(input, output, session) {
     plot_colors <- df %>%
       arrange(goal) %>%
       select(color) %>%
+      filter(!is.na(color)) %>%
       distinct() %>%
-      pull
+      pull()
+    if (length(plot_colors) == 0) {
+      return(ggplot())
+    }
     df %>%
       group_by(goal) %>%
       mutate(sum_freq = sum(freq)) %>%
@@ -711,8 +714,12 @@ server <- function(input, output, session) {
     plot_colors <- df %>%
       arrange(goal) %>%
       select(color) %>%
+      filter(!is.na(color)) %>%
       distinct() %>%
       pull()
+    if (length(plot_colors) == 0) {
+      return(ggplot())
+    }
     df %>%
       ggplot(aes(x = keyword, y = freq, fill = factor(as.numeric(goal)))) +
       geom_col() +
@@ -756,12 +763,19 @@ server <- function(input, output, session) {
   output$classes_table = DT::renderDataTable({
     recent_courses %>%
       filter(courseID == input$usc_classes) %>%
+      filter(!is.na(keyword)) %>%
       group_by(keyword) %>%
       summarize(SDGs = paste(sort(unique(goal)), collapse = ", ")) %>%
       rename(Keyword = keyword) %>%
       select(Keyword, SDGs) %>%
       arrange(Keyword)
-  }, rownames=FALSE)
+  }, 
+  rownames=FALSE,
+  options = list(
+    language = list(
+      zeroRecords = "Not Related"
+    )
+  ))
   
   
   
@@ -811,6 +825,16 @@ server <- function(input, output, session) {
       df <- df %>%
         filter(course_level == tolower(input$course_level_input))
     }
+    if (nrow(df) == 0) {
+      return (ggplot() + 
+                annotate("text", x = 1, y = 1, size = 8, label = "No Courses") + 
+                theme(panel.border = element_blank(),
+                      panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(),
+                      axis.title = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.text = element_blank()))
+    }
     df %>%
       group_by(courseID) %>%
       mutate(total_freq = sum(freq)) %>%
@@ -847,7 +871,13 @@ server <- function(input, output, session) {
       arrange(desc(total_freq)) %>%
       rename('Course ID' = courseID,"Sustainability Classification" = sustainability_classification, Semester = semester, "Course Title" = course_title, 'Total SDG Keyword Frequency'= total_freq, "Course Description" = course_desc, "Semesters Offered" = all_semesters) %>%
       select('Course ID', "Total SDG Keyword Frequency", "Sustainability Classification", "Course Description", "Semesters Offered")
-  }, rownames=FALSE)
+  }, 
+  rownames=FALSE,
+  options = list(
+    language = list(
+      zeroRecords = "No Courses"
+    )
+  ))
   # options = list(
   #     autoWidth = TRUE)
   #     # columnDefs = list(list(width = '200px', targets = "_all"))
@@ -872,8 +902,8 @@ server <- function(input, output, session) {
   output$ge_bar <- renderPlot({
     # get the top 10 classes and total weights
     df <- ge_data %>%
-      filter(full_name == input_ge_category) %>%
-      filter(goal %in% input_ge_sdgs) %>%
+      filter(full_name == input$ge_category) %>%
+      filter(goal %in% input$ge_sdgs) %>%
       group_by(courseID, course_title) %>%
       mutate(total_freq = sum(freq)) %>%
       ungroup()
@@ -884,6 +914,16 @@ server <- function(input, output, session) {
       head(num_top_classes) %>%
       select(courseID) %>%
       pull()
+    if (length(top_10_courses) == 0) {
+      return (ggplot() + 
+                annotate("text", x = 1, y = 1, size = 8, label = "No Courses") + 
+                theme(panel.border = element_blank(),
+                      panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(),
+                      axis.title = element_blank(),
+                      axis.ticks = element_blank(),
+                      axis.text = element_blank()))
+    }
     plot_colors <- df %>%
       filter(courseID %in% top_10_courses) %>%
       arrange(goal) %>%
@@ -901,7 +941,9 @@ server <- function(input, output, session) {
         fill="SDG",
         x = "Course",
         y = "Total SDG Keyword Frequency") +
-      theme(text = element_text(size = 20, face="bold"))
+      theme(text = element_text(size = 20, face="bold")) +
+      scale_y_continuous(breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
+    
   })
   
   # title above the chart
@@ -925,7 +967,13 @@ server <- function(input, output, session) {
       rename('Course ID' = courseID, Semester = semester, "All Goals" = all_goals, 'Total SDG Keyword Frequency'= total_freq, "Sustainability Classification" = sustainability_classification, "Course Description" = course_desc) %>%
       select('Course ID', "Total SDG Keyword Frequency", "All Goals", "Sustainability Classification", "Course Description") %>%
       distinct()
-  }, rownames=FALSE)
+  }, 
+  rownames=FALSE,
+  options = list(
+    language = list(
+      zeroRecords = "No Courses"
+    )
+  ))
   
   
   
@@ -1067,7 +1115,10 @@ server <- function(input, output, session) {
     scrollX = TRUE,
     autoWidth = TRUE,
     columnDefs = list(list(width = '100px', targets = c(0,3)),
-                      list(width = '250px', targets = c(4)))
+                      list(width = '250px', targets = c(4))),
+    language = list(
+      zeroRecords = "No Courses"
+    )
   ))
 }
 
