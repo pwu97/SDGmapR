@@ -61,6 +61,7 @@ key = data.frame(value = values, name = names)
 key$full_name = paste(key$value, key$name, sep=" - ")
 ge_names = key$full_name
 
+feedback_form_link <- "https://forms.gle/keZXBY9uHa9DWsMg6"
 
 # profvis({
 # s = shinyApp(
@@ -105,7 +106,7 @@ ui <- dashboardPage( skin="black",
                                                 h3("This dashboard is a work in progress and will be improved through feedback and 
                                                    collaboration with faculty (", 
                                                    a("access the feedback form here", 
-                                                     href = "https://forms.gle/keZXBY9uHa9DWsMg6", 
+                                                     href = feedback_form_link, 
                                                      target="_blank", .noWS = "outside"),
                                                    "). To learn more about this tool visit the FAQ page."),
                                                 fluidRow(
@@ -202,7 +203,7 @@ ui <- dashboardPage( skin="black",
                                                    connections between course topics and the UN SDGs. The dashboard is a work in progress 
                                                    and faculty feedback is critical in refining its accuracy and utility. If you have 
                                                    feedback or suggestions, please fill out", 
-                                                   a("this form", href = "https://forms.gle/keZXBY9uHa9DWsMg6", target="_blank"), 
+                                                   a("this form", href = feedback_form_link, target="_blank"), 
                                                    "or email us at oosdata@usc.edu."),
                                                 
                                                 h3(strong("I’d like to integrate sustainability into my courses. Where can I get help 
@@ -212,7 +213,7 @@ ui <- dashboardPage( skin="black",
                                                    cmgraham@usc.edu."),
                                                 
                                                 h3(strong("What if I have more Questions/Comments or Suggestions?"), "Please fill out our ", a("feedback form.", 
-                                                          href="https://forms.gle/5THrD6SkTvbdgj8XA", target="_blank"))
+                                                          href=feedback_form_link, target="_blank"))
                                               ) #end fluidpage
                                       ), #end tabitem 2
                                       
@@ -454,7 +455,7 @@ ui <- dashboardPage( skin="black",
                                          target = "_blank"), 
                                        ". More questions or suggestions in regard to this tool? Please fill out our",
                                        a("feedback form",
-                                         href="https://forms.gle/P6QJDSJaaRusZLZh6", .noWS = "after",
+                                         href=feedback_form_link, .noWS = "after",
                                          target = "_blank"),
                                        "."
                                     ),
@@ -479,7 +480,7 @@ server <- function(input, output, session) {
       h5("*This app is a work in progress, and we are continually improving accuracy.
          If you have feedback, please fill out our ", 
          a("feedback form", 
-           href="https://forms.gle/5THrD6SkTvbdgj8XA", .noWS = "after",
+           href=feedback_form_link, .noWS = "after",
            target="_blank"),
          ".")
     )
