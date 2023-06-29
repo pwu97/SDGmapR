@@ -393,31 +393,47 @@ ui <- dashboardPage( skin="black",
                                                 fluidRow(column(6, 
                                                                 h2("Sustainability Related Courses Offered"),
                                                                 plotOutput("pie4")),
-                                                         column(6, 
-                                                                h2("Sustainability Related Departments"),
-                                                                plotOutput("pie3"))),
+                                                         column(6,
+                                                                h2("Sustainability Focused Courses"),
+                                                                DT::dataTableOutput("courses_sustainability_table"))),
+                                                fluidRow(
+                                                  column(6, 
+                                                         h2("Sustainability Related Departments"),
+                                                         plotOutput("pie3")),
+                                                  column(6,
+                                                         h2("Department Wordcloud"),
+                                                         h3("Based on the number of sustainability focused courses offered by each department"),
+                                                         plotOutput("department_wordcloud"))),
+                                                  # column(6,
+                                                  #        h2("Department Sustainability Classification Table"),
+                                                  #        DT::dataTableOutput("department_sustainability_table"))),
                                                 # textOutput("pie4_numbers")
-                                                h2(strong("Department Sustainability Classification Table")),
-                                                fluidRow(column(12, DT::dataTableOutput("sustainability_table")))
+                                                # h2(strong("Department Sustainability Classification Table")),
+                                                # fluidRow(column(12, DT::dataTableOutput("sustainability_table")))
+                                                pickerInput("usc_school", "Choose School",  
+                                                            choices = sort(unique(sustainability_related$school)), 
+                                                            selected = sort(unique(sustainability_related$school))[1]),
+                                                h2(textOutput("department_barchart_title")),
+                                                fluidRow(column(12, plotOutput("department_barchart")))
                                               ), # end fluid page
                                       ), # end tabitem 7
                                       tabItem(tabName="downloaddata",
                                               fluidPage(
                                                 h1("Download Data"),
-                                                h3("Select school, department, SDG, and sustainability classification to view and
+                                                h3("Select schools, departments, SDGs, and sustainability classifications to view and
                                                    download USC course data displayed in the table at the bottom."),
                                                 uiOutput("disclaimer7"),
-                                                pickerInput("school_dl", "Choose School",  
+                                                pickerInput("school_dl", "Choose Schools",  
                                                             choices = sort(unique(sustainability_related$school)), 
                                                             selected = sort(unique(sustainability_related$school)),
                                                             multiple = TRUE,
                                                             options = list(`actions-box` = TRUE)),
-                                                pickerInput("dept_dl", "Choose Department",  
+                                                pickerInput("dept_dl", "Choose Departments",  
                                                             choices = sort(unique(sustainability_related$department)),
                                                             selected = sort(unique(sustainability_related$department)),
                                                             multiple = TRUE, 
                                                             options = list(`actions-box` = TRUE)),
-                                                pickerInput("sdg_dl", "Choose SDG",  choices = sdg_choices, selected = sdg_choices,
+                                                pickerInput("sdg_dl", "Choose SDGs",  choices = sdg_choices, selected = sdg_choices,
                                                             multiple = TRUE, 
                                                             options = list(`actions-box` = TRUE)),
                                                 # pickerInput("sustainability_dl", "Choose Sustainability Category",  
@@ -425,7 +441,7 @@ ui <- dashboardPage( skin="black",
                                                 #             selected = sort(unique(sustainability_related$sustainability_classification)),
                                                 #             multiple = TRUE, 
                                                 #             options = list(`actions-box` = TRUE)),
-                                                checkboxGroupInput("sustainability_dl", "Choose Sustainability Category",  
+                                                checkboxGroupInput("sustainability_dl", "Choose Sustainability Categories",  
                                                                    choices = sort(unique(sustainability_related$sustainability_classification)),
                                                                    selected = sort(unique(sustainability_related$sustainability_classification))),
                                                 downloadButton("download_data_table", "Download"),
@@ -1056,7 +1072,7 @@ server <- function(input, output, session) {
   })
   
   # sustainability departments table
-  output$sustainability_table <- DT::renderDataTable({
+  output$department_sustainability_table <- DT::renderDataTable({
     df <- sustainability_related %>% 
       filter(year == input$usc_year) 
     if (input$course_level_pie == "Undergraduate"){
@@ -1083,6 +1099,138 @@ server <- function(input, output, session) {
       select(department, one_sustainability_classification, courses) %>%
       rename(Department = department, "Sustainability Classification" = one_sustainability_classification, "Sustainability-Focused Courses" = courses)
   }, rownames=FALSE)
+  
+  output$courses_sustainability_table <- DT::renderDataTable({
+    df <- sustainability_related %>% 
+      filter(year == input$usc_year) 
+    if (input$course_level_pie == "Undergraduate"){
+      df <- df %>% 
+        filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
+    }
+    else if(input$course_level_pie == "Graduate") {
+      df <- df %>% 
+        filter(course_level == "graduate")
+    }
+    df %>%
+      filter(sustainability_classification == "Sustainability-Focused") %>%
+      select(courseID, sustainability_classification) %>%
+      rename("Course ID" = courseID, "Sustainability Classification" = sustainability_classification) %>%
+      distinct()
+  }, rownames=FALSE)
+  
+  output$department_wordcloud <- renderImage({
+    df <- sustainability_related %>% 
+      filter(year == input$usc_year) 
+    if (input$course_level_pie == "Undergraduate"){
+      df <- df %>% 
+        filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
+    }
+    else if(input$course_level_pie == "Graduate") {
+      df <- df %>% 
+        filter(course_level == "graduate")
+    }
+    Mode <- function(x) {
+      ux <- unique(x)
+      ux[which.max(tabulate(match(x, ux)))]
+    }
+    wordcloud_data <- df %>%
+      group_by(department, sustainability_classification) %>%
+      summarize(n = n(),
+                goals = paste(all_goals, collapse = ",")) %>%
+      filter(sustainability_classification == "Sustainability-Focused")
+    wordcloud_data$goal = sapply(wordcloud_data$goals, function(x) {
+      Mode(strsplit(x, ",")[[1]])
+    })
+    wordcloud_data$color <- sdg_colors[as.numeric(wordcloud_data$goal)]
+    png("wordcloud.png")
+    wordcloud(words = wordcloud_data$department, 
+              freq = wordcloud_data$n,
+              min.freq = 1, max.words = 50, random.order = FALSE, rot.per = 0, 
+              scale = c(8,1),
+              colors = wordcloud_data$color,
+              ordered.colors = TRUE)
+    dev.off()
+    filename <- normalizePath(file.path("wordcloud.png"))
+    list(src = filename, height = "100%")
+  }, deleteFile = TRUE)
+  
+  # title above the chart
+  output$department_barchart_title = renderText({
+    paste(input$course_level_pie, "courses in", input$usc_school, "by Department in", input$usc_year)
+  })
+  
+  output$department_barchart <- renderPlot({
+    df <- sustainability_related %>% 
+      filter(year == input$usc_year) %>%
+      filter(school == input$usc_school)
+    if (input$course_level_pie == "Undergraduate"){
+      df <- df %>% 
+        filter(course_level == "undergrad upper division" | course_level == "undergrad lower division")
+    }
+    else if(input$course_level_pie == "Graduate") {
+      df <- df %>% 
+        filter(course_level == "graduate")
+    }
+    plot_colors <- c("Sustainability-Focused" = "#990000", 
+                     "SDG-Related" = "#FFC72C", 
+                     "Not Related" = "#767676")
+    plot_data <- df %>%
+      group_by(department, sustainability_classification) %>%
+      count() 
+    
+    middle_department <- unique(plot_data$department)[length(unique(plot_data$department))/2]
+    
+    plot_data$group <- 1
+    if (length(unique(plot_data$department)) > 40) {
+      bottom_third <- unique(plot_data$department)[length(unique(plot_data$department))/3]
+      top_third <- unique(plot_data$department)[length(unique(plot_data$department))/3*2]
+      plot_data <- plot_data %>%
+        group_by(department) %>%
+        mutate(group = ifelse(department <= bottom_third,
+                              1,
+                              ifelse(department <= top_third,
+                                     2,
+                                     3))) %>%
+        ungroup()
+    } else if (length(unique(plot_data$department)) > 20) {
+      plot_data <- plot_data %>%
+        group_by(department) %>%
+        mutate(group = ifelse(department <= middle_department,
+                              1,
+                              2)) %>%
+        ungroup()
+    }
+    plot_data %>%
+      ggplot(aes(x = department, y = n, fill = sustainability_classification)) +
+      geom_bar(position = "fill", stat = "identity") +
+      facet_wrap(~ group, scales = "free", nrow = length(unique(plot_data$group))) +
+      scale_fill_manual(values=plot_colors) +
+      scale_y_continuous(labels = scales::percent) +
+      labs(
+        fill=str_wrap("Sustainability Classification", 20),
+        x = "Department",
+        y = "Percent") +
+      theme(text = element_text(size = 18, face="bold"),
+            legend.position="bottom",
+            strip.background = element_blank(),
+            strip.text.x = element_blank()) +
+      guides(fill = guide_legend(nrow = 2, byrow = TRUE)) -> actual_plot
+    if (length(unique(plot_data$department)) > 10 & length(unique(plot_data$group)) == 1) {
+      actual_plot +
+        scale_x_discrete(guide = guide_axis(n.dodge = 2))
+    } else if (length(unique(plot_data$group)) > 1 & sum(plot_data$group == 1) > 10) {
+      actual_plot +
+        scale_x_discrete(guide = guide_axis(n.dodge = 2))
+    } else {
+      actual_plot
+    }
+      
+  })
+  
+  
+  ###
+  ### tabitem8 - DOWNLOAD DATA
+  ###
   
   # download data page
   output$download_data_table <- downloadHandler(
