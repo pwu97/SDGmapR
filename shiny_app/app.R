@@ -428,12 +428,12 @@ ui <- dashboardPage( skin="black",
                                                 uiOutput("disclaimer7"),
                                                 pickerInput("school_dl", "Choose Schools",  
                                                             choices = sort(unique(sustainability_related$school)), 
-                                                            selected = sort(unique(sustainability_related$school)),
+                                                            selected = sort(unique(sustainability_related$school))[1],
                                                             multiple = TRUE,
                                                             options = list(`actions-box` = TRUE)),
                                                 pickerInput("dept_dl", "Choose Departments",  
-                                                            choices = sort(unique(sustainability_related$department)),
-                                                            selected = sort(unique(sustainability_related$department)),
+                                                            choices = NULL,
+                                                            selected = NULL,
                                                             multiple = TRUE, 
                                                             options = list(`actions-box` = TRUE)),
                                                 pickerInput("sdg_dl", "Choose SDGs",  choices = sdg_choices, selected = sdg_choices,
@@ -1323,6 +1323,21 @@ server <- function(input, output, session) {
   ###
   
   # download data page
+  observeEvent(input$school_dl,
+               {
+                 depts <- sustainability_related %>%
+                   filter(school %in% input$school_dl) %>%
+                   select(department) %>%
+                   distinct() %>%
+                   arrange(department)
+                 depts_selected <- depts %>%
+                   filter(department %in% input$dept_dl)
+                 updatePickerInput(session,
+                                   "dept_dl",
+                                   choices = depts$department,
+                                   selected = depts_selected
+                                   )
+               })
   output$download_data_table <- downloadHandler(
     filename = function() {"usc_sustainability_course_data.csv"},
     content = function(fname) {
