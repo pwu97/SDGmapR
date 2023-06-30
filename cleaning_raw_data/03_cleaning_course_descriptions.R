@@ -29,7 +29,9 @@ usc_courses$course_desc <- stri_replace_all_regex(usc_courses$course_desc,
 
 apply_context_dependency <- function(tt) {
   tt <- tolower(tt)
-  corrections <- read.csv("context_dependencies.csv")
+  corrections <- read.csv("context_dependencies_06_29_23.csv")
+  corrections$before <- tolower(corrections$before)
+  corrections$after <- tolower(corrections$after)
   tt <- stri_replace_all_regex(tt,
                                pattern = corrections$before,
                                replacement = corrections$after,
