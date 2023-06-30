@@ -7,32 +7,33 @@ data = read.csv("combined_data.csv")
 # filtering out Master's Thesis, Directed Research, and Doctoral Dissertation, all of which have a space at the end
 # also counting number of sections and number of enrolled students
 clean_data = function (raw_data){
+  data_clean = raw_data
   # we could split data in to origin < or > 20231
-  data_clean = raw_data[trimws(raw_data$COURSE_TITLE) !=  "Directed Research"
-                        & trimws(raw_data$COURSE_TITLE) !=  "Master's Thesis" 
-                        & trimws(raw_data$COURSE_TITLE) !=  "Doctoral Dissertation"
-                        & trimws(raw_data$COURSE_TITLE) !=  "Research"
-                        & trimws(raw_data$COURSE_TITLE) != "Studies for the Qualifying Examination"
-                        & trimws(raw_data$COURSE_TITLE) != "Enrollment for Early-Arriving PhD Students"
-                        & trimws(raw_data$COURSE_TITLE) != "Studies for the Qualifying Examination"
-                        & trimws(raw_data$COURSE_TITLE) != "Studies for Master's Examination"
-                        & trimws(raw_data$COURSE_TITLE) != "Internship for Curricular Practical Training"
-                        & trimws(raw_data$COURSE_TITLE) != "Off-Campus Studies"
-                        & trimws(raw_data$COURSE_TITLE) != "Creative Problem Solving 1"
-                        & trimws(raw_data$COURSE_TITLE) != "Creative Problem Solving 2"
-                        & trimws(raw_data$COURSE_TITLE) != "Postdoctoral Fellows"
-                        & trimws(raw_data$COURSE_TITLE) != "International Academy Holding Course"
-                        & trimws(raw_data$COURSE_TITLE) != "International Academy Holding Course (Part II)"
-                        & trimws(raw_data$COURSE_TITLE) != "Test Course"
-                        & trimws(raw_data$COURSE_TITLE) != "TEMPORARY ENROLLMENT/FILL COURSE"
-                        & trimws(raw_data$COURSE_TITLE) != "Consortium Enrollment (Financial Aid)"
-                        & trimws(raw_data$COURSE_TITLE) != "Summer Enrollment for Continuing PhD Students"
-                        & trimws(raw_data$COURSE_TITLE) != "Capstone"
-                        & trimws(raw_data$COURSE_TITLE) != "Fieldwork Section II"
-                        & trimws(raw_data$COURSE_TITLE) != "Organizational Development"
-                        & trimws(raw_data$COURSE_TITLE) != "Collaborative Communication"
-                        & trimws(raw_data$COURSE_TITLE) != "Board Development"
-                        , ]
+  # data_clean = raw_data[trimws(raw_data$COURSE_TITLE) !=  "Directed Research"
+  #                       & trimws(raw_data$COURSE_TITLE) !=  "Master's Thesis" 
+  #                       & trimws(raw_data$COURSE_TITLE) !=  "Doctoral Dissertation"
+  #                       & trimws(raw_data$COURSE_TITLE) !=  "Research"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Studies for the Qualifying Examination"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Enrollment for Early-Arriving PhD Students"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Studies for the Qualifying Examination"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Studies for Master's Examination"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Internship for Curricular Practical Training"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Off-Campus Studies"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Creative Problem Solving 1"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Creative Problem Solving 2"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Postdoctoral Fellows"
+  #                       & trimws(raw_data$COURSE_TITLE) != "International Academy Holding Course"
+  #                       & trimws(raw_data$COURSE_TITLE) != "International Academy Holding Course (Part II)"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Test Course"
+  #                       & trimws(raw_data$COURSE_TITLE) != "TEMPORARY ENROLLMENT/FILL COURSE"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Consortium Enrollment (Financial Aid)"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Summer Enrollment for Continuing PhD Students"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Capstone"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Fieldwork Section II"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Organizational Development"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Collaborative Communication"
+  #                       & trimws(raw_data$COURSE_TITLE) != "Board Development"
+  #                       , ]
   # want to get a column for the total number of enrolled students across all sections for class
   # first grab all the unique courses per semester
   data_unique = data_clean[!duplicated(data_clean[ , c("COURSE_CODE", "origin")]), ]
