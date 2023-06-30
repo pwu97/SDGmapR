@@ -1,6 +1,6 @@
 # adding school
 library(dplyr)
-usc_courses_cleaned <- read.csv("cleaning_raw_data/usc_courses_updated.csv")
+usc_courses_cleaned <- read.csv("usc_courses_updated.csv")
 fulldata <- read.csv("cleaning_raw_data/raw_usc_data/combined_data.csv")
 fulldata_select <- fulldata %>%
   select("COURSE_CODE", "COURSE_TITLE", "SECTION", "DEPARTMENT", "SCHOOL", 
@@ -34,7 +34,8 @@ Dornsife = c("LAS - Natural Sciences & Mathematics",
              "LAS- Social Science & Communications Animation",
              "Dana and David Dornsife College of Letters, Arts and Sciences" ,
              "Dana and David Dornsife College of Letters, Arts and Sciences Registrar's Office",  
-             " Humanities")
+             " Humanities",
+             "Hebrew Union College")
 Annenberg = c("nenberg School for Communication and Journalism",
               "nnenberg School for Communication and Journalism",
               "Annenberg School for Communication and Journalism", 
@@ -56,6 +57,8 @@ RegistrarOffice_GradSchool = c("Registrar's Office",
                                "Graduate School",
                                "Graduate School Registrar's Office",
                                "Graduate Studies")
+Ostrow = c("Ostrow School of Dentistry",
+           "Independent Health Professions")
 usc_courses_with_school <- usc_courses_with_school %>%
   mutate(DEPTOWNERNAME = 
            ifelse(DEPTOWNERNAME %in% Dornsife, 
@@ -74,7 +77,9 @@ usc_courses_with_school <- usc_courses_with_school %>%
                                                             "Thornton School of Music",
                                                             ifelse(DEPTOWNERNAME %in% RegistrarOffice_GradSchool,
                                                                    "Registrar's Office and Graduate School",
-                                                                   DEPTOWNERNAME)))))))))
+                                                                   ifelse(DEPTOWNERNAME %in% Ostrow,
+                                                                          "Ostrow School of Dentistry",
+                                                                          DEPTOWNERNAME))))))))))
 levels(as.factor(usc_courses_with_school$DEPTOWNERNAME))
 
 # replace empty SCHOOL with NA
@@ -116,6 +121,19 @@ usc_courses_with_school <- usc_courses_with_school %>%
   mutate(school = ifelse(is.na(DEPTOWNERNAME),
                          department_DEPTOWNERNAME_map[department],
                          DEPTOWNERNAME))
+
+# Registrar's Office and Graduate School's HUC- and LING- to Dornsife
+usc_courses_with_school <- usc_courses_with_school %>%
+  mutate(school = 
+           ifelse(school == "Registrar's Office and Graduate School" & 
+                    grepl("HUC|LING", courseID),
+                  "Dana and David Dornsife College of Letters, Arts and Sciences", 
+                  school))
+
+# remove Registrar's Office and Graduate School courses
+usc_courses_with_school <- usc_courses_with_school %>%
+  filter(school != "Registrar's Office and Graduate School")
+
 usc_courses_school <- usc_courses_with_school %>%
   rename(instructor = INSTRUCTOR_NAME) %>%
   select(school, courseID, course_title, instructor, section, department, semester, course_desc, N.Sections, year, course_level, total_enrolled, all_semesters)
