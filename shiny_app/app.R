@@ -1324,6 +1324,33 @@ server <- function(input, output, session) {
   ###
   
   # download data page
+  deptChoices <- reactive({
+    sustainability_related %>%
+      filter(school %in% input$school_dl) %>%
+      select(department) %>%
+      distinct() %>%
+      arrange(department) %>%
+      pull()
+  })
+  deptSelected <- reactive({
+    if (is.null(input$dept_dl)) {  # select all by default
+      sustainability_related %>%
+        filter(school %in% input$school_dl) %>%
+        select(department) %>%
+        distinct() %>%
+        arrange(department) %>%
+        pull()
+    } else {  # maintain current selection
+      sustainability_related %>%
+        filter(school %in% input$school_dl) %>%
+        select(department) %>%
+        distinct() %>%
+        arrange(department) %>%
+        filter(department %in% input$dept_dl) %>%
+        pull()
+    }
+    
+  })
   observeEvent(input$school_dl,
                {
                  depts <- sustainability_related %>%
@@ -1335,8 +1362,8 @@ server <- function(input, output, session) {
                    filter(department %in% input$dept_dl)
                  updatePickerInput(session,
                                    "dept_dl",
-                                   choices = depts$department,
-                                   selected = depts_selected
+                                   choices = deptChoices(),
+                                   selected = deptSelected()
                                    )
                })
   output$download_data_table <- downloadHandler(
