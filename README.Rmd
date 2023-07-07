@@ -42,7 +42,7 @@ Prerequisites: R and RStudio
 If you wish to install this package on your computer, clone this repository by following [these instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository){target="_blank"}.
 Once downloaded, you can open, view, and edit all files in this repository.  
 
-Open RStudio and click on the button in the top right to open the project file `SustainabilityCourseFinder.Rproj`. This will automatically set the working directory as the project directory. For more information about Projects [here](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects#:~:text=Opening%20Projects,Rproj).){target="_blank"}.
+Open RStudio and click on the button in the top right to open the project file `SustainabilityCourseFinder.Rproj`. This will automatically set the working directory as the project directory. For more information about Projects [here](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects#:~:text=Opening%20Projects,Rproj){target="_blank"}.
 
 ```{r, eval=FALSE}
 # check current directory
