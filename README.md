@@ -1,5 +1,3 @@
-README
-================
 
 # USC Sustainability Course Finder
 
